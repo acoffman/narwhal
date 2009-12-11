@@ -563,3 +563,13 @@ Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
 Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:32:59) [GET]
 Rendering dashboard/overview
 Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:59:48) [GET]
+Rendering dashboard/overview
+Completed in 33ms (View: 32, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 14:01:54) [GET]
+Rendering dashboard/overview
+Completed in 8ms (View: 7, DB: 0) | 200 OK [http://localhost/dashboard]

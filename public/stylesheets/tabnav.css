@@ -76,11 +76,11 @@ body
 
 #narwhal 
 {
-  background: url(/images/narhwal.tiff) no-repeat;
+  background: url(/images/narhwal.png) no-repeat;
   position: absolute;
   bottom: 0; 
-  right: 10px;
-  width: 50%;
-  height: 50%;
+  right: 0px;
+  width: 520;
+  height: 289;
   z-index: 0;
 }
