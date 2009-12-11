@@ -1,0 +1,55 @@
+html
+{
+  font: small/1.4 "Lucinda Grande", Tahoma, sans-serif;
+}
+
+body
+{
+  font-size: 92%;
+}
+
+#nav
+{
+  margin: 0;
+  padding: 0;
+  background: #6F6146;
+  list-style-type: none;
+  width: 180px;
+  float:left; /* Contain floated list items */
+}
+
+#nav li
+{
+  margin: 0;
+  padding: 0;
+  float: left; /*This corrects the */
+  width: 100%; /* IE whitespace bug */
+}
+
+#nav a 
+{
+  display: block;
+ /* to increase clickable area as a's default to inline */
+  color: #FFF;
+  text-decoration: none;
+  padding: 0 15px;
+  line-height: 2.5;
+  border-bottom: 1ps solid #FFF;
+}
+
+#nav #nav_pro a
+{
+  border: none;
+  }
+
+#nav a:hover 
+{
+  background: #4F4532;
+}
+
+#nav li.current a
+  {
+    background: #BEB06F;
+    color: #1A1303;
+    font-weight: bold;
+}
