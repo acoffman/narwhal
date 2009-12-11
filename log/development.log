@@ -1,0 +1,565 @@
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:53:09) [GET]
+
+ActionController::RoutingError (No route matches "/animals" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:53:15) [GET]
+
+ActionController::RoutingError (No route matches "/dashboard" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:56:09) [GET]
+
+ActionController::RoutingError (No route matches "/dashboard" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:56:15) [GET]
+
+ActionController::RoutingError (No route matches "/dashboard" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:56:39) [GET]
+
+ActionController::RoutingError (No route matches "/dashboard" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:56:40) [GET]
+
+ActionController::RoutingError (No route matches "/dashboard" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:56:41) [GET]
+
+ActionController::RoutingError (No route matches "/dashboard" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:59:08) [GET]
+
+ActionController::RoutingError (No route matches "/dashboard" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:59:10) [GET]
+
+ActionController::RoutingError (No route matches "/dashboard" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 11:59:11) [GET]
+
+ActionController::RoutingError (No route matches "/dashboard" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:00:12) [GET]
+Rendering dashboard/overview
+Completed in 85ms (View: 84, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:01:23) [GET]
+Rendering dashboard/overview
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:03:17) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:03:47) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:03:58) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:04:15) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:18:26) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:20:12) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:20:41) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:21:16) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:29:14) [GET]
+Rendering dashboard/overview
+Completed in 9ms (View: 7, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:29:25) [GET]
+Rendering dashboard/overview
+Completed in 7ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:29:25) [GET]
+
+ActionController::RoutingError (No route matches "/stylesheets/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:30:23) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:30:23) [GET]
+
+ActionController::RoutingError (No route matches "/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:30:57) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:30:57) [GET]
+
+ActionController::RoutingError (No route matches "/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:31:20) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:31:20) [GET]
+
+ActionController::RoutingError (No route matches "/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:33:19) [GET]
+Rendering dashboard/overview
+Completed in 6ms (View: 4, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:33:19) [GET]
+
+ActionController::RoutingError (No route matches "/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:33:41) [GET]
+Rendering dashboard/overview
+Completed in 5ms (View: 4, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:33:41) [GET]
+
+ActionController::RoutingError (No route matches "/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:34:00) [GET]
+Rendering dashboard/overview
+Completed in 5ms (View: 4, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:34:00) [GET]
+
+ActionController::RoutingError (No route matches "/public/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:35:49) [GET]
+Rendering dashboard/overview
+Completed in 46ms (View: 45, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:35:49) [GET]
+
+ActionController::RoutingError (No route matches "/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:36:57) [GET]
+Rendering dashboard/overview
+Completed in 16ms (View: 15, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:36:58) [GET]
+
+ActionController::RoutingError (No route matches "/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:37:02) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:37:02) [GET]
+
+ActionController::RoutingError (No route matches "/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:38:04) [GET]
+
+ActionController::RoutingError (No route matches "/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:38:07) [GET]
+
+ActionController::RoutingError (No route matches "/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:39:46) [GET]
+Rendering dashboard/overview
+Completed in 16ms (View: 15, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:39:46) [GET]
+
+ActionController::RoutingError (No route matches "/images/narwhal.jpg" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:42:03) [GET]
+Rendering dashboard/overview
+Completed in 17ms (View: 15, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:44:13) [GET]
+Rendering dashboard/overview
+Completed in 16ms (View: 15, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:44:46) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:45:54) [GET]
+Rendering dashboard/overview
+Completed in 6ms (View: 4, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:45:54) [GET]
+
+ActionController::RoutingError (No route matches "/stylesheets/images/narhwal.tiff" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:45:56) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 12:45:56) [GET]
+
+ActionController::RoutingError (No route matches "/stylesheets/images/narhwal.tiff" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:46:24) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:46:41) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:47:09) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:51:46) [GET]
+Rendering dashboard/overview
+Completed in 9ms (View: 7, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:52:34) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:53:18) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:53:28) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:53:47) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:54:05) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:54:18) [GET]
+Rendering dashboard/overview
+Completed in 3ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:55:16) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:55:40) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:56:57) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:57:47) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:58:10) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:58:53) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:59:07) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 12:59:18) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:06:38) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:07:20) [GET]
+Rendering dashboard/overview
+Completed in 5ms (View: 4, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:07:40) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:07:57) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:08:26) [GET]
+Rendering dashboard/overview
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:08:43) [GET]
+Rendering dashboard/overview
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:08:59) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:09:47) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:10:21) [GET]
+Rendering dashboard/overview
+Completed in 5ms (View: 4, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:10:37) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:12:05) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:12:41) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:14:52) [GET]
+Rendering dashboard/overview
+Completed in 5ms (View: 4, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:15:04) [GET]
+Rendering dashboard/overview
+Completed in 6ms (View: 4, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:15:30) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:16:14) [GET]
+Rendering dashboard/overview
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:16:53) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:17:54) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:18:09) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:19:18) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:23:14) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:23:53) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:27:57) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:28:02) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:32:04) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:32:22) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:32:25) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 13:32:59) [GET]
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]

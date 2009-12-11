@@ -1,6 +1,8 @@
 html
 {
   font: small/1.4 "Lucinda Grande", Tahoma, sans-serif;
+ /* background: #585E6A; */
+  background: #312B2D
 }
 
 body
@@ -10,12 +12,25 @@ body
 
 #nav
 {
-  margin: 0;
+  border-top: 1px solid #FFF;
+  margin: 0px 0px 0px 20px;
   padding: 0;
-  background: #6F6146;
+  background: #BAC626;
   list-style-type: none;
   width: 180px;
   float:left; /* Contain floated list items */
+}
+
+#box
+{
+  margin: 100px 0px 0px 240px;
+  padding: 0;
+  background: #F0F0F0;
+  width: 75%;
+  height: 82%;
+  opacity: 0.8;
+  position: relative;
+  z-index: 1;
 }
 
 #nav li
@@ -26,6 +41,11 @@ body
   width: 100%; /* IE whitespace bug */
 }
 
+#nav li.padding
+{
+  height: 62%;
+}
+
 #nav a 
 {
   display: block;
@@ -34,7 +54,7 @@ body
   text-decoration: none;
   padding: 0 15px;
   line-height: 2.5;
-  border-bottom: 1ps solid #FFF;
+  border-bottom: 1px solid #FFF;
 }
 
 #nav #nav_pro a
@@ -44,12 +64,23 @@ body
 
 #nav a:hover 
 {
-  background: #4F4532;
+  background: #CED379;
 }
 
 #nav li.current a
   {
-    background: #BEB06F;
-    color: #1A1303;
+    background: #585E6A;
+    color: #F0F0F0;
     font-weight: bold;
+}
+
+#narwhal 
+{
+  background: url(/images/narhwal.tiff) no-repeat;
+  position: absolute;
+  bottom: 0; 
+  right: 10px;
+  width: 50%;
+  height: 50%;
+  z-index: 0;
 }
