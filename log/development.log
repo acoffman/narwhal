@@ -1142,3 +1142,69 @@ Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 13:31:21) [
 Rendering template within layouts/application
 Rendering dashboard/overview
 Completed in 3ms (View: 2, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#rate (for 127.0.0.1 at 2009-12-12 13:37:14) [GET]
+Rendering template within layouts/application
+Rendering dashboard/rate
+Completed in 14ms (View: 12, DB: 0) | 200 OK [http://localhost/dashboard/rate]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 13:37:19) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 18ms (View: 16, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#rate (for 127.0.0.1 at 2009-12-12 13:37:57) [GET]
+Rendering template within layouts/application
+Rendering dashboard/rate
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/rate]
+
+
+Processing DashboardController#ip (for 127.0.0.1 at 2009-12-12 13:37:58) [GET]
+Rendering template within layouts/application
+Rendering dashboard/ip
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard/ip]
+
+
+Processing DashboardController#protocols (for 127.0.0.1 at 2009-12-12 13:37:59) [GET]
+Rendering template within layouts/application
+Rendering dashboard/protocols
+Completed in 7ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard/protocols]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 13:38:00) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 3ms (View: 2, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 13:39:07) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 3ms (View: 2, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#rate (for 127.0.0.1 at 2009-12-12 13:39:25) [GET]
+Rendering template within layouts/application
+Rendering dashboard/rate
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/rate]
+
+
+Processing DashboardController#ip (for 127.0.0.1 at 2009-12-12 13:39:26) [GET]
+Rendering template within layouts/application
+Rendering dashboard/ip
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/ip]
+
+
+Processing DashboardController#protocols (for 127.0.0.1 at 2009-12-12 13:39:26) [GET]
+Rendering template within layouts/application
+Rendering dashboard/protocols
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/protocols]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 13:39:27) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 4ms (View: 2, DB: 0) | 200 OK [http://localhost/dashboard/overview]
