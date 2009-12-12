@@ -573,3 +573,440 @@ Completed in 33ms (View: 32, DB: 0) | 200 OK [http://localhost/dashboard]
 Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 14:01:54) [GET]
 Rendering dashboard/overview
 Completed in 8ms (View: 7, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 21:18:37) [GET]
+Rendering dashboard/overview
+Completed in 60ms (View: 57, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 21:18:42) [GET]
+
+ActionController::RoutingError (No route matches "/animals" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 21:18:47) [GET]
+
+ActionController::RoutingError (No route matches "/machines" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 21:26:00) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 13ms (View: 11, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 21:26:08) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 21:27:01) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 21:27:09) [GET]
+
+ActionController::RoutingError (No route matches "/rate" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 21:27:17) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 21:28:54) [GET]
+
+ActionController::RoutingError (No route matches "/ratelimiting" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 21:37:35) [GET]
+
+ActionController::RoutingError (No route matches "/ratelimiting" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 21:39:00) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 86ms (View: 85, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 21:39:45) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-11 21:40:24) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing RatelimitingController#index (for 127.0.0.1 at 2009-12-11 21:47:43) [GET]
+Rendering template within layouts/application
+Rendering ratelimiting/ratelimiting
+Completed in 13ms (View: 12, DB: 0) | 200 OK [http://localhost/ratelimiting]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 21:47:49) [GET]
+
+LoadError (Expected /Users/delia/SCHOOL/Narwhal/interface/Narwhal/app/controllers/ipblocking_controller.rb to define IpblockingController):
+  
+
+Rendered rescues/_trace (30.7ms)
+Rendered rescues/_request_and_response (1.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-11 21:48:03) [GET]
+
+LoadError (Expected /Users/delia/SCHOOL/Narwhal/interface/Narwhal/app/controllers/protocols_controller.rb to define ProtocolsController):
+  
+
+Rendered rescues/_trace (80.5ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing ProtocolsController#index (for 127.0.0.1 at 2009-12-11 21:49:15) [GET]
+
+ActionView::MissingTemplate (Missing template protocols/protocols.erb in view path app/views):
+  app/controllers/protocols_controller.rb:3:in `index'
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing IpblockingController#index (for 127.0.0.1 at 2009-12-11 21:49:30) [GET]
+
+ActionView::MissingTemplate (Missing template ipblocking/ipblocking.erb in view path app/views):
+  app/controllers/ipblocking_controller.rb:3:in `index'
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing ProtocolsController#index (for 127.0.0.1 at 2009-12-11 21:52:23) [GET]
+Rendering template within layouts/application
+Rendering protocols/protocols
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/protocols]
+
+
+Processing ProtocolsController#index (for 127.0.0.1 at 2009-12-11 21:53:15) [GET]
+Rendering template within layouts/application
+Rendering protocols/protocols
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/protocols]
+
+
+Processing ProtocolsController#index (for 127.0.0.1 at 2009-12-11 21:53:52) [GET]
+Rendering template within layouts/application
+Rendering protocols/protocols
+Completed in 6ms (View: 4, DB: 0) | 200 OK [http://localhost/protocols]
+
+
+Processing RatelimitingController#index (for 127.0.0.1 at 2009-12-11 21:58:14) [GET]
+Rendering template within layouts/application
+Rendering ratelimiting/ratelimiting
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/ratelimiting]
+
+
+Processing IpblockingController#index (for 127.0.0.1 at 2009-12-11 21:58:58) [GET]
+Rendering template within layouts/application
+Rendering ipblocking/ipblocking
+Completed in 103ms (View: 102, DB: 0) | 200 OK [http://localhost/ipblocking]
+
+
+Processing IpblockingController#index (for 127.0.0.1 at 2009-12-11 22:16:33) [GET]
+Rendering template within layouts/application
+Rendering ipblocking/ipblocking
+Completed in 8ms (View: 6, DB: 0) | 200 OK [http://localhost/ipblocking]
+
+
+Processing IpblockingController#index (for 127.0.0.1 at 2009-12-11 22:16:48) [GET]
+Rendering template within layouts/application
+Rendering ipblocking/ipblocking
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/ipblocking]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:20:34) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 49ms (View: 47, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:21:32) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:22:19) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:26:23) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 3ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:26:46) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:26:58) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 3ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:27:10) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 3ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:27:22) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 3ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:27:33) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:28:20) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:28:33) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:28:41) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:28:50) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:28:57) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:29:05) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 3ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:29:25) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 3ms (View: 2, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:29:35) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:31:04) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:32:22) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:33:27) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:33:39) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:33:46) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:33:55) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:34:11) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:34:12) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:34:19) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:34:20) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:36:17) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:36:31) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:36:37) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:49:12) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 12ms (View: 10, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:49:14) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:49:34) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:55:20) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 13ms (View: 11, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#rate (for 127.0.0.1 at 2009-12-12 12:55:22) [GET]
+Rendering template within layouts/application
+Rendering dashboard/rate
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard/rate]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2009-12-12 12:55:23) [GET]
+
+ActionController::RoutingError (No route matches "/dashbaord/ip" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing DashboardController#index (for 127.0.0.1 at 2009-12-12 12:57:07) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 12ms (View: 10, DB: 0) | 200 OK [http://localhost/dashboard]
+
+
+Processing DashboardController#rate (for 127.0.0.1 at 2009-12-12 12:57:09) [GET]
+Rendering template within layouts/application
+Rendering dashboard/rate
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard/rate]
+
+
+Processing DashboardController#ip (for 127.0.0.1 at 2009-12-12 12:57:09) [GET]
+Rendering template within layouts/application
+Rendering dashboard/ip
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard/ip]
+
+
+Processing DashboardController#protocols (for 127.0.0.1 at 2009-12-12 12:57:11) [GET]
+Rendering template within layouts/application
+Rendering dashboard/protocols
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/protocols]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 12:57:12) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#rate (for 127.0.0.1 at 2009-12-12 12:57:13) [GET]
+Rendering template within layouts/application
+Rendering dashboard/rate
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/rate]
+
+
+Processing DashboardController#ip (for 127.0.0.1 at 2009-12-12 12:57:13) [GET]
+Rendering template within layouts/application
+Rendering dashboard/ip
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/ip]
+
+
+Processing DashboardController#protocols (for 127.0.0.1 at 2009-12-12 12:57:14) [GET]
+Rendering template within layouts/application
+Rendering dashboard/protocols
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/protocols]
