@@ -2,6 +2,10 @@
   page.visual_effect(:toggle_blind, 'hidden_chart')
 end %>
 
+<span id="test_edit"><%= @test_num %></span>  
+
+<%= in_place_editor "test_edit", {:url => url_for(:action => :edit_num) } %>
+
 <div id="hidden_chart">
   <%= image_tag @chart.to_url, :size =>"500x300" %>
 </div>

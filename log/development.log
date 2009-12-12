@@ -1491,3 +1491,384 @@ Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 14:59:59) [
 Rendering template within layouts/application
 Rendering dashboard/overview
 Completed in 10ms (View: 9, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:11:28) [GET]
+
+NoMethodError (undefined method `in_place_edit_for' for #<DashboardController:0x101225ab8>):
+  app/controllers/dashboard_controller.rb:11:in `overview'
+
+Rendered rescues/_trace (89.6ms)
+Rendered rescues/_request_and_response (1.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:11:51) [GET]
+
+NoMethodError (undefined method `in_place_edit_for' for #<DashboardController:0x1011d8d30>):
+  app/controllers/dashboard_controller.rb:11:in `overview'
+
+Rendered rescues/_trace (86.0ms)
+Rendered rescues/_request_and_response (1.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:11:53) [GET]
+
+NoMethodError (undefined method `in_place_edit_for' for #<DashboardController:0x1043d8d08>):
+  app/controllers/dashboard_controller.rb:11:in `overview'
+
+Rendered rescues/_trace (32.6ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:11:54) [GET]
+
+NoMethodError (undefined method `in_place_edit_for' for #<DashboardController:0x104268dd8>):
+  app/controllers/dashboard_controller.rb:11:in `overview'
+
+Rendered rescues/_trace (100.4ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:21:36) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+
+ActionView::TemplateError (undefined method `name' for nil:NilClass) on line #5 of app/views/dashboard/overview.html.erb:
+2:   page.visual_effect(:toggle_blind, 'hidden_chart')
+3: end %>
+4: 
+5: <span id="test_edit"><%= @users.name %></span>  
+6: 
+7: <%= in_place_editor "test_edit", {:url => url_for(:action => :edit_num) } %>
+8: 
+
+    app/views/dashboard/overview.html.erb:5
+    app/controllers/dashboard_controller.rb:23:in `overview'
+
+Rendered rescues/_trace (42.3ms)
+Rendered rescues/_request_and_response (1.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:22:34) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 50ms (View: 48, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:22:45) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"45", "_"=>"", "editorId"=>"test_edit"}
+
+ArgumentError (wrong number of arguments (1 for 0)):
+  app/controllers/dashboard_controller.rb:10:in `flash'
+  app/controllers/dashboard_controller.rb:10:in `edit_num'
+
+Rendered rescues/_trace (98.3ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:24:01) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 84ms (View: 83, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:24:05) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"45", "_"=>"", "editorId"=>"test_edit"}
+
+ActionView::MissingTemplate (Missing template dashboard/edit_num.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:24:45) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 84ms (View: 83, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:24:48) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"45", "_"=>"", "editorId"=>"test_edit"}
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:26:11) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 5, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:26:14) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"5", "_"=>"", "editorId"=>"test_edit"}
+Rendering template within layouts/application
+Rendering dashboard/overview
+
+ActionView::TemplateError (undefined method `to_url' for nil:NilClass) on line #10 of app/views/dashboard/overview.html.erb:
+7: <%= in_place_editor "test_edit", {:url => url_for(:action => :edit_num) } %>
+8: 
+9: <div id="hidden_chart">
+10:   <%= image_tag @chart.to_url, :size =>"500x300" %>
+11: </div>
+
+    app/views/dashboard/overview.html.erb:10
+    app/controllers/dashboard_controller.rb:11:in `edit_num'
+
+Rendered rescues/_trace (42.6ms)
+Rendered rescues/_request_and_response (1.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:26:50) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 69ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:26:53) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"23", "_"=>"", "editorId"=>"test_edit"}
+
+NoMethodError (undefined method `overview_url' for #<DashboardController:0x104481fc0>):
+  app/controllers/dashboard_controller.rb:11:in `edit_num'
+
+Rendered rescues/_trace (34.5ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:28:57) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 85ms (View: 83, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:29:01) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"45", "_"=>"", "editorId"=>"test_edit"}
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:29:47) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 84ms (View: 83, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:29:50) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"23", "_"=>"", "editorId"=>"test_edit"}
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:32:24) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 84ms (View: 83, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:32:28) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"45", "_"=>"", "editorId"=>"test_edit"}
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:32:48) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 10ms (View: 9, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:32:50) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"5", "_"=>"", "editorId"=>"test_edit"}
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:34:27) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+
+ActionView::TemplateError (undefined local variable or method `flash_helper' for #<ActionView::Base:0x10437c5a8>) on line #4 of app/views/layouts/application.html.erb:
+1: <%= stylesheet_link_tag 'tabnav' %>
+2: <%= javascript_include_tag :defaults %>
+3: 
+4: <%= flash_helper %>
+5: 
+6: <ul id="nav">
+7:   <li id="nav_dash" class = <%= @nav_over %> ><a href="/dashboard/overview">dashboard</a></li>
+
+    app/views/layouts/application.html.erb:4
+    app/controllers/dashboard_controller.rb:24:in `overview'
+
+Rendered rescues/_trace (102.9ms)
+Rendered rescues/_request_and_response (1.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:34:42) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 10ms (View: 9, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:34:46) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"45", "_"=>"", "editorId"=>"test_edit"}
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:34:50) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"55", "_"=>"", "editorId"=>"test_edit"}
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:37:54) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:38:00) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"55", "_"=>"", "editorId"=>"test_edit"}
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:39:00) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:39:05) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"55", "_"=>"", "editorId"=>"test_edit"}
+
+NoMethodError (undefined method `overview_url' for #<DashboardController:0x1041e4f10>):
+  app/controllers/dashboard_controller.rb:12:in `edit_num'
+
+Rendered rescues/_trace (89.1ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:39:47) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:39:50) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"55", "_"=>"", "editorId"=>"test_edit"}
+
+ActionController::DoubleRenderError (Render and/or redirect were called multiple times in this action. Please note that you may only call render OR redirect, and at most once per action. Also note that neither redirect nor render terminate execution of the action, so if you want to exit an action after redirecting, you need to do something like "redirect_to(...) and return".):
+  app/controllers/dashboard_controller.rb:12:in `edit_num'
+
+Rendered rescues/_trace (32.2ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:40:09) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 85ms (View: 84, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:40:12) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"55", "_"=>"", "editorId"=>"test_edit"}
+Redirected to http://localhost:3000/dashboard/overview?test_num=55
+Completed in 2ms (DB: 0) | 302 Found [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:40:12) [GET]
+  Parameters: {"test_num"=>"55"}
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview?test_num=55]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:40:24) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 8ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:40:27) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"55", "_"=>"", "editorId"=>"test_edit"}
+Redirected to http://localhost:3000/dashboard/overview?test_num=55
+Completed in 1ms (DB: 0) | 302 Found [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:40:27) [GET]
+  Parameters: {"test_num"=>"55"}
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview?test_num=55]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:40:38) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:40:42) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"55", "_"=>"", "editorId"=>"test_edit"}
+Redirected to http://localhost:3000/dashboard/overview?test_num=55
+Completed in 1ms (DB: 0) | 302 Found [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:40:42) [GET]
+  Parameters: {"test_num"=>"55"}
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview?test_num=55]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:40:50) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:41:13) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:41:16) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"333", "_"=>"", "editorId"=>"test_edit"}
+Rendering template within layouts/application
+Rendering dashboard/overview
+
+ActionView::TemplateError (undefined method `to_url' for nil:NilClass) on line #10 of app/views/dashboard/overview.html.erb:
+7: <%= in_place_editor "test_edit", {:url => url_for(:action => :edit_num) } %>
+8: 
+9: <div id="hidden_chart">
+10:   <%= image_tag @chart.to_url, :size =>"500x300" %>
+11: </div>
+
+    app/views/dashboard/overview.html.erb:10
+    app/controllers/dashboard_controller.rb:12:in `edit_num'
+
+Rendered rescues/_trace (42.0ms)
+Rendered rescues/_request_and_response (1.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing DashboardController#overview (for 127.0.0.1 at 2009-12-12 15:44:42) [GET]
+Rendering template within layouts/application
+Rendering dashboard/overview
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/dashboard/overview]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:44:46) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"44", "_"=>"", "editorId"=>"test_edit"}
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
+
+
+Processing DashboardController#edit_num (for 127.0.0.1 at 2009-12-12 15:54:39) [POST]
+  Parameters: {"authenticity_token"=>"JY4jyMxg6DKA/2+PS67Rp1HmlIvpNY+9J4W46yphagQ=", "value"=>"56", "_"=>"", "editorId"=>"test_edit"}
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://localhost/dashboard/edit_num]
