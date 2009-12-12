@@ -8,11 +8,11 @@ end
 
 def overview
   @nav_over = "current"
-  dataset1 = GoogleChartDataset.new :data => [10,50,4,10,16], :color => 'FF0000', :title => 'Java'
-  dataset2 = GoogleChartDataset.new :data => [99, 81, 25, 54, 80], :color => '0000FF', :title => 'Ruby'
+  dataset1 = GoogleChartDataset.new :data => [10, 20, 30, 40, 50]
+  dataset2 = GoogleChartDataset.new :data => [10,50,4,10,16], :color => 'FF0000', :title => 'Traffic'
   data = GoogleChartData.new :datasets => [dataset1, dataset2]
-  axis = GoogleChartAxis.new :axis  => [GoogleChartAxis::LEFT, GoogleChartAxis::BOTTOM,  GoogleChartAxis::RIGHT, GoogleChartAxis::BOTTOM]
-  @chart = GoogleLineChart.new :width => 300, :height => 200, :title => ['Incoming Traffic Rate', 'Configured Allowable Peak and Average Rates']
+  axis = GoogleChartAxis.new :axis  => [GoogleChartAxis::LEFT, GoogleChartAxis::BOTTOM]
+  @chart = GoogleLineChart.new :chart_type => GoogleLineChart::XY , :width => 500, :height => 300, :title => ['Incoming Traffic Rate', 'Configured Allowable Peak and Average Rates']
   @chart.data = data
   @chart.axis = axis
   render :overview
