@@ -38,24 +38,16 @@ body
 
 #box
 {
-  margin: 0px 0px 0px 230px;
+  margin: 35px 0px 0px 230px;
   padding: 10px;
   background: #F0F0F0;
   width: 76.5%;
-  height: 79%;
+  height: 89.5%;
   opacity: 0.8;
   position: absolute;
   z-index: 1;
 }
 
-#titlebar
-{
-  margin: 0px 0px 20px 20px;
-  padding: 0;
-  background: #0B8C8F;
-  width: 96.5%;
-  height: 16%;
-}
 
 #nav li
 {
@@ -113,10 +105,10 @@ body
 {
   background: url(/images/narhwal.png) no-repeat;
   position: absolute;
-  top: 0px; 
-  left: 0px;
+  top: 25px; 
+  left: -1px;
   width: 18%;
   height: 16%;
-  z-index: 1;
+  z-index: -1;
 
 }
