@@ -1,5 +1,17 @@
 <%= stylesheet_link_tag 'tabnav' %>
-<%=yield%>
+<ul id="nav">
+  <li id="nav_dash" class = <%= @nav_over %> ><a href="/dashboard/overview">dashboard</a></li>
+  <li id="nav_rate" class = <%= @nav_rate %> ><a href="/dashboard/rate">rate limiting</a></li>
+  <li id="nav_ip" class = <%= @nav_ip %> > <a href="/dashboard/ip">ip blocking</a></li>
+  <li id="nav_proto" class = <%= @nav_proto %> ><a href="/dashboard/protocols">protocols</a></li>
+  <li class="padding"></li>
+</ul>
+
+
 <div id="titlebar"></div>
-<div id="box"></div>
+<div id="box">
+  <div id="content">  
+    <%= yield %>
+  </div>
+</div>
 <div id="narwhal"></div>

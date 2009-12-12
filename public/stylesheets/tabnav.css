@@ -10,6 +10,16 @@ body
   font-size: 92%;
 }
 
+#content
+{
+  margin: 0px 0px, 0px, 230px
+  width: 76.5%;
+  height: 79% 
+  position: absolute;
+  opacity: 1.0;
+  z-index: 3;  
+}
+
 #nav
 {
   border-top: 1px solid #FFF;
@@ -23,10 +33,10 @@ body
 
 #box
 {
-  margin: 0px 0px 0px 240px;
+  margin: 0px 0px 0px 230px;
   padding: 0;
   background: #F0F0F0;
-  width: 75%;
+  width: 76.5%;
   height: 79%;
   opacity: 0.8;
   position: absolute;
