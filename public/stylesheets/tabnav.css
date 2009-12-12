@@ -9,8 +9,14 @@ body
   font-size: 92%;
 }
 
+#hidden_chart 
+{
+	/*border: 1px	solid #000; */
+}
+
 #content
 {
+  font: medium/2.4 "Lucinda Grande", Tahoma, sans-serif;
   margin: 0px 0px, 0px, 230px
   width: 100%;
   height: 100% 
@@ -33,7 +39,7 @@ body
 #box
 {
   margin: 0px 0px 0px 230px;
-  padding: 0;
+  padding: 10px;
   background: #F0F0F0;
   width: 76.5%;
   height: 79%;
