@@ -1,11 +1,73 @@
-<%= link_to_function "Show/Hide Chart", :id => "show_link" do |page|
-  page.visual_effect(:toggle_blind, 'hidden_chart')
-end %>
+<table width = 50%, height=75%>
+  <col width = 65% />
+  <col width = 35% />
+  <tbody>
+    <tr>
+      <td>
+        Current Average Traffic Rate: 
+      </td>
+      <td>
+        <%= @traffic_rate_avg %> mbps
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Current Maximum Allowed Peak Rate: 
+      </td>
+      <td>
+        <span id="peak"><%= @test_num %></span>  
+        <%= in_place_editor "peak", {:url => url_for(:action => :edit_num) } %> mbps
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Current Maximum Allowed Average Rate: 
+      </td>
+      <td>
+        <span id="avg"><%= @test_num %></span>  
+        <%= in_place_editor "avg", {:url => url_for(:action => :edit_num) } %> mbps
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Packets Allowed: 
+      </td>
+      <td>
+        <%= @packets_allowed %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Packets Blocked: 
+      </td>
+      <td>
+        <%= @packets_blocked %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Percent Good Traffic: 
+      </td>
+      <td>
+        <%= @percent_good %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Percent Bad Traffic: 
+      </td>
+      <td>
+        <%= @percent_bad %>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-<span id="test_edit"><%= @test_num %></span>  
-
-<%= in_place_editor "test_edit", {:url => url_for(:action => :edit_num) } %>
-
-<div id="hidden_chart">
-  <%= image_tag @chart.to_url, :size =>"500x300" %>
+<div id="chart_div">
+  <%= link_to_function "Show/Hide Chart", :id => "show_link" do |page|
+    page.visual_effect(:toggle_blind, 'hidden_chart')
+  end %>
+  <div id="hidden_chart">
+    <%= image_tag @chart.to_url, :size =>"500x300" %>
+  </div>
 </div>
