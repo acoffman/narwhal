@@ -1,4 +1,4 @@
-<table width = 50%, height=75%>
+<table width = 48%, height=50%>
   <col width = 65% />
   <col width = 35% />
   <tbody>
@@ -10,7 +10,7 @@
         <%= @traffic_rate_avg %>
       </td>
     </tr>
-    <tr>
+    <tr class="even">
       <td>
         Current Maximum Allowed Peak Rate: 
       </td>
@@ -28,7 +28,7 @@
         <%= in_place_editor "avg", {:url => url_for(:action => :edit_num) } %>
       </td>
     </tr>
-    <tr>
+    <tr class="even">
       <td>
         Packets Allowed: 
       </td>
@@ -44,7 +44,7 @@
         <%= @packets_blocked %>
       </td>
     </tr>
-    <tr>
+    <tr class="even">
       <td>
         Percent Good Traffic: 
       </td>

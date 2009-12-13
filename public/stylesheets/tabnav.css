@@ -96,6 +96,16 @@ body
     font-weight: bold;
 }
 
+tr
+{
+  background-color: #BCBDAC;
+}
+
+tr.even
+{
+  background-color: #FFF;
+}
+
 #narwhal 
 {
   background: url(/images/narhwal.png) no-repeat;
@@ -122,5 +132,5 @@ body
 {
 	position:absolute;
 	right: 10px;
-	top: 90px;
+	top: 60px;
 }
