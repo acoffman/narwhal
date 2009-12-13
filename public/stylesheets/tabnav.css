@@ -1,7 +1,8 @@
 html
 {
   font: small/1.4 "Lucinda Grande", Tahoma, sans-serif;
-  background: #312B2D
+  background: #312B2D;
+  color: #312B2D;
 }
 
 body
@@ -21,8 +22,8 @@ body
 
 #page_title
 {
-	color: #000;
-  font: large/3.4 "Lucinda Grande", Tahoma, sans-serif;
+	color: #312B2D;
+  font: large/0.5 "Lucinda Grande", Tahoma, sans-serif;
 	text-align: center;
 	position: relative;
 	z-index:5;
