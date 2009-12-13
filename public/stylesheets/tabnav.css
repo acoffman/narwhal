@@ -9,11 +9,6 @@ body
   font-size: 92%;
 }
 
-#hidden_chart 
-{
-	/*border: 1px	solid #000; */
-}
-
 #content
 {
   font: medium/2.4 "Lucinda Grande", Tahoma, sans-serif;
@@ -33,25 +28,18 @@ body
   background: #BAC626;
   list-style-type: none;
   width: 16%;
+  height: 83%;
   float:left; /* Contain floated list items */
 }
 
 #box
 {
-<<<<<<< HEAD
-  margin: -10px 0px 0px 230px;
-  padding: 10px;
-  background: #F0F0F0;
-  width: 76.5%;
-  height: 76%;
-=======
   margin: 35px 0px 0px 230px;
   padding: 10px;
   background: #F0F0F0;
   width: 76.5%;
   height: 89.5%;
->>>>>>> 5dcd0cc2e204005e203a30bf8fa3374c5b1b6efa
-  opacity: 0.8;
+  opacity: 0.95;
   position: absolute;
   z-index: 1;
 }

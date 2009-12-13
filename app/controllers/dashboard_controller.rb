@@ -13,7 +13,7 @@ end
 
 def overview
   @test_num = params[:test_num]
-  @test_num ||= 5
+  @test_num ||= 55
   @nav_over = "current"
   dataset3 = GoogleChartDataset.new :data => [0,100]
   dataset4 = GoogleChartDataset.new :data => [@test_num, @test_num], :color => 'FF0000', :title => 'Allowable Rate'
