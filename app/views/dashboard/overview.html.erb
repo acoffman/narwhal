@@ -1,4 +1,4 @@
-<table width = 48%, height=50%>
+<table id="overview_table" width = 48%, height=50%>
   <col width = 65% />
   <col width = 35% />
   <tbody>
@@ -64,9 +64,6 @@
 </table>
 
 <div id="chart_div">
-  <%= link_to_function "Show/Hide Chart", :id => "show_link" do |page|
-    page.visual_effect(:toggle_blind, 'hidden_chart')
-  end %>
   <div id="hidden_chart">
     <%= image_tag @chart.to_url, :size =>"500x300" %>
   </div>

@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
 
 def index
 	overview
+  render :overview
 end
 
 def edit_num
