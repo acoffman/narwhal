@@ -7,7 +7,7 @@
         Current Average Traffic Rate: 
       </td>
       <td>
-        <%= @traffic_rate_avg %> mbps
+        <%= @traffic_rate_avg %>
       </td>
     </tr>
     <tr>
@@ -16,7 +16,7 @@
       </td>
       <td>
         <span id="peak"><%= @test_num %></span>  
-        <%= in_place_editor "peak", {:url => url_for(:action => :edit_num) } %> mbps
+        <%= in_place_editor "peak", {:url => url_for(:action => :edit_num) } %>
       </td>
     </tr>
     <tr>
@@ -25,7 +25,7 @@
       </td>
       <td>
         <span id="avg"><%= @test_num %></span>  
-        <%= in_place_editor "avg", {:url => url_for(:action => :edit_num) } %> mbps
+        <%= in_place_editor "avg", {:url => url_for(:action => :edit_num) } %>
       </td>
     </tr>
     <tr>
