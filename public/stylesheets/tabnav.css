@@ -16,8 +16,17 @@ body
   width: 100%;
   height: 100% 
   position: absolute;
-  opacity: 1.0;
   z-index: 3;  
+}
+
+#page_title
+{
+	color: #000;
+  font: large/3.4 "Lucinda Grande", Tahoma, sans-serif;
+	text-align: center;
+	position: relative;
+	z-index:5;
+	padding-bottom: 5;
 }
 
 #nav
@@ -72,7 +81,7 @@ body
 #nav #nav_pro a
 {
   border: none;
-  }
+}
 
 #nav a:hover 
 {
@@ -80,7 +89,7 @@ body
 }
 
 #nav li.current a
-  {
+{
     background: #585E6A;
     color: #F0F0F0;
     font-weight: bold;
@@ -106,5 +115,11 @@ body
   width: 18%;
   height: 16%;
   z-index: -1;
+}
 
+#chart_div
+{
+	position:absolute;
+	right: 10px;
+	top: 90px;
 }

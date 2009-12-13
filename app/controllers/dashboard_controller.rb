@@ -12,6 +12,7 @@ def edit_num
 end
 
 def overview
+  @page_title = "Firewall Performance Overview"
   @test_num = params[:test_num]
   @test_num ||= 55
   @nav_over = "current"
@@ -23,16 +24,19 @@ def overview
 end
 
 def ip
+  @page_title = "IP Configuration"
   @nav_ip = "current"
   render :ip
 end
 
 def protocols
+  @page_title = "Protocol Configuration"
   @nav_proto = "current"
   render :protocols
 end
 
 def rate
+  @page_title = "Rate Limiting"
   @nav_rate = "current"
   render :rate
 end
