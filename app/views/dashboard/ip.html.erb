@@ -1,6 +1,13 @@
 <%= form_tag( { :action => :null, }, { :method => :post }) %>
 
-<% = select("post", "person_id", ['UDP','POP3','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
+<%= select("option", "person_id", ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
 
-<%= end_form_tag %>
+<%= select_tag("option_list",
+  options_for_select(["321.234.345.21","342.235.32.1","223.452.12.354","642.987.35.52","234.212.34.2","235.232.56.21","65.312.678.21","345.456.31.1"]),
+  html_options = {"size" => 5, "multiple" => true}) %>
 
+<%= select_tag("proto_list",
+  options_for_select(["UDP", "POP", "TCP", "DCHP", "DNS"]),
+  html_options = {"size" => 5, "multiple" => true}) %>
+
+</form>
