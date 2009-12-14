@@ -1,13 +1,44 @@
-<%= form_tag( { :action => :null, }, { :method => :post }) %>
+<form class="ip_form">
+<fieldset>
+  <legend>Currently Blocked IPs</legend>
+  <table>
+    <col width/>
+    <col width/>
+    <col width/>
+    <tr class="ip">
+      <td class="ip">
+        <label for="option_list">IP Address</label>
+        <%= select_tag("option_list",
+        options_for_select(["321.234.345.21","342.235.32.1","223.452.12.354","642.987.35.52","234.212.34.2","235.232.56.21","65.312.678.21","345.456.31.1"]),
+        html_options = {"size" => 5, "multiple" => true}) %>
+      </td>
+      <td class="ip">
+        <%= select_tag("proto_list",
+        options_for_select(["UDP", "POP", "TCP", "DCHP", "DNS"]),
+        html_options = {"size" => 5, "multiple" => true}) %>
+        <%= submit_tag( "Remove" ) %>
+      </td>
+    </tr>
+    <tr class="ip">
+      <td class="ip">
+        <%= submit_tag( "Delete IP" ) %>
+      </td>
+      <td class="ip">
+        <%= select("option", "person_id", ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
+        <%= submit_tag( "Add" ) %>
+      </td>
+    </tr>
+  </div>
+</table>
+</fieldset>
+</form>
 
-<%= select("option", "person_id", ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
+<form class="ip_form">
+<fieldset width="25%">
+  <legend>Add New IP</legend>
 
-<%= select_tag("option_list",
-  options_for_select(["321.234.345.21","342.235.32.1","223.452.12.354","642.987.35.52","234.212.34.2","235.232.56.21","65.312.678.21","345.456.31.1"]),
-  html_options = {"size" => 5, "multiple" => true}) %>
-
-<%= select_tag("proto_list",
-  options_for_select(["UDP", "POP", "TCP", "DCHP", "DNS"]),
-  html_options = {"size" => 5, "multiple" => true}) %>
-
+  <label>IP Address:</label>
+  <%= text_field "option", "ip", "size" => 20 %>
+  <%= submit_tag( "Add" ) %>
+</fieldset>
 </form>
