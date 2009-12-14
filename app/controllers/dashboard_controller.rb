@@ -42,6 +42,18 @@ def rate
   render :rate
 end
 
+def move_item
+  protocol = params[:protocol].split("_")[0]
+  list = params[:protocol].split("_")[1]
+
+  render :update do |page|
+    page.remove "protocol_#{protocol}"
+    page.insert_html :bottom, list, render(:partial=>"protocol", :object => protocol)
+    page.visual_effect :highlight, "protocol_#{protocol}"
+  end
+
+end
+
 private
   def init_chart(title, datasets)
     data = GoogleChartData.new :datasets => datasets
@@ -51,4 +63,5 @@ private
     chart.axis = axis
     chart
   end
+
 end
