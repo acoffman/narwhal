@@ -3,8 +3,8 @@ class DashboardController < ApplicationController
   use_google_charts
 
 def index
-  overview
-	render :overview
+	overview
+  render :overview
 end
 
 def edit_num
