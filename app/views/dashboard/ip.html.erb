@@ -1,0 +1,6 @@
+<%= form_tag( { :action => :null, }, { :method => :post }) %>
+
+<% = select("post", "person_id", ['UDP','POP3','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
+
+<%= end_form_tag %>
+

@@ -55,13 +55,13 @@ def move_item
 end
 
 private
-  def init_chart(title, datasets)
-    data = GoogleChartData.new :datasets => datasets
-    axis = GoogleChartAxis.new :axis  => [GoogleChartAxis::LEFT, GoogleChartAxis::BOTTOM]
-    chart = GoogleLineChart.new :chart_type => GoogleLineChart::XY , :width => 500, :height => 300, :title => title
-    chart.data = data
-    chart.axis = axis
-    chart
-  end
+def init_chart(title, datasets)
+  data = GoogleChartData.new :datasets => datasets
+  axis = GoogleChartAxis.new :axis  => [GoogleChartAxis::LEFT, GoogleChartAxis::BOTTOM]
+  chart = GoogleLineChart.new :chart_type => GoogleLineChart::XY , :width => 500, :height => 300, :title => title
+  chart.data = data
+  chart.axis = axis
+  chart
+end
 
 end
