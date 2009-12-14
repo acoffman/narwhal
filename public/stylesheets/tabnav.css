@@ -54,6 +54,37 @@ body
   z-index: 1;
 }
 
+#protoAllowBox
+{
+  margin: 100px 0px 0px 300px;
+  float: left;
+  padding: 0px;
+  border: 5 solid gray;
+  width: 15%;
+  height: 40%;
+  background: #FFF;
+}
+
+#protoBlockBox
+{
+  margin: 100px 0px 0px 50px;
+  float: left;
+  padding: 0px;
+  border: 5 solid gray;
+  width: 15%;
+  height: 40%;
+  background: #FFF;
+}
+
+#allowed li
+{
+  text-align: left;
+}
+
+#blocked li
+{
+  text-align: left;
+}
 
 #nav li
 {
@@ -66,6 +97,12 @@ body
 #nav li.padding
 {
   height: 62%;
+}
+
+ul
+{
+  list-style: none;
+  list-style-position: inside;
 }
 
 #nav a 
@@ -98,12 +135,12 @@ body
 
 tr
 {
-  background-color: #BCBDAC;
+  background-color: #D9ECDB;
 }
 
 tr.even
 {
-  background-color: #FFF;
+  background-color: #E9FFE1;
 }
 
 #narwhal 

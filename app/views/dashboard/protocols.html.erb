@@ -1,14 +1,18 @@
-<ul width="50%" id="allowed">
-  <% ['udp','tcp','snmp', 'pop3'].each do |protocol| %>
+<div id = "protoAllowBox">
+  <ul height = "100%" width="50%" id="allowed">
+  <% ['TCP','SNMP', 'POP3','DHCP','DNS'].each do |protocol| %>
     <%= render :partial=>"protocol", :object => protocol %>
   <% end %>
 </ul>
+</div>
 
-<ul width="50%" id="blocked">
-  <% ['udp','tcp','snmp'].each do |protocol| %>
+<div id = "protoBlockBox">
+<ul height = "100%" width="50%" id="blocked">
+  <% ['UDP','SSH'].each do |protocol| %>
     <%= render :partial=>"protocol", :object => protocol %>
   <% end %>
 </ul>
+</div>
 
 <%= drop_receiving_element('blocked',                             # The id of the receiving element
   :accept => "protocol",                                          # The CSS class of the dropped elememt
@@ -20,4 +24,4 @@
   :accept => "protocol",                                          # The CSS class of the dropped elememt
   :with   => "'protocol=' + (element.id.split('_').last()) + '_allowed'",      # The query string parameters
   :url    => {:action=>:move_item}                                # The action to call
-)%>
+                          )%>
