@@ -1,0 +1,7 @@
+<% protocol_id = "protocol_#{protocol}" %>
+<div class="protocol" id=<%= protocol_id %> > 
+  <li>
+    <%= protocol %><br>
+ </li>
+</div>
+<%= draggable_element(protocol_id, :revert=>true) %>
