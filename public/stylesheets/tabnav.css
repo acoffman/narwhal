@@ -54,9 +54,31 @@ body
   z-index: 1;
 }
 
+#instructions
+{
+  padding: -20px;
+  text-align:center; 
+  color: #312B2D;
+  font: medium/1.5 "Lucinda Grande", Tahoma, sans-serif;
+}
+
+#allowTitle
+{
+  margin: 0px 0px 0px 305px;
+  color: #312B2D;
+  font: medium/4.0 "Lucinda Grande", Tahoma, sans-serif;
+}
+
+#blockTitle
+{
+  margin: -85px 0px 0px 510px;
+  color: #312B2D;
+  font: medium/4.0 "Lucinda Grande", Tahoma, sans-serif;
+}
+
 #protoAllowBox
 {
-  margin: 100px 0px 0px 300px;
+  margin: -30px 0px 0px 300px;
   float: left;
   padding: 0px;
   border: 5 solid gray;
@@ -67,7 +89,7 @@ body
 
 #protoBlockBox
 {
-  margin: 100px 0px 0px 50px;
+  margin: -30px 0px 0px 50px;
   float: left;
   padding: 0px;
   border: 5 solid gray;
