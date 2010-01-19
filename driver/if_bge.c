@@ -2475,11 +2475,238 @@ bge_reset(struct bge_softc *sc)
 void
 bge_rxeof(struct bge_softc *sc)
 {
+
+	/** bge_softc -
+	 * struct device bge_dev
+	 *
+	 * struct arpcom arpcom
+	 *
+			The arpcom data structure contains information shared between a network
+			driver and the address resolution code.
+
+	 * bus_space_handle_t bge_bhandle
+			The bus_space_handle_t type is used to describe a mapping of a range of
+			bus space.  Its contents are machine-dependent and should be considered
+			opaque by machine-independent code.  This type is used when performing
+			bus space access operations
+	
+	 * bus_space_tag_t bge_btag
+			The bus_space_tag_t type is used to describe a particular bus space on a
+			machine.  Its contents are machine-dependent and should be considered
+			opaque by machine-independent code.  This type is used by all bus_space
+			functions to name the space on which they're operating.
+
+	 * pci_attach_args bge_pa
+				Devices have their identity recorded in this structure.  It con-
+              tains the following members:
+
+                      bus_space_tag_t pa_iot;          pci i/o space tag 
+                      bus_space_tag_t pa_memt;         pci mem space tag
+                      bus_dma_tag_t pa_dmat;           DMA tag 
+                      pci_chipset_tag_t pa_pc;
+                      int pa_flags;                    flags 
+                      pcitag_t pa_tag;
+                      pcireg_t pa_id;
+                      pcireg_t pa_class;
+	 *
+	 * mii_data bge_mii
+			*
+			* A network interface driver has one of these structures in its softc.
+			* It is the interface from the network interface driver to the MII
+			* layer.
+			*
+			struct mii_data {
+				struct ifmedia mii_media;	 media information 
+				struct ifnet *mii_ifp;		 pointer back to network interface 
+
+				int mii_flags;			 misc. flags; see below 
+
+				
+				* For network interfaces with multiple PHYs, a list of all
+				* PHYs is required so they can all be notified when a media
+				* request is made.
+		
+				LIST_HEAD(mii_listhead, mii_softc) mii_phys;
+				int mii_instance;
+
+				
+				* PHY driver fills this in with active media status.
+				
+				int mii_media_status;
+				int mii_media_active;
+
+				
+				* Calls from MII layer into network interface driver.
+			
+				mii_readreg_t mii_readreg;
+				mii_writereg_t mii_writereg;
+				mii_statchg_t mii_statchg;
+			};
+
+			* struct ifmedia bge_ifmedia
+				The ifmedia interface provides a consistent method for querying and set-
+				ting network interface media and media options.  The media is typically
+				set using the ifconfig(8) command.
+			
+			*u_int32_t bge_flags
+
+			*bus_dma_tag_t bge_dmatag
+				A machine-dependent (MD) opaque type that describes the characteristics of DMA transactions. DMA tags are organized into a hierarchy,
+				with each child tag inheriting the restrictions of its parent. This allows all devices along the path of DMA 
+				transactions to contribute to the constraints of those transactions.
+
+			*u_int32_t bge_chipid
+
+			*struct bge_ring_data *bge_rdata
+				* Ring structures. Most of these reside in host memory and we tell
+				* the NIC where they are via the ring control blocks. The exceptions
+				* are the tx and command rings, which live in NIC memory and which
+				* we access via the shared memory window.
+				
+				struct bge_ring_data {
+					struct bge_rx_bd	bge_rx_std_ring[BGE_STD_RX_RING_CNT];
+					struct bge_ext_rx_bd	bge_rx_jumbo_ring[BGE_JUMBO_RX_RING_CNT];
+					struct bge_rx_bd	bge_rx_return_ring[BGE_RETURN_RING_CNT];
+					struct bge_tx_bd	bge_tx_ring[BGE_TX_RING_CNT];
+					struct bge_status_block	bge_status_block;
+						struct bge_status_block {
+							u_int32_t		bge_status;
+							u_int32_t		bge_rsvd0;
+							#if BYTE_ORDER == LITTLE_ENDIAN
+							u_int16_t		bge_rx_jumbo_cons_idx;
+							u_int16_t		bge_rx_std_cons_idx;
+							u_int16_t		bge_rx_mini_cons_idx;
+							u_int16_t		bge_rsvd1;
+							#else
+							u_int16_t		bge_rx_std_cons_idx;
+							u_int16_t		bge_rx_jumbo_cons_idx;
+							u_int16_t		bge_rsvd1;
+							u_int16_t		bge_rx_mini_cons_idx;
+							#endif
+
+							struct bge_sts_idx	bge_idx[16];
+								struct bge_sts_idx {
+									#if BYTE_ORDER == LITTLE_ENDIAN
+									u_int16_t		bge_rx_prod_idx;
+									u_int16_t		bge_tx_cons_idx;
+									#else
+									u_int16_t		bge_tx_cons_idx;
+									u_int16_t		bge_rx_prod_idx;
+									#endif
+									};
+						};
+
+					struct bge_tx_desc	*bge_tx_ring_nic; pointer to shared mem 
+					struct bge_cmd_desc	*bge_cmd_ring;	 pointer to shared mem 
+					struct bge_gib		bge_info;
+				};
+
+			*struct bge_chain_data bge_cdata
+
+				* Mbuf pointers. We need these to keep track of the virtual addresses
+				* of our mbuf chains since we can only convert from physical to virtual,
+				* not the other way around.
+				struct bge_chain_data {
+
+					An mbuf is a basic unit of memory management in the kernel IPC subsystem.
+					Network packets and socket buffers are stored in mbufs.  A network packet
+					may span multiple mbufs arranged into a chain (linked list), which allows
+					adding or trimming network headers with little overhead.
+
+						An mbuf consists of a variable-sized header and a small internal buffer
+						for data.	The mbuf's total size, MSIZE, is a machine-dependent constant
+						defined in <machine/param.h>.  The mbuf header includes:
+
+								m_next     a pointer to the next buffer in the chain
+								m_nextpkt  a pointer to the next chain in the queue
+								m_data     a pointer to the data
+								m_len      the length of the data
+								m_type     the type of data
+								m_flags    the mbuf flags
+														
+					struct mbuf		*bge_tx_chain[BGE_TX_RING_CNT];
+					struct mbuf		*bge_rx_std_chain[BGE_STD_RX_RING_CNT];
+					struct mbuf		*bge_rx_jumbo_chain[BGE_JUMBO_RX_RING_CNT];
+					struct mbuf		*bge_rx_mini_chain[BGE_MINI_RX_RING_CNT];
+					bus_dmamap_t		bge_tx_map[BGE_TX_RING_CNT];
+					bus_dmamap_t		bge_rx_std_map[BGE_STD_RX_RING_CNT];
+					bus_dmamap_t		bge_rx_jumbo_map[BGE_JUMBO_RX_RING_CNT];
+				};
+
+			*bus_dmamap_t bge_ring_map
+
+			u_int16_t bge_tx_saved_considx
+			u_int16_t bge_rx_saved_considx
+			u_int16_t bge_ev_saved_considx
+			u_int16_t		bge_return_ring_cnt;
+			u_int32_t		bge_tx_prodidx;
+			u_int16_t		bge_std;	 current std ring head 
+			int			bge_std_cnt;
+			u_int16_t		bge_jumbo;	 current jumo ring head 
+			int			bge_jumbo_cnt;
+			u_int32_t		bge_stat_ticks;
+			u_int32_t		bge_rx_coal_ticks;
+			u_int32_t		bge_tx_coal_ticks;
+			u_int32_t		bge_rx_max_coal_bds;
+			u_int32_t		bge_tx_max_coal_bds;
+			u_int32_t		bge_tx_buf_ratio;
+			u_int32_t		bge_sts;
+			int			bge_flowflags;
+			int			bge_txcnt;
+			struct timeout		bge_timeout;
+			struct timeout		bge_rxtimeout;
+			void			*sc_powerhook;
+			void			*sc_shutdownhook;
+			u_int32_t		bge_rx_discards;
+			u_int32_t		bge_tx_discards;
+			u_int32_t		bge_rx_inerrors;
+			u_int32_t		bge_rx_overruns;
+			u_int32_t		bge_tx_collisions;
+			SLIST_HEAD(, txdmamap_pool_entry) txdma_list;
+			struct txdmamap_poostruct txdmamap_pool_entry {
+
+			bus_dmamap_t dmamap;
+			
+			SLIST_ENTRY(txdmamap_pool_entry) link;
+
+			* struct txdmamap_pool_entry *txdma[BGE_TX_RING_CNT];
+					struct txdmamap_pool_entry {
+					bus_dmamap_t dmamap;
+					SLIST_ENTRY(txdmamap_pool_entry) link;
+					};
+**/
 	struct ifnet *ifp;
 	int stdcnt = 0, jumbocnt = 0;
+
+	/**
+		A machine-dependent opaque type describing an individual mapping. One map is used for each memory allocation that will be loaded.
+		Maps can be reused once they have been unloaded. Multiple maps can be associated with one DMA tag. 
+		While the value of the map may evaluate to NULL on some platforms under certain conditions, 
+		it should never be assumed that it will be NULL in all cases.
+	**/
 	bus_dmamap_t dmamap;
+
+
+	/** 
+		The bus_addr_t type is used to describe bus addresses.  It must be an un-
+		signed integral type capable of holding the largest bus address usable by
+		the architecture.  This type is primarily used when mapping and unmapping
+		bus space.
+	**/
+	
 	bus_addr_t offset, toff;
+
+	/**
+		 The bus_size_t type is used to describe sizes of ranges in bus space.  It
+     must be an unsigned integral type capable of holding the size of the
+     largest bus address range usable on the architecture.  This type is used
+     by virtually all of the bus_space functions, describing sizes when map-
+     ping regions and offsets into regions when performing space access opera-
+     tions.
+	**/
+
 	bus_size_t tlen;
+
 	int tosync;
 
 	/* Nothing to do */
@@ -2487,8 +2714,14 @@ bge_rxeof(struct bge_softc *sc)
 	    sc->bge_rdata->bge_status_block.bge_idx[0].bge_rx_prod_idx)
 		return;
 
+	//Pass the network-visible interface to the declared pointer
 	ifp = &sc->arpcom.ac_if;
 
+	/** void bus_dmamap_sync (bus_dma_tag_t dmat bus_dmamap_t map op); **/
+	/*Performs synchronization of a device visible mapping with the CPU visible memory referenced by that mapping. Arguments are as follows:*/
+	/*The bus_dmamap_sync ();*/
+	/*function is the method used to ensure that CPU's and device's direct memory access (DMA) to shared memory is coherent*/
+		
 	bus_dmamap_sync(sc->bge_dmatag, sc->bge_ring_map,
 	    offsetof(struct bge_ring_data, bge_status_block),
 	    sizeof (struct bge_status_block),
