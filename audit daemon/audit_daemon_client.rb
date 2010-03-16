@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'thrift'
-require 'generated/gen-rb/audit_daemon'
+require File.dirname(__FILE__) + '/generated/gen-rb/audit_daemon'
  
 include AuditDaemon
 
