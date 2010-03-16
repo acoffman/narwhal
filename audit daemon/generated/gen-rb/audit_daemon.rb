@@ -5,7 +5,7 @@
 #
 
 require 'thrift'
-require 'daemon_types'
+require File.dirname(__FILE__) + '/daemon_types'
 
 module AuditDaemon
   class Client
