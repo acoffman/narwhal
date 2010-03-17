@@ -1,9 +1,9 @@
 #include "generated/gen-cpp/AuditDaemon.h"
-#include "bloom/bloomfilter.h"
 #include <protocol/TBinaryProtocol.h>
 #include <server/TSimpleServer.h>
 #include <transport/TServerSocket.h>
 #include <transport/TBufferTransports.h>
+#include "daemon support/handler.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;

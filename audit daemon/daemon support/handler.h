@@ -1,14 +1,10 @@
-#ifndef BLOOM_H
-#define BLOOM_H
+#ifndef HANDLER_H
+#define HANDLER_H
 
-#include <boost/dynamic_bitset.hpp>
-#include <algorithm>
-#include <string>
-#include <cmath>
 
 using namespace std;
 
-class BloomFilter {
+class NotificationHandler {
   public:
     BloomFilter(int init_size);
     ~BloomFilter();
@@ -22,6 +18,7 @@ class BloomFilter {
     int* keys(string item);
 
 };
-#include "bloomfilter.cpp"
+#include "handler.cpp"
 #endif
+
 
