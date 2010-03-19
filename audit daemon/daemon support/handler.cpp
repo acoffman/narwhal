@@ -32,7 +32,7 @@ void NotificationHandler::generateKeys(){
 };
 
 int NotificationHandler::calculateFilterSize(){
-  return (int) abs(ceil((keyList.size() * log(FP_PERCENT))/(log(2) * log(2))));
+  return (int) (10 * abs(ceil((keyList.size() * log(FP_PERCENT))/(log(2) * log(2)))));
 };
 
 void NotificationHandler::mapBits(){
