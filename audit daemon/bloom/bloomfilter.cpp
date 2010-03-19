@@ -7,24 +7,25 @@ int BloomFilter::djbHash(string item){
 
 BloomFilter::BloomFilter(int init_size){
   size = init_size;
-  bitset = new boost::dynamic_bitset<>(init_size);
+  bitarray = new char[BITNSLOTS(1000)];
+
 };
 
 BloomFilter::~BloomFilter(){
-  delete bitset;
+  delete []  bitarray;
 };
 
 void BloomFilter::add(string item){
   int * keys = this->keys(item);
-  (*bitset).set(abs(keys[0]), true);
-  (*bitset).set(abs(keys[1]), true);
-  (*bitset).set(abs(keys[2]), true);
+	BITSET(bitarray, abs(keys[0]));
+	BITSET(bitarray, abs(keys[1]));
+	BITSET(bitarray, abs(keys[2]));
   delete [] keys;
 };
 
 bool BloomFilter::include(string item){
   int * keys = this->keys(item);
-  bool result = (*bitset).test(keys[0]) && (*bitset).test(keys[1]) && (*bitset).test(keys[2]);
+  bool result = (BITTEST(bitarray, keys[0]) && BITTEST(bitarray, keys[1]) && BITTEST(bitarray, keys[2]));
   delete [] keys;
   return result;
 };

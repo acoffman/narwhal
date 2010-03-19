@@ -8,6 +8,6 @@ int main(void){
   filter.add("hello");
   filter.add("oh!...oh!OH!");
   filter.add("anelfandhisham");
-
+  
   cout << filter.include("hello") << endl << filter.include("anelfandhisham") << endl << filter.include("abcde") << endl;
 }
