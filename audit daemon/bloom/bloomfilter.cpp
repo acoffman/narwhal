@@ -17,9 +17,9 @@ BloomFilter::~BloomFilter(){
 
 void BloomFilter::add(string item){
   int * keys = this->keys(item);
-	BITSET(bitarray, abs(keys[0]));
-	BITSET(bitarray, abs(keys[1]));
-	BITSET(bitarray, abs(keys[2]));
+	BITSET(bitarray, ABS(keys[0]));
+	BITSET(bitarray, ABS(keys[1]));
+	BITSET(bitarray, ABS(keys[2]));
   delete [] keys;
 };
 
@@ -34,8 +34,8 @@ int * BloomFilter::keys(string item){
   int * keys = new int[3]; 
   string item1 = item;
   reverse(item1.begin(), item1.end());
-  keys[0] = abs(djbHash(item) % size);
-  keys[1] = abs(djbHash(item1) % size);
-  keys[2] = abs(djbHash(item + item1) % size);
+  keys[0] = ABS(djbHash(item) % size);
+  keys[1] = ABS(djbHash(item1) % size);
+  keys[2] = ABS(djbHash(item + item1) % size);
   return keys;
 };
