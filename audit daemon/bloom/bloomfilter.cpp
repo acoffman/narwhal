@@ -7,7 +7,7 @@ int BloomFilter::djbHash(string item){
 
 BloomFilter::BloomFilter(int init_size){
   size = init_size;
-  bitarray = new char[BITNSLOTS(1000)];
+  bitarray = new char[BITNSLOTS(init_size)];
 
 };
 
@@ -38,4 +38,12 @@ int * BloomFilter::keys(string item){
   keys[1] = ABS(djbHash(item1) % size);
   keys[2] = ABS(djbHash(item + item1) % size);
   return keys;
+};
+
+char * BloomFilter::getBitArray(){
+  return bitarray;
+};
+
+int BloomFilter::getSize(){
+  return size;
 };

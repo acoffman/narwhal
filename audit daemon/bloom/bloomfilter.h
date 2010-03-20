@@ -21,6 +21,8 @@ class BloomFilter {
     ~BloomFilter();
     void add(string item);
     bool include(string item);
+    char* getBitArray();
+    int getSize();
 
   private:
     char * bitarray;

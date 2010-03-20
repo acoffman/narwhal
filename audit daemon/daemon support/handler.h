@@ -14,6 +14,12 @@
 #include <string>
 #include <cmath>
 
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <stdio.h>
+#include <limits.h>
+
 using namespace std;
 
 #define HOST "localhost"
@@ -22,6 +28,11 @@ using namespace std;
 #define TABLE "tablename"
 
 #define FP_PERCENT 0.95
+
+#define KEY (key_t) 5432
+#define PERMS 0666
+
+#define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
 
 class NotificationHandler {
   public:
@@ -41,6 +52,7 @@ class NotificationHandler {
     void createFilter();
     void mapBits();
     void generateKeys();
+    void test();
 
 };
 #include "handler.cpp"
