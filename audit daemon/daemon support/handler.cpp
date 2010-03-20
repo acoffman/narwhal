@@ -12,9 +12,9 @@ NotificationHandler::NotificationHandler(int userid){
 };
 
 NotificationHandler::~NotificationHandler(){
-  //delete con;
-  //delete stmnt;
-  //delete res;
+  delete con;
+  delete stmnt;
+  delete res;
   delete filter;
 };
 
@@ -72,7 +72,7 @@ void NotificationHandler::test(){
   char *shm, *s;
 
   cout << (*filter).getBitArray() << endl;
-  if ((shmid = shmget(KEY,  BITNSLOTS((*filter).getSize()), 0666)) < 0) {
+  if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), PERMS)) < 0) {
     perror("shmget");
     exit(1);
   }
