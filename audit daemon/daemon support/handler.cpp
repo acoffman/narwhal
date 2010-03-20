@@ -40,7 +40,7 @@ void NotificationHandler::generateKeys(){
 
 int NotificationHandler::calculateFilterSize(){
   int result = (int) (10 * abs(ceil((keyList.size() * log(FP_PERCENT))/(log(2) * log(2)))));
-  if(result == 0)
+  if(result <  100)
     return 100;
   return result;
 };
@@ -69,9 +69,9 @@ void NotificationHandler::mapBits(){
 void NotificationHandler::test(){
   int shmid;
   key_t key;
-  char *shm, *s;
+  char *shm, *s, *filtr;
 
-  cout << (*filter).getBitArray() << endl;
+  filtr = (*filter).getBitArray();
   if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), PERMS)) < 0) {
     perror("shmget");
     exit(1);
@@ -82,6 +82,10 @@ void NotificationHandler::test(){
     exit(1);
   }
 
-  cout << shm << endl;
+  for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++){ 
+    putchar(*filtr++);
+    putchar(*shm++);
+    cout << endl;
+  }
 
 }
