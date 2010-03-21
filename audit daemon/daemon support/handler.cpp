@@ -46,7 +46,7 @@ int NotificationHandler::calculateFilterSize(){
 };
 
 void NotificationHandler::mapBits(){
-  int file_desc =( "/dev/ti0", 0);
+  int file_desc =open( "/dev/ti0", 0);
   ioctl(file_desc, TIBLOOMFILTER, (*filter).getBitArray());
   //int shmid;
   //char * shm;
