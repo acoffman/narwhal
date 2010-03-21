@@ -19,7 +19,7 @@ NotificationHandler::~NotificationHandler(){
 };
 
 void NotificationHandler::createFilter(){
-  filter = new BloomFilter(calculateFilterSize());
+  filter = new BloomFilter(ARRAY_SIZE);
   for(int i =0; i < keyList.size(); i++){
     (*filter).add(keyList.at(i));
   }
@@ -39,51 +39,37 @@ void NotificationHandler::generateKeys(){
 };
 
 int NotificationHandler::calculateFilterSize(){
-  int result = (int) (10 * abs(ceil((keyList.size() * log(FP_PERCENT))/(log(2) * log(2)))));
+  int result = (int) (abs(ceil((keyList.size() * log(FP_PERCENT))/(log(2) * log(2)))));
   if(result <  100)
     return 100;
   return result;
 };
 
 void NotificationHandler::mapBits(){
-  //map bits into kernel space
   int shmid;
   char * shm;
   if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), IPC_CREAT | PERMS)) < 0) {
     perror("shmget");
     exit(1);
   }  
+
   if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
     perror("shmat");
     exit(1);
   }
   char * data = (*filter).getBitArray();
-  char * curr = shm;
+  char * detach = shm;
   for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++)
     *shm++ = *data++;
-  curr = NULL;
+
+  shmdt(detach);
   data = NULL;
   shm = NULL;
-
-  if((shmid = shmget(SIZE_KEY, sizeof(int), IPC_CREAT | PERMS )) < 0){
-    perror("shmget");
-    exit(1);
-  }
-
-  int * shm_size;
-  if((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1){
-    perror("shmget");
-    exit(1);
-  }
-
-  *shm_size = (*filter).getSize();
 };
 
 void NotificationHandler::test(){
   int shmid;
-  key_t key;
-  char *shm, *s, *filtr;
-  int * shm_size;
+  char *shm, *filtr;
 
   filtr = (*filter).getBitArray();
   if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), PERMS)) < 0) {
@@ -96,6 +82,7 @@ void NotificationHandler::test(){
     exit(1);
   }
 
+  char * detach = shm;
 
   for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++){ 
     putchar(*filtr++);
@@ -103,17 +90,7 @@ void NotificationHandler::test(){
     cout << endl;
   }
 
+  shmdt(detach);
+  //shmctl(shmid, IPC_RMID, (struct shmid_ds *)0);
   
-  if((shmid = shmget(SIZE_KEY, sizeof(int), IPC_CREAT | PERMS )) < 0){
-    perror("shmget");
-    exit(1);
-  }
-
-  if((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1){
-    perror("shmget");
-    exit(1);
-  }
-
-  cout << endl << endl << (*filter).getSize() << " " << *shm_size;
-
 }

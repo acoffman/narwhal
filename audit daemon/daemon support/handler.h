@@ -27,10 +27,10 @@ using namespace std;
 #define PASS ""
 #define TABLE "tablename"
 
-#define FP_PERCENT 0.95
+#define FP_PERCENT 0.01
+#define ARRAY_SIZE 1000
 
 #define KEY (key_t) 5432
-#define SIZE_KEY (key_t) 5430
 #define PERMS 0666
 
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
