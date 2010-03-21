@@ -29,7 +29,25 @@ end
 def ip
   @page_title = "IP Configuration"
   @nav_ip = "current"
+  @userid = 1
+  @blocked = Blocked.new
+
+  # pull ips from database for specific user
+  @list = []
+  list = (Blocked.find(:all, :conditions => "userid = #@userid", :select => "ip"))
+  list.each do |l|
+    @list.push(l.ip)
+  end
+
   render :ip
+end
+
+def add 
+  @ip = params[:value]
+  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip"))
+  if not list.empty?
+    Blocked.create(:userid => @userid, :ip => @ip)
+  end   
 end
 
 def protocols
@@ -43,6 +61,7 @@ def rate
   @nav_rate = "current"
   render :rate
 end
+
 
 def move_item
   protocol = params[:protocol].split("_")[0]

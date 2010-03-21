@@ -8,13 +8,13 @@
       <td class="ip">
         <label for="option_list">IP Address</label>
         <%= select_tag("option_list",
-        options_for_select(["321.234.345.21","342.235.32.1","223.452.12.354","642.987.35.52","234.212.34.2","235.232.56.21","65.312.678.21","345.456.31.1"]),
-        html_options = {"size" => 5, "multiple" => true}) %>
+        options_for_select(@list), 
+        html_options = {"size" => 20, "multiple" => true }) %>
       </td>
       <td class="ip">
         <%= select_tag("proto_list",
         options_for_select(["UDP", "POP", "TCP", "DCHP", "DNS"]),
-        html_options = {"size" => 5, "multiple" => true}) %>
+        html_options = {"size" => 15, "multiple" => true}) %>
         <%= submit_tag( "Remove" ) %>
       </td>
     </tr>
@@ -37,7 +37,7 @@
   <legend>Add New IP</legend>
 
   <label>IP Address:</label>
-  <%= text_field "option", "ip", "size" => 20 %>
+  <%= text_field "ip", "ip", "size" => 20 %>
   <%= submit_tag( "Add" ) %>
 </fieldset>
 </form>
