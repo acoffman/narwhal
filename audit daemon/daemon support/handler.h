@@ -31,6 +31,8 @@ using namespace std;
 #define ARRAY_SIZE 1000
 
 #define KEY ftok("/",5432)
+#define KEY_SIZE ftok("/", 5431)
+
 #define PERMS 0666
 
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
