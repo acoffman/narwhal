@@ -94,6 +94,8 @@ __FBSDID("$FreeBSD: src/sys/dev/ti/if_ti.c,v 1.134.2.1.2.1 2009/10/25 01:10:29 k
 #include <sys/sf_buf.h>
 #include <sys/types.h>
 
+#include <dev/shm.h>
+
 #include <net/if.h>
 #include <net/if_arp.h>
 #include <net/ethernet.h>
@@ -142,6 +144,32 @@ typedef enum {
 	TI_SWAP_NTOH
 } ti_swap_type;
 
+/* MALLOC SHIT */
+MALLOC_DECLARE(M_KEYBUF);
+MALLOC_DECLARE(M_IPBUF);
+
+MALLOC_DEFINE(M_KEYBUF, "bloom filter keys", "Contains keys to bloom filter");
+MALLOC_DEFINE(M_IPBUF, "contains current ip", "Contains modified ip");
+
+/* BITSET MACROS FOR THE BLOOM FILTER */
+#define CHAR_BIT 8
+
+#define BITMASK(b) (1 << ((b) % CHAR_BIT)
+#define BITSLOT(b) ((b) / CHAR_BIT)
+#define BITTEST(a, b) ((a)[BITSLOT(b)] & BITMASK(b))
+#define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
+
+#define ABS(a) a > 0 ? a : a * -1
+#define NUM_OF_KEYS 3
+
+/* SHARED MEMORY DEFINES */
+//BLOOM FILTER SIZE SHARED MEMORY
+#define SIZE_KEY (key_t) 5430 
+
+//BLOOM FILTER SHARED MEMORY
+#define KEY (key_t) 5432
+
+#define PERMS 0666
 
 /*
  * Various supported device vendors/types and their names.
@@ -184,7 +212,20 @@ static int ti_attach(device_t);
 static int ti_detach(device_t);
 static void ti_txeof(struct ti_softc *);
 static void ti_rxeof(struct ti_softc *);
+
 static void ti_hook(device_t dev, struct mbuf *m);
+
+//Bloom filter functions
+static int ti_hash(char * item);
+static int * ti_keys(char * item, int size);
+static int ti_check(char * addr);
+
+//String parsing functions
+static int ti_strlen(const char * item);
+static char * ti_strev(char * s);
+static char * ti_strcat(char * dst, const char * src);
+static char * ti_strcpy(char * dst, const char * src);
+static char * ti_concat(char * s1, char * s2);
 
 static void ti_stats_update(struct ti_softc *);
 static int ti_encap(struct ti_softc *, struct mbuf **);
@@ -2825,6 +2866,142 @@ ti_rxeof(sc)
 	TI_UPDATE_JUMBOPROD(sc, sc->ti_jumbo);
 }
 
+static int
+ti_hash(char * item)
+{
+  int hash = 5381;
+  int i = 0;
+
+  for(; i < ti_strlen(item); i++)
+        hash = ((hash << 5) + hash) + item[i];
+   return hash;
+} 
+
+static char *
+ti_concat(char * s1, char * s2)
+{
+   int len = ti_strlen(s1) + ti_strlen(s2) + 1;
+   char * c = (char *)malloc(len,M_IPBUF,M_NOWAIT);
+
+   if(c == NULL)
+     return NULL;
+
+   ti_strcpy(c, s1);
+   return ti_strcat(c, s2);
+}
+
+static char *
+ti_strcpy(char * dst, const char * src)
+{
+   char * s = dst;
+   while((*dst++ = *src++) != '\0');	
+   return s;
+}
+
+static char *
+ti_strcat ( char * dst, const char * src )
+{
+    char *d = dst;
+
+    while (*d) ++d;
+    while ((*d++ = *src++) != '\0') ;
+
+    return (dst);
+}
+
+static char *
+ti_strev(char * s)
+{
+   char * left = s;
+   char * right = left + ti_strlen(s) - 1;
+   char tmp;
+
+   while(left < right)
+   {
+	tmp = *left;
+	*left++ = *right;
+	*right-- = tmp;
+   }
+
+   return s;
+}
+
+static int
+ti_strlen(const char *item)
+{
+  int len = 0;
+
+  while(*item++)
+    len++;
+
+  return len;
+}
+
+static int
+ti_check(char * addr)
+{
+  int * keys;
+  int shmid_i,shmid_b, bloom_size;
+  char *bloom;
+
+ if((shmid_i = shmget(SIZE_KEY, sizeof(int), PERMS)) < 0)
+        return 0;         
+
+ if((bloom_size = (int) shmat(shmid_i, NULL, 0)) == (int) -1)
+        return 0;
+
+ if((shmid_b = shmget(KEY, sizeof(char) * BITNSLOTS(bloom_size), PERMS)) < 0) 
+	return 0;
+ 
+ if((bloom = (char *) shmat(shmid, NULL, 0)) == (char *) -1)
+	return 0;
+
+  keys = ti_keys(addr, bloom_size);
+
+  if(keys == NULL)
+        return 0;
+ 
+  if(BITTEST(bloom, keys[0]) && BITTEST(bloom, keys[1]) && BITTEST(bloom, keys[2]))
+  {
+	free(keys, M_KEYBUF);
+	return 1;
+  }
+  else
+  {
+	free(keys, M_KEYBUF);
+	return 0;
+  }
+}
+
+
+static int *
+ti_keys(char *item, int size)
+{  
+  //Sometimes ABS returns negative when generating key[1]?
+  //Loading it into an int before ABS is called inhibits the bug
+  int bug;
+
+  int * keys = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
+  char * item1 = item;
+  char * concat;
+
+  if(keys == NULL)
+   return NULL;
+ 
+  keys[0] = ABS(ti_hash(item) % size);
+ 
+  bug = ti_hash(ti_strev(item)) % size; 
+
+  keys[1] = ABS(bug);
+
+  if((concat = ti_concat(item,item1)) == NULL)
+    return NULL; 
+
+  keys[2] = ABS(ti_hash(ti_concat(item,item1)) % size);
+
+  return keys;
+}      
+
 static void
 ti_hook(device_t dev, struct mbuf* m)
 {
@@ -2839,8 +3016,10 @@ ti_hook(device_t dev, struct mbuf* m)
 	buf = inet_ntoa(ip->ip_src); 
               
 	if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
-		device_printf(dev,"received packet from %s\n", buf);
-
+	{	
+		if(ti_check(buf))
+	            device_printf(dev,"received packet from %s\n", buf);
+	}
 }
 
 static void
