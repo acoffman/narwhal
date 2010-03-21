@@ -30,6 +30,7 @@ using namespace std;
 #define FP_PERCENT 0.95
 
 #define KEY (key_t) 5432
+#define SIZE_KEY (key_t) 5430
 #define PERMS 0666
 
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
