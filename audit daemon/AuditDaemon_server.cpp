@@ -23,7 +23,6 @@ class AuditDaemonHandler : virtual public AuditDaemonIf {
 
   void notify(const Message& msg) {
     NotificationHandler n(100);
-    printf("here\n");
   }
 
 };

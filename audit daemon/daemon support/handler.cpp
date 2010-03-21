@@ -64,6 +64,18 @@ void NotificationHandler::mapBits(){
   curr = NULL;
   data = NULL;
   shm = NULL;
+
+  if((shmid = shmget(SIZE_KEY, sizeof(int), IPC_CREAT | PERMS )) < 0){
+    perror("shmget");
+    exit(1);
+  }
+
+  if((shm = (int *) shmat(shmid, NULL, 0)) == (int *) -1){
+    perror("shmget");
+    exit(1);
+  }
+
+  *shm = (*filter).getSize();
 };
 
 void NotificationHandler::test(){
