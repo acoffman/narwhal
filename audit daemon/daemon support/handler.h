@@ -16,6 +16,8 @@
 
 #include <sys/types.h>
 #include <sys/ipc.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
 #include <sys/shm.h>
 #include <stdio.h>
 #include <limits.h>
@@ -35,6 +37,8 @@ using namespace std;
 #define PERMS 0666
 
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
+
+#define TIBLOOMFILTER 29292
 
 class NotificationHandler {
   public:

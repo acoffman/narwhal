@@ -8,7 +8,7 @@ NotificationHandler::NotificationHandler(int userid){
   generateKeys();
   createFilter();
   mapBits();
-  test();
+  //test();
 };
 
 NotificationHandler::~NotificationHandler(){
@@ -46,40 +46,42 @@ int NotificationHandler::calculateFilterSize(){
 };
 
 void NotificationHandler::mapBits(){
-  int shmid;
-  char * shm;
-  int * shm_size;
+  int file_desc =( "/dev/ti0", 0);
+  ioctl(file_desc, TIBLOOMFILTER, (*filter).getBitArray());
+  //int shmid;
+  //char * shm;
+  //int * shm_size;
 
-  if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), IPC_CREAT | PERMS)) < 0) {
-    perror("shmget");
-    exit(1);
-  }  
-  if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
-    perror("shmat");
-    exit(1);
-  }
+  //if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), IPC_CREAT | PERMS)) < 0) {
+    //perror("shmget");
+    //exit(1);
+  //}  
+  //if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
+    //perror("shmat");
+    //exit(1);
+  //}
 
-  char * data = (*filter).getBitArray();
-  char * detach = shm;
-  for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++)
-    *shm++ = *data++;
-  shmdt(detach);
-  data = NULL;
-  shm = NULL;
-  detach = NULL;
+  //char * data = (*filter).getBitArray();
+  //char * detach = shm;
+  //for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++)
+    //*shm++ = *data++;
+  //shmdt(detach);
+  //data = NULL;
+  //shm = NULL;
+  //detach = NULL;
 
-  if ((shmid = shmget(KEY_SIZE, sizeof(int), IPC_CREAT | PERMS)) < 0) {
-    perror("shmget");
-    exit(1);
-  } 
-  if ((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1) {
-    perror("shmat");
-    exit(1);
-  }
+  //if ((shmid = shmget(KEY_SIZE, sizeof(int), IPC_CREAT | PERMS)) < 0) {
+    //perror("shmget");
+    //exit(1);
+  //} 
+  //if ((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1) {
+    //perror("shmat");
+    //exit(1);
+  //}
 
-  *shm_size = (*filter).getSize();
-  shmdt(shm_size);
-  shm_size = NULL;
+  //*shm_size = (*filter).getSize();
+  //shmdt(shm_size);
+  //shm_size = NULL;
 
 };
 
