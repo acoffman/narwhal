@@ -1,3 +1,6 @@
+server
+test
+*.out
 *.log
 *.swp
 .DS_Store
