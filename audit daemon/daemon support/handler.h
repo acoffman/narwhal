@@ -28,7 +28,6 @@ using namespace std;
 #define TABLE "tablename"
 
 #define FP_PERCENT 0.01
-#define ARRAY_SIZE 1000
 
 #define KEY ftok("/",5432)
 #define KEY_SIZE ftok("/", 5431)
