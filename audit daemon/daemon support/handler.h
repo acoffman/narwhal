@@ -28,7 +28,7 @@ using namespace std;
 #define TABLE "tablename"
 
 #define FP_PERCENT 0.01
-#define ARRAY_SIZE 100
+#define ARRAY_SIZE 1000
 
 #define KEY (key_t) 5432
 #define PERMS 0666
