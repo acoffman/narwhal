@@ -12,9 +12,9 @@ NotificationHandler::NotificationHandler(int userid){
 };
 
 NotificationHandler::~NotificationHandler(){
-  delete con;
-  delete stmnt;
-  delete res;
+  //delete con;
+  //delete stmnt;
+  //delete res;
   delete filter;
 };
 
