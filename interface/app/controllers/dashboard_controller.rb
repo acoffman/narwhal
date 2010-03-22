@@ -28,13 +28,10 @@ class DashboardController < ApplicationController
 
   def ip
     @blocked = Blocked.new
-  	@protocols = Protocol.new
-    @page_title = "IP Configuration"
-    @nav_ip = "current"
-    @userid = 1
-
-  @blockeds= Blocked.all
-  @protocols = Protocol.all
+  	@blocked.protocols << Protocol.new
+  	    
+    @blockeds  = Blocked.all
+    @protocols = Protocol.all
 
     respond_to do |format|
       format.html { render :action => 'ip' }
