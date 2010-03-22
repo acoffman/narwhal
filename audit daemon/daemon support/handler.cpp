@@ -48,7 +48,9 @@ int NotificationHandler::calculateFilterSize(){
 void NotificationHandler::mapBits(){
   int file_desc = open("/dev/ti0", O_RDWR);
   cout << file_desc << endl;
-  cout << ioctl(file_desc, TIBLOOMFILTER, (*filter).getBitArray()) << endl;
+  //cout << ioctl(file_desc, SIOCADDMULTI, (*filter).getBitArray()) << endl;
+  int foo = 13;
+  cout << ioctl(file_desc,ZIVA_IOCTL,&foo);
   close(file_desc);
   fprintf(stderr,"ioctl error: %s\n",strerror(errno));
   //int shmid;

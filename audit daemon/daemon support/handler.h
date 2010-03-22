@@ -41,6 +41,7 @@ using namespace std;
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
 
 #define TIBLOOMFILTER _IOW(0,253,char*)
+#define ZIVA_IOCTL  _IOW('c', 10, int)
 
 class NotificationHandler {
   public:
