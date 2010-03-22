@@ -30,7 +30,7 @@ void NotificationHandler::performQuery(){
 
 void NotificationHandler::generateKeys(){
   while (res->next()) {
-    keyList.push_back(res->getString("name"));
+    keyList.push_back(res->getString("ip"));
   }
 };
 
