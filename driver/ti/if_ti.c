@@ -2961,8 +2961,10 @@ ti_check(char * addr, device_t dev)
     device_printf(dev,"%d\n%d\n%d\n",keys[0], keys[1], keys[2]);
     if(bits != NULL)
     {
+      device_printf(dev,"BEFORE");
       if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
       {
+        device_printf(dev,"TRUE");
         free(keys, M_KEYBUF);
         return 1;
       }
