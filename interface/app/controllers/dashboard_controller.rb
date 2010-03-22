@@ -3,6 +3,7 @@ class DashboardController < ApplicationController
   use_google_charts
 
 def index
+  new
 	overview
   render :overview
 end
@@ -29,19 +30,45 @@ end
 def ip
   @page_title = "IP Configuration"
   @nav_ip = "current"
+  @userid = 1
+
+  # pull ips from database for specific user
+  @list = []
+  list = (Blocked.find(:all, :conditions => "userid = #@userid", :select => "ip", :order => "ip"))
+  list.each do |l|
+    @list.push(l.ip)
+  end
+
   render :ip
+end
+
+def new
+  @blocked = Blocked.new
+  @user = User.new
+end
+
+def create
+  @ip = params[:blocked]['ip']
+  @port = params[:blocked]['port']
+  @protocol = params[:blocked]['protocol']
+ # @blocked = Blocked.new(params[:blocked])
+  add
+ # @user = User.new(params[:user])
+end
+
+def add
+  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip
+                      and port = #@port and protocol = #@protocol"))
+  if not list.empty?
+    Blocked.create(:userid => @userid, :ip => @ip, :protocol => @protocol, :port => @port)
+  end   
+  ip
 end
 
 def protocols
   @page_title = "Protocol Configuration"
   @nav_proto = "current"
   render :protocols
-end
-
-def rate
-  @page_title = "Rate Limiting"
-  @nav_rate = "current"
-  render :rate
 end
 
 def move_item
