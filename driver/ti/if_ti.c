@@ -2913,8 +2913,10 @@ ti_strcat ( char * dst, const char * src )
 }
 
   static char *
-ti_strev(char * s)
+ti_strev(char * r)
 {
+  char * s = malloc(ti_strlen(r) * sizeof(char), M_IPBUF, M_NOWAIT);
+  ti_strcpy(s,r);
   char * left = s;
   char * right = left + ti_strlen(s) - 1;
   char tmp;
