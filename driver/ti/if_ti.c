@@ -2957,6 +2957,7 @@ ti_check(char * addr, device_t dev)
     if(keys == NULL)
       return 0;
 
+    device_printf(dev,"size: %d\n", size);
     device_printf(dev,"%d\n%d\n%d\n",keys[0], keys[1], keys[2]);
     if(bits != NULL)
     {
@@ -3757,7 +3758,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
         if(bits != NULL)
           free(bits, M_IPBUF);
         bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
-        size = (int) bloom->size;
+        size = ((int) bloom->size) * CHAR_BIT;
         if(bits == NULL){
           device_printf(sc->ti_dev, "malloc failed");
           return error;
