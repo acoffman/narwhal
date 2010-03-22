@@ -32,7 +32,7 @@ def ip
   @nav_ip = "current"
   @userid = 1
 
-  if params[:commit] == 'Add'
+  if params[:commit] == 'Add IP'
     @blocked = Blocked.create(params[:blocked])
     return redirect_to :action => 'ip'
   elsif params[:commit] == 'Delete IP'
