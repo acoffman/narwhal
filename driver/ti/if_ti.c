@@ -166,7 +166,7 @@ static struct bloom_ctl * bloom;
 /* BITSET MACROS FOR THE BLOOM FILTER */
 #define CHAR_BIT 8
 
-#define BITMASK(b) (1 << ((b) % CHAR_BIT)
+#define BITMASK(b) (1 << ((b) % CHAR_BIT))
 #define BITSLOT(b) ((b) / CHAR_BIT)
 #define BITTEST(a, b) ((a)[BITSLOT(b)] & BITMASK(b))
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
@@ -2956,7 +2956,7 @@ ti_check(char * addr)
 
       if(bloom->bits != NULL)
       {
-	   if(BITTEST(bloom->bits, keys[0]) && BITTEST(bloom->bits, keys[1]) && BITTEST(bloom->bits, keys[2])))))
+	   if(BITTEST(bloom->bits, keys[0]) && BITTEST(bloom->bits, keys[1]) && BITTEST(bloom->bits, keys[2]))
 	   {
 		free(keys, M_KEYBUF);
 		return 1;
