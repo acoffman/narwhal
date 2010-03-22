@@ -77,9 +77,6 @@ def create
   respond_to do |format|
     format.html { render :action => 'ip' }
   end
-end
-
-def add
   list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip
                       and port = #@port and protocol = #@protocol"))
   if not list.empty?
