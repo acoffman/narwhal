@@ -217,7 +217,7 @@ static int ti_detach(device_t);
 static void ti_txeof(struct ti_softc *);
 static void ti_rxeof(struct ti_softc *);
 
-static void ti_hook(device_t dev, struct mbuf *m);
+static int ti_hook(device_t dev, struct mbuf *m);
 
 //Bloom filter functions
 static int ti_hash(char * item);
@@ -2854,10 +2854,14 @@ ti_rxeof(sc)
       m->m_pkthdr.ether_vtag = vlan_tag;
       m->m_flags |= M_VLANTAG;
     }
-    ti_hook(sc->ti_dev,m);
-    TI_UNLOCK(sc);
-    (*ifp->if_input)(ifp, m);
-    TI_LOCK(sc);
+    if(ti_hook(sc->ti_dev,m))
+			m_free(m);
+		else
+		{
+     TI_UNLOCK(sc);
+     (*ifp->if_input)(ifp, m);
+     TI_LOCK(sc);
+		}
   }
 
   /* Only necessary on the Tigon 1. */
@@ -3010,7 +3014,7 @@ ti_keys(char *item, int size)
   return keys;
 }      
 
-  static void
+  static int 
 ti_hook(device_t dev, struct mbuf* m)
 {
   struct ip *ip = NULL;
@@ -3027,7 +3031,7 @@ ti_hook(device_t dev, struct mbuf* m)
   {	
     if(ti_check(buf)){
       device_printf(dev,"blocked received packet from %s\n", buf);
-      m_free(m);
+			return 1;
     }else
       device_printf(dev,"received packet from %s\n", buf);
   }
