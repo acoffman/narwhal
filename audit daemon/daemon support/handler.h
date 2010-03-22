@@ -21,6 +21,7 @@
 #include <sys/shm.h>
 #include <stdio.h>
 #include <limits.h>
+#include <iostream>
 
 using namespace std;
 
