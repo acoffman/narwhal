@@ -32,25 +32,18 @@ def ip
   @nav_ip = "current"
   @userid = 1
 
-  if params[:commit] == 'Add IP'
-    @blocked = Blocked.create(params[:blocked])
-    redirect_to :action => 'ip'
-  elsif params[:commit] == 'Delete IP'
-    redirect_to :action => 'delete'
-  end
-
-  # pull ips from database for specific user
+    # pull ips from database for specific user
   @list = []
   list = (Blocked.find(:all, :conditions => "userid = #@userid and ip is not null", 
-                       :select => "ip", :order => "ip"))
+    :select => "ip", :order => "ip"))
   list.each do |l|
     @list.push(l.ip)
   end
 
-  #pull protocols from database for specific user
+    #pull protocols from database for specific user
   @proto = []
   proto = (Blocked.find(:all, :conditions => "userid = #@userid and ip is null",
-                        :select => "protocol", :order => "protocol"))
+    :select => "protocol", :order => "protocol"))
   proto.each do |p|
     @proto.push(p.protocol)
   end
@@ -66,7 +59,7 @@ def destroy
   @blocked.destroy
 
   respond_to do |format|
-    format.html { redirect_to 'ip' }
+    format.html { redirect_to :action => 'ip' }
   end
 end
 
@@ -86,7 +79,7 @@ def create
   
   respond_to do |format|
     if @blocked.save
-      format.html { redirect_to 'ip' }
+      format.html { redirect_to :action => 'ip' }
     end
   end
 end
