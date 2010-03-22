@@ -33,16 +33,16 @@ using namespace std;
 
 #define FP_PERCENT 0.01
 
-#define KEY ftok("/",5432)
-#define KEY_SIZE ftok("/", 5431)
-
-#define PERMS 0666
-
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
 #define BITTEST(a, b) ((a)[BITSLOT(b)] & BITMASK(b))
 #define BITMASK(b) (1 << ((b) % CHAR_BIT))
 
-#define BLOOM_IOCTL  _IOW('c', 10, char*)
+struct bloom_ctl{
+  char* bits;
+  int size;
+};
+
+#define BLOOM_IOCTL  _IOW('c', 10, struct bloom_ctl)
 
 class NotificationHandler {
   public:
