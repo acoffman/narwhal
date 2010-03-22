@@ -1,3 +1,16 @@
+
+<div id="ip_right">
+	<fieldset width="20%" align="right">
+	  <legend>Add New IP</legend>
+	  <% form_for :blocked, :url => { :action => "create" } do |f| %>
+	    IP Address: <%= f.text_field :ip, :size => 20 %> </br>
+      Protocol  : <%= f.select('protocol', ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %> </br>
+	    Port      : <%= f.text_field :port, :size => 20 %> </br>
+	    <%= f.hidden_field :userid, :value => 1 %>
+	    <%= submit_tag 'Add IP' %>
+	  <% end %>
+	</fieldset>
+</div>
 <div id="ip_left">
 	<fieldset>
 	  <legend>Currently Blocked</legend>
@@ -24,8 +37,6 @@
 	        <%= submit_tag( "Delete IP" ) %>
 	      </td>
 	      <td class="ip">
-				
-	        <%= select("option", "person_id", ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
 	          <%= submit_tag 'Add' %>
 	      </td>
 	    </tr>
@@ -34,15 +45,3 @@
 	</fieldset>
 </div>
 
-<div id="ip_right">
-	<fieldset width="20%" align="right">
-	  <legend>Add New IP</legend>
-	  <% form_for :blocked, :url => { :action => "create" } do |f| %>
-	    IP Address: <%= f.text_field :ip, :size => 20 %> </br>
-	    Protocol  : <%= f.text_field :protocol, :size => 20 %> </br>
-	    Port      : <%= f.text_field :port, :size => 20 %> </br>
-	    <%= f.hidden_field :userid, :value => 1 %>
-	    <%= submit_tag 'Add IP' %>
-	  <% end %>
-	</fieldset>
-</div>
