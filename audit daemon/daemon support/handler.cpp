@@ -31,6 +31,7 @@ void NotificationHandler::performQuery(){
 void NotificationHandler::generateKeys(){
   //populate vector with keys from the query
   keyList.push_back("10.1.1.1");
+  keyList.push_back("10.1.1.254");
 };
 
 int NotificationHandler::calculateFilterSize(){
