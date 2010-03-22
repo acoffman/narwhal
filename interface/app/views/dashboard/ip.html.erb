@@ -24,7 +24,7 @@
       </td>
       <td class="ip">
         <%= select("option", "person_id", ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
-        <%= submit_tag( "Add" ) %>
+          <%= submit_tag 'Add' %>
       </td>
     </tr>
   </div>
@@ -33,11 +33,13 @@
 </form>
 
 <form id = "ip_right">
-<fieldset width="25%">
+<fieldset width="20%" align="right">
   <legend>Add New IP</legend>
-
-  <label>IP Address:</label>
-  <%= text_field "ip", "ip", "size" => 20 %>
-  <%= submit_tag( "Add" ) %>
+  <% form_for :blocked, :url => { :action => "create" } do |f| %>
+    IP Address: <%= f.text_field :ip, :size => 20 %> </br>
+    Protocol  : <%= f.text_field :protocol, :size => 20 %> </br>
+    Port      : <%= f.text_field :port, :size => 20 %> </br>
+    <%= submit_tag 'Add' %>
+  <% end %>
 </fieldset>
 </form>

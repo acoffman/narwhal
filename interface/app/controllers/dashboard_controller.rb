@@ -3,6 +3,7 @@ class DashboardController < ApplicationController
   use_google_charts
 
 def index
+  new
 	overview
   render :overview
 end
@@ -30,11 +31,10 @@ def ip
   @page_title = "IP Configuration"
   @nav_ip = "current"
   @userid = 1
-  @blocked = Blocked.new
 
   # pull ips from database for specific user
   @list = []
-  list = (Blocked.find(:all, :conditions => "userid = #@userid", :select => "ip"))
+  list = (Blocked.find(:all, :conditions => "userid = #@userid", :select => "ip", :order => "ip"))
   list.each do |l|
     @list.push(l.ip)
   end
@@ -42,12 +42,27 @@ def ip
   render :ip
 end
 
-def add 
-  @ip = params[:value]
-  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip"))
+def new
+  @blocked = Blocked.new
+  @user = User.new
+end
+
+def create
+  @ip = params[:blocked]['ip']
+  @port = params[:blocked]['port']
+  @protocol = params[:blocked]['protocol']
+ # @blocked = Blocked.new(params[:blocked])
+  add
+ # @user = User.new(params[:user])
+end
+
+def add
+  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip
+                      and port = #@port and protocol = #@protocol"))
   if not list.empty?
-    Blocked.create(:userid => @userid, :ip => @ip)
+    Blocked.create(:userid => @userid, :ip => @ip, :protocol => @protocol, :port => @port)
   end   
+  ip
 end
 
 def protocols
@@ -55,13 +70,6 @@ def protocols
   @nav_proto = "current"
   render :protocols
 end
-
-def rate
-  @page_title = "Rate Limiting"
-  @nav_rate = "current"
-  render :rate
-end
-
 
 def move_item
   protocol = params[:protocol].split("_")[0]
