@@ -42,7 +42,7 @@ struct bloom_ctl{
   int size;
 };
 
-#define BLOOM_IOCTL  _IOW('c', 10, bloom_ctl)
+#define BLOOM_IOCTL  _IOW('c', 10, struct bloom_ctl)
 
 class NotificationHandler {
   public:
