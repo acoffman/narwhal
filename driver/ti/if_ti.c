@@ -221,7 +221,7 @@ static void ti_hook(device_t dev, struct mbuf *m);
 
 //Bloom filter functions
 static int ti_hash(char * item);
-static int * ti_keys(char * item, int size);
+static int * ti_keys(char * item, int size, device_t dev);
 static int ti_check(char * addr, device_t dev);
 
 //String parsing functions
@@ -2952,7 +2952,7 @@ ti_check(char * addr, device_t dev)
   if(bloom != NULL)
   { 
     if(size > 0)
-      keys = ti_keys(addr,size);
+      keys = ti_keys(addr,size, dev);
 
     if(keys == NULL)
       return 0;
@@ -2961,8 +2961,10 @@ ti_check(char * addr, device_t dev)
     device_printf(dev,"%d\n%d\n%d\n",keys[0], keys[1], keys[2]);
     if(bits != NULL)
     {
+      device_printf(dev,"BEFORE");
       if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
       {
+        device_printf(dev,"TRUE");
         free(keys, M_KEYBUF);
         return 1;
       }
@@ -2978,14 +2980,13 @@ ti_check(char * addr, device_t dev)
 }
 
   static int *
-ti_keys(char *item, int size)
+ti_keys(char *item, int size, device_t dev)
 {  
   //Sometimes ABS returns negative when generating key[1]?
   //Loading it into an int before ABS is called inhibits the bug
 
   int * keys = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
   int * bug = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
-  char * item1 = item;
   char * concat;
   char * rev;
 
@@ -3000,8 +3001,10 @@ ti_keys(char *item, int size)
 
   keys[1] = ABS(bug[1]);
 
-  if((concat = ti_concat(item,item1)) == NULL)
+  if((concat = ti_concat(item,rev)) == NULL)
     return NULL; 
+
+  device_printf(dev, "concat: %s", concat);
 
   bug[2] = ti_hash(concat) % size;
 
