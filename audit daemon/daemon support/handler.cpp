@@ -1,9 +1,9 @@
 NotificationHandler::NotificationHandler(int userid){
   this->userid = userid;
-  //driver = get_driver_instance();
-  //con = driver->connect(HOST, USER, PASS);
-  //stmnt = con->createStatement();
-  //stmnt->execute("use "  TABLE);
+  driver = get_driver_instance();
+  con = driver->connect(HOST, USER, PASS);
+  stmnt = con->createStatement();
+  stmnt->execute("use "  TABLE);
   performQuery();
   generateKeys();
   createFilter();
@@ -11,9 +11,9 @@ NotificationHandler::NotificationHandler(int userid){
 };
 
 NotificationHandler::~NotificationHandler(){
-  //delete con;
-  //delete stmnt;
-  //delete res;
+  delete con;
+  delete stmnt;
+  delete res;
   delete filter;
 };
 
@@ -25,13 +25,13 @@ void NotificationHandler::createFilter(){
 };
 
 void NotificationHandler::performQuery(){
-  //do db query here
+  res = stmnt->executeQuery("SELECT ip FROM blockeds"); 
 };
 
 void NotificationHandler::generateKeys(){
-  //populate vector with keys from the query
-  keyList.push_back("10.1.1.1");
-  keyList.push_back("10.1.1.254");
+  while (res->next()) {
+    keyList.push_back(res->getString("name"));
+  }
 };
 
 int NotificationHandler::calculateFilterSize(){
