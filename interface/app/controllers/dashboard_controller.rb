@@ -89,8 +89,8 @@ def force_update
   client = DaemonClient.new
   client.send(msg)
 
-  flash.now[:notice] = "Update Complete!"
-  render :action => "index"
+  flash[:notice] = "Update Sent!"
+  redirect_to :action => "index"
 end
 
   private
