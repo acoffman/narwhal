@@ -158,6 +158,7 @@ struct bloom_ctl
 };
 
 static struct bloom_ctl * bloom; 
+static char * bits;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
@@ -2955,7 +2956,7 @@ ti_check(char * addr)
 
     if(bloom->bits != NULL)
     {
-      if(BITTEST(bloom->bits, keys[0]) && BITTEST(bloom->bits, keys[1]) && BITTEST(bloom->bits, keys[2]))
+      if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
       {
         free(keys, M_KEYBUF);
         return 1;
@@ -3747,7 +3748,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
         //bcopy(&bloom, b, sizeof(struct bloom_ctl));
 
         bloom = (struct bloom_ctl *)addr;
-        char * bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
+        bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
         if(bits == NULL){
           device_printf(sc->ti_dev, "malloc failed");
           return error;
@@ -3755,7 +3756,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
         copyin(bloom->bits,bits,bloom->size); 
 
-        device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bloom->bits,(int)bloom->size);
+        device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bits,(int)bloom->size);
 
         error = 1;
         break;
