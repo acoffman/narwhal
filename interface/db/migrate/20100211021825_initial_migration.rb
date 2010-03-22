@@ -7,12 +7,13 @@ class InitialMigration < ActiveRecord::Migration
     end
 
     create_table :blockeds do |t|
-      t.integer :userid
+      t.integer :user_id
       t.string :ip
       t.string :port
     end
 
     create_table :protocols do |t|
+      t.integer :blocked_id
       t.string :name
     end
   end

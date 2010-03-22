@@ -37,7 +37,8 @@ class DashboardController < ApplicationController
     if params[:proto_list]
       Protocol.find(params[:proto_list]).destroy
     elsif params[:ip_list]
-      Blocked.find(params[:ip_list]).destroy
+      @blocked  = Blocked.find(params[:ip_list])
+      @blocked.destroy
     end
     
     respond_to do |format|
@@ -48,15 +49,15 @@ class DashboardController < ApplicationController
   end
 
   # DELETE /dashboard/ip/1
-  def destroy which
-    if which == "blocked"
-      Blocked.find(params[:proto_list]).destroy
-    elsif which == "proto"
-      Protocol.find(params[:proto_list]).destroy
-    end
-
-    redirect_to :action => 'ip' 
-  end
+#  def destroy which
+    # if which == "blocked"
+    #   Blocked.find(params[:proto_list]).destroy
+    # elsif which == "proto"
+    #   Protocol.find(params[:proto_list]).destroy
+    # end
+    # 
+    # redirect_to :action => 'ip' 
+#  end
 
   # POST /dashboard
   def create
