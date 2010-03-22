@@ -40,7 +40,7 @@ using namespace std;
 
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
 
-#define TIBLOOMFILTER 29292
+#define TIBLOOMFILTER _IOW(0,253,char*)
 
 class NotificationHandler {
   public:
