@@ -2875,8 +2875,10 @@ ti_hash(char * item)
 {
   int hash = 5381;
   int c;
-  while(c = *item++)
+  while(*item){
+    c = *item++;
     hash = ((hash << 5) + hash) + c;
+  }
   return hash;
 } 
 
