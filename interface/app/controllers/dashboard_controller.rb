@@ -4,7 +4,6 @@ class DashboardController < ApplicationController
 
 # GET /dashboard
 def index
-
   @page_title = "Firewall Performance Overview"
   @test_num = params[:test_num]
   @test_num ||= 55
@@ -20,7 +19,6 @@ def index
 	respond_to do |format|
 	  format.html { render :overview }
   end
-  
 end
 
 def edit_num
@@ -60,7 +58,6 @@ def ip
   respond_to do |format|
     format.html { render :action => 'ip' }
   end
-
 end
 
 # DELETE /dashboard/ip/1
@@ -85,7 +82,6 @@ end
 
 # POST /dashboard
 def create
-  
   @blocked = Blocked.new(params[:blocked])
   
   respond_to do |format|
@@ -93,12 +89,6 @@ def create
       format.html { redirect_to 'ip' }
     end
   end
-
- # list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip
- #                     and port = #@port and protocol = #@protocol"))
- # if not list.empty?
- #   Blocked.create(:userid => @userid, :ip => @ip, :protocol => @protocol, :port => @port)
- # end   
 end
 
 def protocols
