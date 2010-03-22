@@ -160,6 +160,8 @@ struct bloom_ctl
 static struct bloom_ctl * bloom; 
 static char * bits;
 static int size;
+static bool sema = false;
+static bool sema1 = false;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
@@ -2953,29 +2955,36 @@ ti_check(char * addr)
 {
   int * keys = NULL;
 
+  while(sema1);
   if(bloom != NULL)
   { 
+    sema = true;
     if(size > 0)
       keys = ti_keys(addr,size);
 
-    if(keys == NULL)
+    if(keys == NULL){
+      sema = false;
       return 0;
+    }
 
     if(bits != NULL)
     {
       if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
       {
         free(keys, M_KEYBUF);
+        sema = false;
         return 1;
       }
       else
       {
         if(keys != NULL)
           free(keys, M_KEYBUF);
+        sema = false;
         return 0;
       }
     }
   }
+  sema = false;
   return 0;
 }
 
@@ -3035,7 +3044,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
   if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
   {	
-    if(ti_check(buf)){
+    if(!sema && ti_check(buf)){
       device_printf(dev,"blocked received packet from %s\n", buf);
       free(buf, M_IPBUF);
 			return 1;
@@ -3759,20 +3768,22 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
     case BLOOM_CTL:
       {
+        sema1 = true;
         //struct bloom_ctl *b;
 
         //b = (struct bloom_ctl *)addr;
 
         //bcopy(&bloom, b, sizeof(struct bloom_ctl));
 
+        while(sema);
         bloom = (struct bloom_ctl *)addr;
         if(bits != NULL)
           free(bits, M_IPBUF);
         bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
         size = ((int) bloom->size) * CHAR_BIT;
         if(bits == NULL){
-          device_printf(sc->ti_dev, "malloc failed");
           return error;
+          sema1 = false;
         }
 
         copyin(bloom->bits,bits,size); 
@@ -3780,6 +3791,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
         device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bits,size);
 
         error = 1;
+        sema1= false;
         break;
       }
 
