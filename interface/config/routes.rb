@@ -1,8 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   # The priority is based upon order of creation: first created -> highest priority.
 
-  #map.connect 'dashboard/ip/create', :controller => 'dashboard', :action => 'create'
-  #map.connect 'dashboard/ip/new', :controller => 'dashboard', :action => 'new'
+  map.connect 'dashboard/ip/create', :controller => 'dashboard', :action => 'create'
+  map.connect 'dashboard/ip/new', :controller => 'dashboard', :action => 'new'
 
   map.connect 'dashboard/ip/', :controller => 'dashboard', :action => 'ip'
   map.connect 'dashboard/protocols', :controller => 'dashboard', :action => 'protocols'
