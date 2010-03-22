@@ -33,8 +33,8 @@ class DashboardController < ApplicationController
     @nav_ip = "current"
     @userid = 1
 
-    @blockeds = Blocked.all
-    @protocols = Protocol.all
+  @blockeds= Blocked.all
+  @protocols = Protocol.all
 
     respond_to do |format|
       format.html { render :action => 'ip' }
