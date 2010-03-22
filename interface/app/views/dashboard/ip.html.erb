@@ -1,4 +1,3 @@
-
 <div id="ip_left">
 	<fieldset width="20%" align="right">
 	  <legend>Add New IP</legend>
@@ -18,10 +17,10 @@
 	    <col />
 	    <col />
 	    <tr class="ip">
-	      <td class="ip">
+	      <td class="ip">	
 	        <label for="option_list">IP Address</label>
 					<% form_for :blocked do |block| -%>
-						<%= select_tag("proto_list", options_from_collection_for_select(Blocked.find(:all), :id, :ip),
+						<%= select_tag("ip_list", options_from_collection_for_select(Blocked.find(:all), :id, :ip),
 							{'size' => 20, } )%>
 							<br />
 					  <%= submit_tag "Delete"%>
@@ -41,4 +40,3 @@
 	</table>
 	</fieldset>
 </div>
-
