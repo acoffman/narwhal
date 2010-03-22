@@ -28,6 +28,7 @@ end
 
 def ip
   @blocked = Blocked.new
+	@protocols = Protocol.new
   @page_title = "IP Configuration"
   @nav_ip = "current"
   @userid = 1
