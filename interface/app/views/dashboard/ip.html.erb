@@ -4,7 +4,9 @@
 	  <legend>Add New IP</legend>
 	  <% form_for :blocked, :url => { :action => "create" } do |f| %>
 	    IP Address: <%= f.text_field :ip, :size => 20 %> </br>
-      Protocol  : <%= f.select('protocol', ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %> </br>
+			<% form_for :protocol do |i| %>
+        Protocol  : <%= i.select('protocol', ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %> </br>
+			<% end %>
 	    Port      : <%= f.text_field :port, :size => 20 %> </br>
 	    <%= f.hidden_field :userid, :value => 1 %>
 	    <%= submit_tag 'Add IP' %>
