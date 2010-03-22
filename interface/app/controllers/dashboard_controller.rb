@@ -59,7 +59,7 @@ def destroy
   @blocked.destroy
 
   respond_to do |format|
-    format.html { redirect_to 'ip' }
+    format.html { redirect_to :action => 'ip' }
   end
 end
 
@@ -79,7 +79,7 @@ def create
   
   respond_to do |format|
     if @blocked.save
-      format.html { redirect_to 'ip' }
+      format.html { redirect_to :action => 'ip' }
     end
   end
 end
