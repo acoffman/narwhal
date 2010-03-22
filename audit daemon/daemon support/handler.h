@@ -29,10 +29,6 @@ using namespace std;
 
 #define FP_PERCENT 0.01
 
-#define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
-#define BITTEST(a, b) ((a)[BITSLOT(b)] & BITMASK(b))
-#define BITMASK(b) (1 << ((b) % CHAR_BIT))
-
 struct bloom_ctl{
   char* bits;
   int size;

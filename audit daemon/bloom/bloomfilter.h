@@ -29,7 +29,6 @@ class BloomFilter {
     int size;
     int djbHash(string item);
     int* keys(string item);
-
 };
 #include "bloomfilter.cpp"
 #endif
