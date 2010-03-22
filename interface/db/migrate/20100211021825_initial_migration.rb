@@ -13,7 +13,7 @@ class InitialMigration < ActiveRecord::Migration
 
     create_table :protocols do |t|
       t.string :port
-      t.string :protocol
+      t.string :name
     end
   end
 
