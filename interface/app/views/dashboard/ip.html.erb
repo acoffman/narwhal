@@ -5,6 +5,7 @@
 	  <% form_for :blocked, :url => { :controller => 'dashboard', :action => "create" } do |f| %>
 	    	IP Address: <%= f.text_field :ip, :size => 20 %> </br>
 	    	Port      : <%= f.text_field :port, :size => 20 %> </br>
+				Protocol  : <%= f.select( 'protocols', ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %> </br>
 	    <%= f.hidden_field :userid, :value => 1 %>
 	    <%= submit_tag 'Add IP' %>
 	  <% end %>
@@ -24,7 +25,7 @@
 	      </td>
 	      <td class="ip">
 	         <label for="proto_list">Protocols</label>
-	        <%= select_tag('proto_list', options_for_select(@protocols),
+	        <%= select_tag('proto_list', options_from_collection_for_select(@protocols, "name", "name"),
 						html_options = {"size" => 20, "multiple" => true}) %>
 	        <%= submit_tag( "Remove" ) %>
 	      </td>

@@ -26,7 +26,7 @@ class DashboardController < ApplicationController
     render :text => @test_num
   end
 
-  def ip
+  def ip    
     @blocked = Blocked.new
   	@blocked.protocols << Protocol.new
   	    
@@ -34,6 +34,7 @@ class DashboardController < ApplicationController
     @protocols = Protocol.all
 
     respond_to do |format|
+      @nav_ip = "current"
       format.html { render :action => 'ip' }
     end
   end
@@ -51,19 +52,10 @@ class DashboardController < ApplicationController
     end
   end
 
-  # GET /dashboard/ip/new
-  def new
-    @blocked = Blocked.new
-    @user = User.new
-
-    respond_to do |format| 
-      format.html
-    end
-  end
-
   # POST /dashboard
   def create
-    @blocked = Blocked.new(params[:blocked])
+    @blocked = Blocked.new( :ip => params[:blocked][:ip], :port => params[:blocked][:port] )
+    @blocked.protocols << Protocol.new( :name => params[:blocked][:protocols] )
   
     respond_to do |format|
       if @blocked.save
