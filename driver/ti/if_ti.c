@@ -2956,7 +2956,7 @@ ti_check(char * addr)
 
       if(bloom->bits != NULL)
       {
-	   if(BITTEST(bloom->bits, keys[0]) && BITTEST(bloom->bits, keys[1]) && BITTEST(bloom->bits, keys[2])))))
+	   if(BITTEST(bloom->bits, keys[0]) && BITTEST(bloom->bits, keys[1]) && BITTEST(bloom->bits, keys[2]))
 	   {
 		free(keys, M_KEYBUF);
 		return 1;
