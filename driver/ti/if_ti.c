@@ -94,7 +94,7 @@ __FBSDID("$FreeBSD: src/sys/dev/ti/if_ti.c,v 1.134.2.1.2.1 2009/10/25 01:10:29 k
 #include <sys/sf_buf.h>
 #include <sys/types.h>
 
-#include <dev/shm.h>
+#include <sys/ioccom.h>
 
 #include <net/if.h>
 #include <net/if_arp.h>
@@ -151,6 +151,18 @@ MALLOC_DECLARE(M_IPBUF);
 MALLOC_DEFINE(M_KEYBUF, "bloom filter keys", "Contains keys to bloom filter");
 MALLOC_DEFINE(M_IPBUF, "contains current ip", "Contains modified ip");
 
+struct bloom_ctl
+{
+   char * bits;
+   int size;
+};
+
+static struct bloom_ctl * bloom; 
+
+/* BLOOMFILTER CMD */
+#define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
+#define NUM_OF_KEYS 3
+
 /* BITSET MACROS FOR THE BLOOM FILTER */
 #define CHAR_BIT 8
 
@@ -160,16 +172,6 @@ MALLOC_DEFINE(M_IPBUF, "contains current ip", "Contains modified ip");
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
 
 #define ABS(a) a > 0 ? a : a * -1
-#define NUM_OF_KEYS 3
-
-/* SHARED MEMORY DEFINES */
-//BLOOM FILTER SIZE SHARED MEMORY
-#define SIZE_KEY (key_t) 5430 
-
-//BLOOM FILTER SHARED MEMORY
-#define KEY (key_t) 5432
-
-#define PERMS 0666
 
 /*
  * Various supported device vendors/types and their names.
@@ -2940,64 +2942,67 @@ ti_strlen(const char *item)
 static int
 ti_check(char * addr)
 {
-  int * keys;
-  int shmid_i,shmid_b, bloom_size;
-  char *bloom;
+  ti_check(addr);
+  int * keys = NULL;
 
- if((shmid_i = shmget(SIZE_KEY, sizeof(int), PERMS)) < 0)
-        return 0;         
+  if(bloom != NULL)
+  { 
+   if(bloom->size > 0)
+        keys = ti_keys(addr,bloom->size);
 
- if((bloom_size = (int) shmat(shmid_i, NULL, 0)) == (int) -1)
-        return 0;
-
- if((shmid_b = shmget(KEY, sizeof(char) * BITNSLOTS(bloom_size), PERMS)) < 0) 
-	return 0;
- 
- if((bloom = (char *) shmat(shmid, NULL, 0)) == (char *) -1)
-	return 0;
-
-  keys = ti_keys(addr, bloom_size);
-
-  if(keys == NULL)
+   if(keys == NULL)
         return 0;
  
-  if(BITTEST(bloom, keys[0]) && BITTEST(bloom, keys[1]) && BITTEST(bloom, keys[2]))
-  {
-	free(keys, M_KEYBUF);
-	return 1;
+
+      if(bloom->bits != NULL)
+      {
+	   if(BITTEST(bloom->bits, keys[0]) && BITTEST(bloom->bits, keys[1]) && BITTEST(bloom->bits, keys[2])))))
+	   {
+		free(keys, M_KEYBUF);
+		return 1;
+	   }
+	   else
+	   {
+		if(keys != NULL)
+		   free(keys, M_KEYBUF);
+
+		return 0;
+	   }
+      }
   }
-  else
-  {
-	free(keys, M_KEYBUF);
-	return 0;
-  }
+    return 0;
 }
-
 
 static int *
 ti_keys(char *item, int size)
 {  
   //Sometimes ABS returns negative when generating key[1]?
   //Loading it into an int before ABS is called inhibits the bug
-  int bug;
 
   int * keys = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
+  int * bug = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
   char * item1 = item;
   char * concat;
 
   if(keys == NULL)
    return NULL;
  
-  keys[0] = ABS(ti_hash(item) % size);
- 
-  bug = ti_hash(ti_strev(item)) % size; 
+  bug[0] = ti_hash(item) % size;
 
-  keys[1] = ABS(bug);
+  keys[0] = ABS(bug[0]);
+ 
+  bug[1] = ti_hash(ti_strev(item)) % size; 
+
+  keys[1] = ABS(bug[1]);
 
   if((concat = ti_concat(item,item1)) == NULL)
     return NULL; 
 
-  keys[2] = ABS(ti_hash(ti_concat(item,item1)) % size);
+  bug[2] = ti_hash(concat) % size;
+
+  keys[2] = ABS(bug[2]);
+
+  free(bug, M_KEYBUF);
 
   return keys;
 }      
@@ -3018,7 +3023,8 @@ ti_hook(device_t dev, struct mbuf* m)
 	if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
 	{	
 		if(ti_check(buf))
-	            device_printf(dev,"received packet from %s\n", buf);
+	          device_printf(dev,"received packet from %s\n", buf);
+		
 	}
 }
 
@@ -3602,8 +3608,11 @@ ti_ioctl(ifp, command, data)
 	struct ifreq		*ifr = (struct ifreq *) data;
 	int			mask, error = 0;
 	struct ti_cmd_desc	cmd;
+           
+        //char * filter;
 
 	switch (command) {
+
 	case SIOCSIFMTU:
 		TI_LOCK(sc);
 		if (ifr->ifr_mtu > TI_JUMBO_MTU)
@@ -3645,13 +3654,15 @@ ti_ioctl(ifp, command, data)
 		sc->ti_if_flags = ifp->if_flags;
 		TI_UNLOCK(sc);
 		break;
+
 	case SIOCADDMULTI:
 	case SIOCDELMULTI:
-		TI_LOCK(sc);
+	   TI_LOCK(sc);
 		if (ifp->if_drv_flags & IFF_DRV_RUNNING)
 			ti_setmulti(sc);
-		TI_UNLOCK(sc);
+        	TI_UNLOCK(sc);
 		break;
+
 	case SIOCSIFMEDIA:
 	case SIOCGIFMEDIA:
 		error = ifmedia_ioctl(ifp, ifr, &sc->ifmedia, command);
@@ -3718,6 +3729,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 {
 	int error;
 	struct ti_softc *sc;
+ 
 
 	sc = dev->si_drv1;
 	if (sc == NULL)
@@ -3726,6 +3738,25 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 	error = 0;
 
 	switch (cmd) {
+
+	case BLOOM_CTL:
+	{
+           //struct bloom_ctl *b;
+
+	   //b = (struct bloom_ctl *)addr;
+
+	   //bcopy(&bloom, b, sizeof(struct bloom_ctl));
+		
+	   bloom = (struct bloom_ctl *)addr;
+
+	   //copyin(bloom->bits,bits,bloom->size); 
+
+           device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bloom->bits,(int)bloom->size);
+
+           error = 1;
+           break;
+	}
+
 	case TIIOCGETSTATS:
 	{
 		struct ti_stats *outstats;
