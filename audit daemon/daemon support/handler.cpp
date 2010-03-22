@@ -49,7 +49,7 @@ void NotificationHandler::mapBits(){
   int file_desc = open("/dev/ti0", 0);
   cout << file_desc << endl;
   ioctl(file_desc, TIBLOOMFILTER, (*filter).getBitArray());
-  close(file_desc);
+  //close(file_desc);
   //int shmid;
   //char * shm;
   //int * shm_size;
