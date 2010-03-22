@@ -35,10 +35,11 @@ def ip
 
   if params[:commit] == 'Add IP'
     @blocked = Blocked.create(params[:blocked])
-    return redirect_to :action => 'ip'
+    redirect_to :action => 'ip'
   elsif params[:commit] == 'Delete IP'
-    return redirect_to :action => 'delete'
+    redirect_to :action => 'delete'
   end
+
   # pull ips from database for specific user
   @list = []
   list = (Blocked.find(:all, :conditions => "userid = #@userid and ip is not null", 
@@ -112,6 +113,7 @@ def move_item
 end
 
 private
+
 def init_chart(title, datasets)
   data = GoogleChartData.new :datasets => datasets
   axis = GoogleChartAxis.new :axis  => [GoogleChartAxis::LEFT, GoogleChartAxis::BOTTOM]
