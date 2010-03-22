@@ -2942,7 +2942,6 @@ ti_strlen(const char *item)
 static int
 ti_check(char * addr)
 {
-  ti_check(addr);
   int * keys = NULL;
 
   if(bloom != NULL)
