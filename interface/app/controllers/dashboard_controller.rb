@@ -3,7 +3,6 @@ class DashboardController < ApplicationController
   use_google_charts
 
 def index
-  new
 	overview
   render :overview
 end
@@ -28,18 +27,38 @@ def overview
 end
 
 def ip
+  @blocked = Blocked.new
   @page_title = "IP Configuration"
   @nav_ip = "current"
   @userid = 1
 
+  if params[:commit] == 'Add'
+    @blocked = Blocked.create(params[:blocked])
+    return redirect_to :action => 'ip'
+  elsif params[:commit] == 'Delete IP'
+    return redirect_to :action => 'delete'
+  end
   # pull ips from database for specific user
   @list = []
-  list = (Blocked.find(:all, :conditions => "userid = #@userid", :select => "ip", :order => "ip"))
+  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip is not null", 
+                       :select => "ip", :order => "ip"))
   list.each do |l|
     @list.push(l.ip)
   end
 
+  #pull protocols from database for specific user
+  @proto = []
+  proto = (Blocked.find(:all, :conditions => "userid = #@userid and ip is null",
+                        :select => "protocol", :order => "protocol"))
+  proto.each do |p|
+    @proto.push(p.protocol)
+  end
+
   render :ip
+end
+
+def delete
+
 end
 
 def new
@@ -48,11 +67,21 @@ def new
 end
 
 def create
-  @ip = params[:blocked]['ip']
-  @port = params[:blocked]['port']
-  @protocol = params[:blocked]['protocol']
+@blocked = Blocked.create(params[:blocked])
+render :action => "ip"
+ #respond_to do |format|
+  # if @blocked.save
+   #  format.html { redirect_to @blocked  }
+ #  else
+  #   format.html { render :action => "ip" }
+ #  end
+ #end
+
  # @blocked = Blocked.new(params[:blocked])
-  add
+  #@ip = params[:blocked]['ip']
+  #@port = params[:blocked]['port']
+  #@protocol = params[:blocked]['protocol']
+  # add
  # @user = User.new(params[:user])
 end
 

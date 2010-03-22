@@ -1,19 +1,20 @@
 <form id = "ip_left">
 <fieldset>
-  <legend>Currently Blocked IPs</legend>
+  <legend>Currently Blocked</legend>
   <table>
     <col />
     <col />
     <tr class="ip">
       <td class="ip">
         <label for="option_list">IP Address</label>
-        <%= select_tag("option_list",
+        <%= select_tag("option_list[]",
         options_for_select(@list), 
         html_options = {"size" => 20, "multiple" => true }) %>
       </td>
       <td class="ip">
-        <%= select_tag("proto_list",
-        options_for_select(["UDP", "POP", "TCP", "DCHP", "DNS"]),
+         <label for="proto_list">Protocols</label>
+        <%= select_tag('proto_list[]',
+        options_for_select(@proto),
         html_options = {"size" => 15, "multiple" => true}) %>
         <%= submit_tag( "Remove" ) %>
       </td>
@@ -39,6 +40,7 @@
     IP Address: <%= f.text_field :ip, :size => 20 %> </br>
     Protocol  : <%= f.text_field :protocol, :size => 20 %> </br>
     Port      : <%= f.text_field :port, :size => 20 %> </br>
+    <%= f.hidden_field :userid, :value => 1 %>
     <%= submit_tag 'Add' %>
   <% end %>
 </fieldset>
