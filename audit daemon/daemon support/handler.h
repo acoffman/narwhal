@@ -39,6 +39,8 @@ using namespace std;
 #define PERMS 0666
 
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
+#define BITTEST(a, b) ((a)[BITSLOT(b)] & BITMASK(b))
+#define BITMASK(b) (1 << ((b) % CHAR_BIT))
 
 #define BLOOM_IOCTL  _IOW('c', 10, char*)
 
