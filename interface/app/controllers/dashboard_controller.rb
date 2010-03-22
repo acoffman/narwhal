@@ -10,7 +10,7 @@ def index
   @test_num ||= 55
   @nav_over = "current"
   dataset5 = GoogleChartDataset.new :data => [0,100]
-  dataset6 = GoogleChartDsataset.new :data => [@test_num, @test_num], :color => '0000FF', :title => 'Allowable Average Rate'
+  dataset6 = GoogleChartDataset.new :data => [@test_num, @test_num], :color => '0000FF', :title => 'Allowable Average Rate'
   dataset3 = GoogleChartDataset.new :data => [0,100]
   dataset4 = GoogleChartDataset.new :data => [75, 75], :color => 'FF0000', :title => 'Allowable Peak Rate'
   dataset1 = GoogleChartDataset.new :data => [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
@@ -90,7 +90,7 @@ def create
   
   respond_to do |format|
     if @blocked.save
-      format.html { redirect_to => 'ip' }
+      format.html { redirect_to 'ip' }
     end
   end
 
