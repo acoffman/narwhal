@@ -4,7 +4,7 @@
 	  <% form_for :blocked, :url => { :controller => 'dashboard', :action => "create" } do |f| %>
 	    	IP Address: <%= f.text_field :ip, :size => 20 %> </br>
 	    	Port      : <%= f.text_field :port, :size => 20 %> </br>
-				Protocol  : <%= f.select( 'protocols', ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %> </br>
+				Protocol  : <%= f.select( 'protocols', ['ALL','UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %> </br>
 	    <%= f.hidden_field :userid, :value => 1 %>
 	    <%= submit_tag 'Add IP' %>
 	  <% end %>
