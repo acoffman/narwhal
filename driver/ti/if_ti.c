@@ -2961,9 +2961,9 @@ ti_check(char * addr)
   int * keys = NULL;
 
   while(sema1);
+	sema = true;
   if(bloom != NULL)
   { 
-    sema = true;
     if(size > 0)
       keys = ti_keys(addr,size);
 
@@ -3762,7 +3762,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
   int error;
   struct ti_softc *sc;
 
-
   sc = dev->si_drv1;
   if (sc == NULL)
     return (ENODEV);
@@ -3773,22 +3772,20 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
     case BLOOM_CTL:
       {
-        //struct bloom_ctl *b;
+        while(sema || sema1);
 
-        //b = (struct bloom_ctl *)addr;
-
-        //bcopy(&bloom, b, sizeof(struct bloom_ctl));
-
-        while(sema);
         sema1 = true;
         bloom = (struct bloom_ctl *)addr;
+
         if(bits != NULL)
           free(bits, M_IPBUF);
+
         bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
         size = ((int) bloom->size) * CHAR_BIT;
+
         if(bits == NULL){
-          return error;
           sema1 = false;
+          return error;
         }
 
         copyin(bloom->bits,bits,size); 
