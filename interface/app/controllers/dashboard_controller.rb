@@ -37,7 +37,7 @@ class DashboardController < ApplicationController
     if params[:proto_list]
       Protocol.find(params[:proto_list]).destroy
     elsif params[:ip_list]
-      Blocked.find(params[:proto_list]).destroy
+      Blocked.find(params[:ip_list]).destroy
     end
     
     respond_to do |format|
