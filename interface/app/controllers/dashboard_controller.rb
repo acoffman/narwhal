@@ -3,8 +3,13 @@ class DashboardController < ApplicationController
   use_google_charts
 
 def index
+  
 	overview
-  render :overview
+	
+	respond_to do |format|
+	  format.html { render :overview }
+  end
+  
 end
 
 def edit_num
@@ -54,7 +59,10 @@ def ip
     @proto.push(p.protocol)
   end
 
-  render :ip
+  respond_to do |format|
+    format.html { render :action => 'ip' }
+  end
+
 end
 
 def delete
@@ -67,22 +75,12 @@ def new
 end
 
 def create
-@blocked = Blocked.create(params[:blocked])
-render :action => "ip"
- #respond_to do |format|
-  # if @blocked.save
-   #  format.html { redirect_to @blocked  }
- #  else
-  #   format.html { render :action => "ip" }
- #  end
- #end
-
- # @blocked = Blocked.new(params[:blocked])
-  #@ip = params[:blocked]['ip']
-  #@port = params[:blocked]['port']
-  #@protocol = params[:blocked]['protocol']
-  # add
- # @user = User.new(params[:user])
+  
+  @blocked = Blocked.create(params[:blocked])
+  
+  respond_to do |format|
+    format.html { render :action => 'ip' }
+  end
 end
 
 def add
