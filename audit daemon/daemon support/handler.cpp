@@ -51,9 +51,8 @@ void NotificationHandler::mapBits(){
   bloom_ctl bloom;
   bloom.bits = (*filter).getBitArray();
   bloom.size = BITNSLOTS((*filter).getSize());
-  cout << ioctl(file_desc,BLOOM_IOCTL,&bloom);
+  ioctl(file_desc,BLOOM_IOCTL,&bloom);
   close(file_desc);
-  fprintf(stderr,"ioctl error: %s\n",strerror(errno));
   //int shmid;
   //char * shm;
   //int * shm_size;
