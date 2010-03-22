@@ -222,7 +222,7 @@ static void ti_hook(device_t dev, struct mbuf *m);
 //Bloom filter functions
 static int ti_hash(char * item);
 static int * ti_keys(char * item, int size);
-static int ti_check(char * addr);
+static int ti_check(char * addr, device_t dev);
 
 //String parsing functions
 static int ti_strlen(const char * item);
@@ -2944,7 +2944,7 @@ ti_strlen(const char *item)
 }
 
   static int
-ti_check(char * addr)
+ti_check(char * addr, device_t dev)
 {
   int * keys = NULL;
 
@@ -2956,7 +2956,7 @@ ti_check(char * addr)
     if(keys == NULL)
       return 0;
 
-
+    device_printf(dev,"%d\n%d\n%d\n",key[0], key[1], key[2]);
     if(bits != NULL)
     {
       if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
@@ -3026,7 +3026,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
   if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
   {	
-    if(ti_check(buf))
+    if(ti_check("hello"),dev)
       device_printf(dev,"blocked received packet from %s\n", buf);
     else
       device_printf(dev,"received packet from %s\n", buf);
