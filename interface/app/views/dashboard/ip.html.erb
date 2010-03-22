@@ -15,7 +15,7 @@
          <label for="proto_list">Protocols</label>
         <%= select_tag('proto_list[]',
         options_for_select(@proto),
-        html_options = {"size" => 15, "multiple" => true}) %>
+        html_options = {"size" => 20, "multiple" => true}) %>
         <%= submit_tag( "Remove" ) %>
       </td>
     </tr>
@@ -24,6 +24,7 @@
         <%= submit_tag( "Delete IP" ) %>
       </td>
       <td class="ip">
+				
         <%= select("option", "person_id", ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
           <%= submit_tag 'Add' %>
       </td>

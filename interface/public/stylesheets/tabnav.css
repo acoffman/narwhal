@@ -98,15 +98,9 @@ body
   background: #FFF;
 }
 
-#allowed li
-{
-  text-align: left;
-}
+#allowed li { text-align: left; }
 
-#blocked li
-{
-  text-align: left;
-}
+#blocked li { text-align: left; }
 
 #nav li
 {
@@ -116,10 +110,7 @@ body
   width: 100%; /* IE whitespace bug */
 }
 
-#nav li.padding
-{
-  height: 62%;
-}
+#nav li.padding { height: 62%; }
 
 ul
 {
@@ -138,15 +129,9 @@ ul
   border-bottom: 1px solid #FFF;
 }
 
-#nav #nav_pro a
-{
-  border: none;
-}
+#nav #nav_pro a { border: none; }
 
-#nav a:hover 
-{
-  background: #CED379;
-}
+#nav a:hover  { background: #CED379; }
 
 #nav li.current a
 {
@@ -155,15 +140,9 @@ ul
     font-weight: bold;
 }
 
-tr
-{
-  background-color: #D9ECDB;
-}
+tr { background-color: #D9ECDB; }
 
-tr.even
-{
-  background-color: #E9FFE1;
-}
+tr.even {  background-color: #E9FFE1; }
 
 #narwhal 
 {
@@ -200,59 +179,29 @@ fieldset
 	padding: 0 0 0 0.5em;
 }
 
-legend
-{
+legend {
 	margin-left: 1em;
 	color: #000000;
 	font-weight: bold;
 }
 
-fieldset ol
-{
+fieldset ol {
 	padding: 1em 1em 0em 1em;
 	list-style: none;
 }
 
-fieldset li
-{
-	padding-bottom: 1em;
-}0
+fieldset li { padding-bottom: 1em; }
+fieldset.submit {	border-style: none; }
 
-fieldset.submit
-{
-	border-style: none;
-}
-
-label
-{
+label {
 	padding-left: 0.5em;
   font: small/0.5 "Lucinda Grande", Tahoma, sans-serif;
-	display:block;
-}
+	display:block; }
 
-td.ip
-{
-	padding: 0.5em;
-}
+td.ip {	padding: 0.5em; }
+td.ip select { width: 100px;  }
+tr.ip { background-color: #F0F0F0 }
 
-tr.ip
-{
-	background-color: #F0F0F0
-}
-
-#ip_left
-{
-  margin: 0px 0px 0px 175px;
-	padding: 0.5em;
-	width: 30%;
-  float: left;
-}
-
-#ip_right
-{
-  margin: 0px 0px 0px 25px;
-  padding: 0.5em;
-	width: 30%;
-  float: left;
-}
+#ip_left {  margin: 0px 0px 0px 175px; padding: 0.5em; width: 30%; float: left; }
+#ip_right { margin: 0px 0px 0px 25px; padding: 0.5em; width: 30%; float: left; }
 
