@@ -160,8 +160,11 @@ struct bloom_ctl
 static struct bloom_ctl * bloom; 
 static char * bits;
 static int size;
-static bool sema;
-static bool sema1;
+static int sema;
+static int sema1;
+
+#define false 0
+#define true 1
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
