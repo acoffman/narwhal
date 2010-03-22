@@ -3024,17 +3024,25 @@ ti_hook(device_t dev, struct mbuf* m)
     return 0;
 
   ip = (struct ip *)(m->m_data + ETHER_HDR_LEN);
+  
+  char * temp = inet_ntoa(ip->ip_src);
+  buf = malloc(ti_strlen(temp),M_IPBUF, M_NOWAIT); 
+  if(buf == NULL)
+    return 0;
 
-  buf = inet_ntoa(ip->ip_src); 
+  ti_strcpy(buf,temp); 
+  temp = NULL;
 
   if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
   {	
     if(ti_check(buf)){
       device_printf(dev,"blocked received packet from %s\n", buf);
+      free(buf, M_IPBUF);
 			return 1;
     }else
       device_printf(dev,"received packet from %s\n", buf);
   }
+  free(buf, M_IPBUF);
 	return 0;
 }
 
