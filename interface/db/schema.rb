@@ -14,10 +14,10 @@ ActiveRecord::Schema.define(:version => 20100211021825) do
   create_table "blockeds", :force => true do |t|
     t.integer "userid"
     t.string  "ip"
+    t.string  "port"
   end
 
   create_table "protocols", :force => true do |t|
-    t.string "port"
     t.string "name"
   end
 

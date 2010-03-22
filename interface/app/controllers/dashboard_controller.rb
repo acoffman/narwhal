@@ -34,7 +34,7 @@ def ip
   @userid = 1
 
   @blockeds = Blocked.find(:all, :order => "ip")
-  @protocols = Protocol.find(:all, :order => "port")
+  @protocols = Protocol.find(:all, :order => "name")
 
   respond_to do |format|
     format.html { render :action => 'ip' }
