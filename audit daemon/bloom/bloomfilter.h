@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string>
 #include <limits.h>
+#include <iostream>
 
 using namespace std;
 
@@ -29,6 +30,7 @@ class BloomFilter {
     int size;
     int djbHash(string item);
     int* keys(string item);
+    char * ti_concat(const char * c1, const char * c2);
 
 };
 #include "bloomfilter.cpp"
