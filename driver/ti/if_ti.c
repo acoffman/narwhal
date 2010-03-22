@@ -2874,10 +2874,9 @@ ti_rxeof(sc)
 ti_hash(char * item)
 {
   int hash = 5381;
-  int i = 0;
-
-  for(; i < ti_strlen(item); i++)
-    hash = ((hash << 5) + hash) + item[i];
+  int c;
+  while(c = *item++)
+    hash = ((hash << 5) + hash) + c;
   return hash;
 } 
 
