@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'dashboard/ip/', :controller => 'dashboard', :action => 'ip'
   map.connect 'dashboard/protocols', :controller => 'dashboard', :action => 'protocols'
 
-  map.resources :dashboard
+  map.resources :dashboard  
   map.root :controller => 'dashboard'
 
   # Sample of regular route:
