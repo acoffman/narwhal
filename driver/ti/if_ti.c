@@ -160,6 +160,11 @@ struct bloom_ctl
 static struct bloom_ctl * bloom; 
 static char * bits;
 static int size;
+static int sema;
+static int sema1;
+
+#define false 0
+#define true 1
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
@@ -2326,6 +2331,8 @@ ti_attach(dev)
   struct ti_softc		*sc;
   int			error = 0, rid;
   u_char			eaddr[6];
+  sema = false;
+  sema1 = false;
 
   sc = device_get_softc(dev);
   sc->ti_unit = device_get_unit(dev);
@@ -2953,29 +2960,36 @@ ti_check(char * addr)
 {
   int * keys = NULL;
 
+  while(sema1);
   if(bloom != NULL)
   { 
+    sema = true;
     if(size > 0)
       keys = ti_keys(addr,size);
 
-    if(keys == NULL)
+    if(keys == NULL){
+      sema = false;
       return 0;
+    }
 
     if(bits != NULL)
     {
       if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
       {
         free(keys, M_KEYBUF);
+        sema = false;
         return 1;
       }
       else
       {
         if(keys != NULL)
           free(keys, M_KEYBUF);
+        sema = false;
         return 0;
       }
     }
   }
+  sema = false;
   return 0;
 }
 
@@ -3035,7 +3049,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
   if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
   {	
-    if(ti_check(buf)){
+    if(!sema && ti_check(buf)){
       device_printf(dev,"blocked received packet from %s\n", buf);
       free(buf, M_IPBUF);
 			return 1;
@@ -3765,20 +3779,23 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
         //bcopy(&bloom, b, sizeof(struct bloom_ctl));
 
+        while(sema);
+        sema1 = true;
         bloom = (struct bloom_ctl *)addr;
         if(bits != NULL)
           free(bits, M_IPBUF);
         bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
         size = ((int) bloom->size) * CHAR_BIT;
         if(bits == NULL){
-          device_printf(sc->ti_dev, "malloc failed");
           return error;
+          sema1 = false;
         }
 
         copyin(bloom->bits,bits,size); 
 
         device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bits,size);
 
+        sema1= false;
         error = 1;
         break;
       }
