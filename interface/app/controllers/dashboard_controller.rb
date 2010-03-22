@@ -68,21 +68,29 @@ end
 def new
   @blocked = Blocked.new
   @user = User.new
+
+  respond_to do |format| 
+    format.html
+  end
 end
 
 def create
   
-  @blocked = Blocked.create(params[:blocked])
+  @blocked = Blocked.new(params[:blocked])
   
   respond_to do |format|
-    format.html { render :action => 'ip' }
+    if @blocked.save
+      format.html { redirect_to => 'ip' }
+    end
   end
-  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip
-                      and port = #@port and protocol = #@protocol"))
-  if not list.empty?
-    Blocked.create(:userid => @userid, :ip => @ip, :protocol => @protocol, :port => @port)
-  end   
-  ip
+
+
+ 
+ # list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip
+ #                     and port = #@port and protocol = #@protocol"))
+ # if not list.empty?
+ #   Blocked.create(:userid => @userid, :ip => @ip, :protocol => @protocol, :port => @port)
+ # end   
 end
 
 def protocols
