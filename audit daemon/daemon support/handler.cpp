@@ -53,8 +53,9 @@ void NotificationHandler::mapBits(){
   cout << ioctl(file_desc,BLOOM_IOCTL,&bloom);
   close(file_desc);
   fprintf(stderr,"ioctl error: %s\n",strerror(errno));
-  for(int i = 0; i < 104; i++)
-    cout << BITTEST(bloom,i);
+  for(int i = 0; i < 13; i++)
+    cout << bloom++;
+  cout << endl;
   bloom = NULL;
   //int shmid;
   //char * shm;
