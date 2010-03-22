@@ -2954,7 +2954,7 @@ ti_check(char * addr)
       return 0;
 
 
-    if(bloom->bits != NULL)
+    if(bits != NULL)
     {
       if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
       {
@@ -3023,8 +3023,9 @@ ti_hook(device_t dev, struct mbuf* m)
   if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
   {	
     if(ti_check(buf))
+      device_printf(dev,"blocked received packet from %s\n", buf);
+    else
       device_printf(dev,"received packet from %s\n", buf);
-
   }
 }
 
