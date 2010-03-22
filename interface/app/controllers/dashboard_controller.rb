@@ -101,7 +101,7 @@ def force_update
   client.send(msg)
 
   flash.now[:notice] = "Update Complete!"
-  redirect_to :index
+  redirect_to :action => "index"
 end
 
   private
