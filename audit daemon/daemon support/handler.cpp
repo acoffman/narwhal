@@ -46,7 +46,7 @@ int NotificationHandler::calculateFilterSize(){
 };
 
 void NotificationHandler::mapBits(){
-  int file_desc = open("/dev/ti0", 0);
+  int file_desc = open("/dev/ti0", O_RDWR);
   cout << file_desc << endl;
   cout << ioctl(file_desc, TIBLOOMFILTER, (*filter).getBitArray()) << endl;
   close(file_desc);
