@@ -221,8 +221,8 @@ static void ti_hook(device_t dev, struct mbuf *m);
 
 //Bloom filter functions
 static int ti_hash(char * item);
-static int * ti_keys(char * item, int size, device_t dev);
-static int ti_check(char * addr, device_t dev);
+static int * ti_keys(char * item, int size);
+static int ti_check(char * addr);
 
 //String parsing functions
 static int ti_strlen(const char * item);
@@ -2945,26 +2945,22 @@ ti_strlen(const char *item)
 }
 
   static int
-ti_check(char * addr, device_t dev)
+ti_check(char * addr)
 {
   int * keys = NULL;
 
   if(bloom != NULL)
   { 
     if(size > 0)
-      keys = ti_keys(addr,size, dev);
+      keys = ti_keys(addr,size);
 
     if(keys == NULL)
       return 0;
 
-    device_printf(dev,"size: %d\n", size);
-    device_printf(dev,"%d\n%d\n%d\n",keys[0], keys[1], keys[2]);
     if(bits != NULL)
     {
-      device_printf(dev,"BEFORE");
       if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
       {
-        device_printf(dev,"TRUE");
         free(keys, M_KEYBUF);
         return 1;
       }
@@ -2980,7 +2976,7 @@ ti_check(char * addr, device_t dev)
 }
 
   static int *
-ti_keys(char *item, int size, device_t dev)
+ti_keys(char *item, int size)
 {  
   //Sometimes ABS returns negative when generating key[1]?
   //Loading it into an int before ABS is called inhibits the bug
@@ -3003,8 +2999,6 @@ ti_keys(char *item, int size, device_t dev)
 
   if((concat = ti_concat(item,rev)) == NULL)
     return NULL; 
-
-  device_printf(dev, "concat: %s", concat);
 
   bug[2] = ti_hash(concat) % size;
 
@@ -3031,9 +3025,10 @@ ti_hook(device_t dev, struct mbuf* m)
 
   if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
   {	
-    if(ti_check("hello",dev))
+    if(ti_check(buf)){
       device_printf(dev,"blocked received packet from %s\n", buf);
-    else
+      m_free(m);
+    }else
       device_printf(dev,"received packet from %s\n", buf);
   }
 }

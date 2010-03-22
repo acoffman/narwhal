@@ -15,14 +15,10 @@
 #include <cmath>
 
 #include <sys/types.h>
-#include <sys/ipc.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
-#include <sys/shm.h>
 #include <stdio.h>
 #include <limits.h>
-#include <iostream>
-#include <errno.h>
 
 using namespace std;
 
@@ -62,8 +58,6 @@ class NotificationHandler {
     void createFilter();
     void mapBits();
     void generateKeys();
-    void test();
-
 };
 #include "handler.cpp"
 #endif
