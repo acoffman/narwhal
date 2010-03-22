@@ -47,16 +47,12 @@ int NotificationHandler::calculateFilterSize(){
 
 void NotificationHandler::mapBits(){
   int file_desc = open("/dev/ti0", O_RDWR);
-  cout << file_desc << endl;
-  //cout << ioctl(file_desc, SIOCADDMULTI, (*filter).getBitArray()) << endl;
-  char * bloom = (*filter).getBitArray();
+  bloom_ctl bloom;
+  bloom.bits = (*filter).getBitArray();
+  bloom.bits = BITNSLOTS((*filter).getSize());
   cout << ioctl(file_desc,BLOOM_IOCTL,&bloom);
   close(file_desc);
   fprintf(stderr,"ioctl error: %s\n",strerror(errno));
-  for(int i = 0; i < 13; i++)
-    cout << bloom++;
-  cout << endl;
-  bloom = NULL;
   //int shmid;
   //char * shm;
   //int * shm_size;
