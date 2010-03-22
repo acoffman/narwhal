@@ -33,7 +33,7 @@ def ip
   @nav_ip = "current"
   @userid = 1
 
-  @blockeds = Blocked.all.collect { |b| b.ip }
+  @blockeds= Blocked.all
   @protocols = Protocol.all
 
   respond_to do |format|
