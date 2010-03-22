@@ -9,6 +9,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect 'dashboard/force_update', :controller => 'dashboard', :action => 'force_update'
 
+  map.blocked 'delete', :controller => 'dashboard', :action => 'destroy'
+  map.protocol 'delete', :controller => 'dashboard', :action => 'destroy'
+
   map.resources :dashboard  
   map.root :controller => 'dashboard'
 

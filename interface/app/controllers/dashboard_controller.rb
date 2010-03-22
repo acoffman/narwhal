@@ -26,6 +26,7 @@ class DashboardController < ApplicationController
     render :text => @test_num
   end
 
+  # GET /dashboard/ip
   def ip    
     @blocked = Blocked.new
   	@blocked.protocols << Protocol.new
@@ -64,6 +65,7 @@ class DashboardController < ApplicationController
     end
   end
 
+  # GET /dashboard/protocols
   def protocols
     @page_title = "Protocol Configuration"
     @nav_proto = "current"
