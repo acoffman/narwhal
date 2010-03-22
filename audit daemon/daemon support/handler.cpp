@@ -50,6 +50,7 @@ void NotificationHandler::mapBits(){
   cout << file_desc << endl;
   cout << ioctl(file_desc, TIBLOOMFILTER, (*filter).getBitArray()) << endl;
   close(file_desc);
+  fprintf(stderr,"ioctl error: %s\n",strerror(errno));
   //int shmid;
   //char * shm;
   //int * shm_size;

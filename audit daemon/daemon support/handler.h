@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <iostream>
+#include <errno.h>
 
 using namespace std;
 
