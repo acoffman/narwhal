@@ -160,8 +160,8 @@ struct bloom_ctl
 static struct bloom_ctl * bloom; 
 static char * bits;
 static int size;
-static bool sema = false;
-static bool sema1 = false;
+static bool sema;
+static bool sema1;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
@@ -2328,6 +2328,8 @@ ti_attach(dev)
   struct ti_softc		*sc;
   int			error = 0, rid;
   u_char			eaddr[6];
+  sema = false;
+  sema1 = false;
 
   sc = device_get_softc(dev);
   sc->ti_unit = device_get_unit(dev);
