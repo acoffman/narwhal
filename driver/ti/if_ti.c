@@ -2979,7 +2979,7 @@ ti_keys(char *item, int size)
   //Sometimes ABS returns negative when generating key[1]?
   //Loading it into an int before ABS is called inhibits the bug
 
-  int * keys = malloc(N_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
+  int * keys = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
   int * bug = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
   char * item1 = item;
   char * concat;
