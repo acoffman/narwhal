@@ -1,3 +1,4 @@
+*.swo
 server
 test
 *.out

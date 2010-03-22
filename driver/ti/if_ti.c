@@ -3772,7 +3772,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
     case BLOOM_CTL:
       {
-        while(sema || sema1);
+        while(sema);
 
         sema1 = true;
         bloom = (struct bloom_ctl *)addr;
@@ -3787,7 +3787,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
           sema1 = false;
           return error;
         }
-
+n
         copyin(bloom->bits,bits,size); 
 
         device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bits,size);
