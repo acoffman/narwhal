@@ -21,6 +21,7 @@
 	    <col />
 	    <tr>
 	      <td class="ip">
+		
 						<% @blockeds.each do |blocked| %>
 							<tr>
 						    <td><%= link_to blocked.ip, { :controller => 'dashboard', :action => 'destroy', :id => blocked.id },
