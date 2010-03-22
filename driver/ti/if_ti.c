@@ -158,6 +158,7 @@ struct bloom_ctl
 };
 
 static struct bloom_ctl * bloom; 
+static char * bits;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
@@ -2912,8 +2913,10 @@ ti_strcat ( char * dst, const char * src )
 }
 
   static char *
-ti_strev(char * s)
+ti_strev(char * r)
 {
+  char * s = malloc(ti_strlen(r) * sizeof(char), M_IPBUF, M_NOWAIT);
+  ti_strcpy(s,r);
   char * left = s;
   char * right = left + ti_strlen(s) - 1;
   char tmp;
@@ -2953,9 +2956,9 @@ ti_check(char * addr)
       return 0;
 
 
-    if(bloom->bits != NULL)
+    if(bits != NULL)
     {
-      if(BITTEST(bloom->bits, keys[0]) && BITTEST(bloom->bits, keys[1]) && BITTEST(bloom->bits, keys[2]))
+      if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
       {
         free(keys, M_KEYBUF);
         return 1;
@@ -2978,10 +2981,11 @@ ti_keys(char *item, int size)
   //Sometimes ABS returns negative when generating key[1]?
   //Loading it into an int before ABS is called inhibits the bug
 
-  int * keys = malloc(N_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
+  int * keys = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
   int * bug = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
   char * item1 = item;
   char * concat;
+  char * rev;
 
   if(keys == NULL)
     return NULL;
@@ -2989,8 +2993,8 @@ ti_keys(char *item, int size)
   bug[0] = ti_hash(item) % size;
 
   keys[0] = ABS(bug[0]);
-
-  bug[1] = ti_hash(ti_strev(item)) % size; 
+  rev = ti_strev(item);
+  bug[1] = ti_hash(rev) % size; 
 
   keys[1] = ABS(bug[1]);
 
@@ -3002,7 +3006,8 @@ ti_keys(char *item, int size)
   keys[2] = ABS(bug[2]);
 
   free(bug, M_KEYBUF);
-
+  free(rev, M_IPBUF);
+  free(concat, M_IPBUF);
   return keys;
 }      
 
@@ -3022,8 +3027,9 @@ ti_hook(device_t dev, struct mbuf* m)
   if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
   {	
     if(ti_check(buf))
+      device_printf(dev,"blocked received packet from %s\n", buf);
+    else
       device_printf(dev,"received packet from %s\n", buf);
-
   }
 }
 
@@ -3747,7 +3753,9 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
         //bcopy(&bloom, b, sizeof(struct bloom_ctl));
 
         bloom = (struct bloom_ctl *)addr;
-        char * bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
+        if(bits != NULL)
+          free(bits, M_IPBUF);
+        bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
         if(bits == NULL){
           device_printf(sc->ti_dev, "malloc failed");
           return error;
@@ -3755,7 +3763,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
         copyin(bloom->bits,bits,bloom->size); 
 
-        device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bloom->bits,(int)bloom->size);
+        device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bits,(int)bloom->size);
 
         error = 1;
         break;
