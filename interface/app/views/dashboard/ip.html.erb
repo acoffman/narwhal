@@ -19,14 +19,14 @@
 	    <tr>
 	      <td class="ip">
 	        <label for="option_list">IP Address</label>
-	        <!-- <%= select_tag("option_list", options_from_collection_for_select(@blockeds, "ip","ip" ),
-	        	html_options = {"size" => 20, "multiple" => true }) %> -->
+	        <%= select_tag("option_list", options_from_collection_for_select(@blockeds, "ip","ip" ),
+	        	html_options = {"size" => 20, "multiple" => true }) %>
 	      </td>
 	      <td class="ip">
 	         <label for="proto_list">Protocols</label>
-	        <!-- <%= select_tag('proto_list', options_for_select(@protocols),
+	        <%= select_tag('proto_list', options_for_select(@protocols),
 						html_options = {"size" => 20, "multiple" => true}) %>
-	        <%= submit_tag( "Remove" ) %> -->
+	        <%= submit_tag( "Remove" ) %>
 	      </td>
 	    </tr>
 	    <tr class="ip">
