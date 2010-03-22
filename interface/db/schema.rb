@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(:version => 20100211021825) do
 
   create_table "protocols", :force => true do |t|
     t.string "port"
-    t.string "protocol"
+    t.string "name"
   end
 
   create_table "users", :force => true do |t|
