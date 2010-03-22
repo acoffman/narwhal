@@ -3,11 +3,11 @@
 	<fieldset width="20%" align="right">
 	  <legend>Add New IP</legend>
 	  <% form_for :blocked, :url => { :controller => 'dashboard', :action => "create" } do |f| %>
-	    IP Address: <%= f.text_field :ip, :size => 20 %> </br>
-			<% form_for :protocol do |i| %>
+	    	IP Address: <%= f.text_field :ip, :size => 20 %> </br>
+			<!-- <% form_for :protocol do |i| %>
         Protocol  : <%= i.select('protocol', ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %> </br>
-			<% end %>
-	    Port      : <%= f.text_field :port, :size => 20 %> </br>
+			<% end %> -->
+	    	Port      : <%= f.text_field :port, :size => 20 %> </br>
 	    <%= f.hidden_field :userid, :value => 1 %>
 	    <%= submit_tag 'Add IP' %>
 	  <% end %>
