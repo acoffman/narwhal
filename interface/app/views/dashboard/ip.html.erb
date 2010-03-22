@@ -19,7 +19,7 @@
 	    <tr class="ip">
 	      <td class="ip">	
 	        <label for="option_list">IP Address</label>
-					<% form_for :blocked do |block| -%>
+					<% form_for :blocked, :url => { :controller => 'dashboard', :action => 'destroy' } do |block| -%>
 						<%= select_tag("ip_list", options_from_collection_for_select(Blocked.find(:all), :id, :ip),
 							{'size' => 20 } )%>
 							<br />
@@ -28,7 +28,7 @@
 	      </td>
 	      <td class="ip">
 	         <label for="proto_list">Protocols</label>
-						<% form_for :protocols do |proto| -%>
+						<% form_for :protocols, :url => { :controller => 'dashboard', :action => 'destroy' } do |proto| -%>
 							<%= select_tag("proto_list", options_from_collection_for_select(Protocol.find(:all), :id, :name),
 								{ 'size' => 20 }) %>
 								<br />
