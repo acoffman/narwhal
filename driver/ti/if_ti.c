@@ -3756,7 +3756,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
         if(bits != NULL)
           free(bits, M_IPBUF);
         bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
-        size = (int) bloom->size
+        size = (int) bloom->size;
         if(bits == NULL){
           device_printf(sc->ti_dev, "malloc failed");
           return error;
