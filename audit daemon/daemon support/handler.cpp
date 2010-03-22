@@ -36,6 +36,7 @@ void NotificationHandler::generateKeys(){
   keyList.push_back("welcome");
   keyList.push_back("y helo thar");
   keyList.push_back("i hope this works");
+  keyList.push_back("10.1.1.1");
 };
 
 int NotificationHandler::calculateFilterSize(){
