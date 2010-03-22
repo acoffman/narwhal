@@ -32,21 +32,8 @@ def ip
   @nav_ip = "current"
   @userid = 1
 
-    # pull ips from database for specific user
-  @list = []
-  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip is not null", 
-    :select => "ip", :order => "ip"))
-  list.each do |l|
-    @list.push(l.ip)
-  end
-
-    #pull protocols from database for specific user
-  @proto = []
-  proto = (Blocked.find(:all, :conditions => "userid = #@userid and ip is null",
-    :select => "protocol", :order => "protocol"))
-  proto.each do |p|
-    @proto.push(p.protocol)
-  end
+  @blockeds = Blocked.find(:all, :order => "ip")
+  @protocols = Protocol.find(:all, :order => "port")
 
   respond_to do |format|
     format.html { render :action => 'ip' }

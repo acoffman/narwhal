@@ -20,7 +20,6 @@ void BloomFilter::add(string item){
 	BITSET(bitarray, ABS(keys[0]));
 	BITSET(bitarray, ABS(keys[1]));
 	BITSET(bitarray, ABS(keys[2]));
-  cout << keys[0] << endl << keys[1] << endl << keys[2] << endl;
   delete [] keys;
 };
 
@@ -37,11 +36,7 @@ int * BloomFilter::keys(string item){
   reverse(item1.begin(), item1.end());
   keys[0] = ABS(djbHash(item) % size);
   keys[1] = ABS(djbHash(item1) % size);
-  char * ti_con = ti_concat(item.c_str(), item1.c_str());
-  string temp(ti_con);
-  cout << temp << endl;
-  keys[2] = ABS(djbHash(temp) % size);
-  delete [] ti_con;
+  keys[2] = ABS(djbHash(item + item1) % size);
   return keys;
 };
 
@@ -53,11 +48,3 @@ int BloomFilter::getSize(){
   return size;
 };
 
-char * BloomFilter::ti_concat(const char * c1, const char * c2){
-  int len = strlen(c1) + strlen(c2) + 1;
-  char * c = (char *)malloc(len);
-  if(c == NULL)
-    return NULL;
-  strcpy(c, c1);
-  return strcat(c, c2);
-};

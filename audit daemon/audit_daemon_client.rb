@@ -32,7 +32,6 @@ if $0 == __FILE__
 
   client = DaemonClient.new
   client.send(msg)
-  client.ping()
 end
 
 
