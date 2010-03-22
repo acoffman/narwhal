@@ -35,10 +35,11 @@ def ip
 
   if params[:commit] == 'Add IP'
     @blocked = Blocked.create(params[:blocked])
-    return redirect_to :action => 'ip'
+    redirect_to :action => 'ip'
   elsif params[:commit] == 'Delete IP'
-    return redirect_to :action => 'delete'
+    redirect_to :action => 'delete'
   end
+
   # pull ips from database for specific user
   @list = []
   list = (Blocked.find(:all, :conditions => "userid = #@userid and ip is not null", 
@@ -74,15 +75,14 @@ def create
   
   @blocked = Blocked.create(params[:blocked])
   
-  respond_to do |format|
-    format.html { render :action => 'ip' }
-  end
-  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip
-                      and port = #@port and protocol = #@protocol"))
-  if not list.empty?
-    Blocked.create(:userid => @userid, :ip => @ip, :protocol => @protocol, :port => @port)
-  end   
-  ip
+  # list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip
+  #                     and port = #@port and protocol = #@protocol"))
+  # if not list.empty?
+  #   Blocked.create(:userid => @userid, :ip => @ip, :protocol => @protocol, :port => @port)
+  # end
+  
+  if @blocked.save; end
+  redirect_to :action => 'ip'
 end
 
 def protocols
@@ -104,6 +104,7 @@ def move_item
 end
 
 private
+
 def init_chart(title, datasets)
   data = GoogleChartData.new :datasets => datasets
   axis = GoogleChartAxis.new :axis  => [GoogleChartAxis::LEFT, GoogleChartAxis::BOTTOM]
