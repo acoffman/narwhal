@@ -159,6 +159,7 @@ struct bloom_ctl
 
 static struct bloom_ctl * bloom; 
 static char * bits;
+static int size;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
@@ -2949,8 +2950,8 @@ ti_check(char * addr)
 
   if(bloom != NULL)
   { 
-    if(bloom->size > 0)
-      keys = ti_keys(addr,bloom->size);
+    if(size > 0)
+      keys = ti_keys(addr,size);
 
     if(keys == NULL)
       return 0;
@@ -2967,7 +2968,6 @@ ti_check(char * addr)
       {
         if(keys != NULL)
           free(keys, M_KEYBUF);
-
         return 0;
       }
     }
@@ -3756,14 +3756,15 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
         if(bits != NULL)
           free(bits, M_IPBUF);
         bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
+        size = (int) bloom->size
         if(bits == NULL){
           device_printf(sc->ti_dev, "malloc failed");
           return error;
         }
 
-        copyin(bloom->bits,bits,bloom->size); 
+        copyin(bloom->bits,bits,size); 
 
-        device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bits,(int)bloom->size);
+        device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bits,size);
 
         error = 1;
         break;
