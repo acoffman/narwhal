@@ -3021,7 +3021,7 @@ ti_hook(device_t dev, struct mbuf* m)
   char * buf;
 
   if(m->m_len < ETHER_HDR_LEN + sizeof(struct ip))
-    return;
+    return 0;
 
   ip = (struct ip *)(m->m_data + ETHER_HDR_LEN);
 
@@ -3035,6 +3035,7 @@ ti_hook(device_t dev, struct mbuf* m)
     }else
       device_printf(dev,"received packet from %s\n", buf);
   }
+	return 0;
 }
 
   static void
