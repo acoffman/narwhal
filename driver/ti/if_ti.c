@@ -2985,6 +2985,7 @@ ti_keys(char *item, int size)
   int * bug = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
   char * item1 = item;
   char * concat;
+  char * rev;
 
   if(keys == NULL)
     return NULL;
@@ -2992,8 +2993,8 @@ ti_keys(char *item, int size)
   bug[0] = ti_hash(item) % size;
 
   keys[0] = ABS(bug[0]);
-
-  bug[1] = ti_hash(ti_strev(item)) % size; 
+  rev = ti_strev(item);
+  bug[1] = ti_hash(rev) % size; 
 
   keys[1] = ABS(bug[1]);
 
@@ -3005,7 +3006,8 @@ ti_keys(char *item, int size)
   keys[2] = ABS(bug[2]);
 
   free(bug, M_KEYBUF);
-
+  free(rev, M_IPBUF);
+  free(concat, M_IPBUF);
   return keys;
 }      
 
