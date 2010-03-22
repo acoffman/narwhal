@@ -11,29 +11,17 @@
 
 ActiveRecord::Schema.define(:version => 20100211021825) do
 
-  create_table "ips", :force => true do |t|
+  create_table "blockeds", :force => true do |t|
+    t.integer "userid"
     t.string  "ip"
-    t.integer "user_id"
-  end
-
-  create_table "ips_protocols", :id => false, :force => true do |t|
-    t.integer "ip_id"
-    t.integer "protocol_id"
-  end
-
-  create_table "protocols", :force => true do |t|
-    t.string  "protocol_name"
-    t.boolean "blocked"
+    t.string  "port"
+    t.string  "protocol"
   end
 
   create_table "users", :force => true do |t|
     t.string "username"
     t.string "password"
-  end
-
-  create_table "users_ips", :id => false, :force => true do |t|
-    t.integer "user_id"
-    t.integer "ip_id"
+    t.string "ip"
   end
 
 end

@@ -16,9 +16,13 @@
 
 #include <sys/types.h>
 #include <sys/ipc.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
 #include <sys/shm.h>
 #include <stdio.h>
 #include <limits.h>
+#include <iostream>
+#include <errno.h>
 
 using namespace std;
 
@@ -27,13 +31,18 @@ using namespace std;
 #define PASS ""
 #define TABLE "tablename"
 
-#define FP_PERCENT 0.95
-
-#define KEY (key_t) 5432
-#define SIZE_KEY (key_t) 5430
-#define PERMS 0666
+#define FP_PERCENT 0.01
 
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
+#define BITTEST(a, b) ((a)[BITSLOT(b)] & BITMASK(b))
+#define BITMASK(b) (1 << ((b) % CHAR_BIT))
+
+struct bloom_ctl{
+  char* bits;
+  int size;
+};
+
+#define BLOOM_IOCTL  _IOW('c', 10, struct bloom_ctl)
 
 class NotificationHandler {
   public:

@@ -27,21 +27,77 @@ def overview
 end
 
 def ip
+  @blocked = Blocked.new
   @page_title = "IP Configuration"
   @nav_ip = "current"
+  @userid = 1
+
+  if params[:commit] == 'Add IP'
+    @blocked = Blocked.create(params[:blocked])
+    return redirect_to :action => 'ip'
+  elsif params[:commit] == 'Delete IP'
+    return redirect_to :action => 'delete'
+  end
+  # pull ips from database for specific user
+  @list = []
+  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip is not null", 
+                       :select => "ip", :order => "ip"))
+  list.each do |l|
+    @list.push(l.ip)
+  end
+
+  #pull protocols from database for specific user
+  @proto = []
+  proto = (Blocked.find(:all, :conditions => "userid = #@userid and ip is null",
+                        :select => "protocol", :order => "protocol"))
+  proto.each do |p|
+    @proto.push(p.protocol)
+  end
+
   render :ip
+end
+
+def delete
+
+end
+
+def new
+  @blocked = Blocked.new
+  @user = User.new
+end
+
+def create
+@blocked = Blocked.create(params[:blocked])
+render :action => "ip"
+ #respond_to do |format|
+  # if @blocked.save
+   #  format.html { redirect_to @blocked  }
+ #  else
+  #   format.html { render :action => "ip" }
+ #  end
+ #end
+
+ # @blocked = Blocked.new(params[:blocked])
+  #@ip = params[:blocked]['ip']
+  #@port = params[:blocked]['port']
+  #@protocol = params[:blocked]['protocol']
+  # add
+ # @user = User.new(params[:user])
+end
+
+def add
+  list = (Blocked.find(:all, :conditions => "userid = #@userid and ip = #@ip
+                      and port = #@port and protocol = #@protocol"))
+  if not list.empty?
+    Blocked.create(:userid => @userid, :ip => @ip, :protocol => @protocol, :port => @port)
+  end   
+  ip
 end
 
 def protocols
   @page_title = "Protocol Configuration"
   @nav_proto = "current"
   render :protocols
-end
-
-def rate
-  @page_title = "Rate Limiting"
-  @nav_rate = "current"
-  render :rate
 end
 
 def move_item

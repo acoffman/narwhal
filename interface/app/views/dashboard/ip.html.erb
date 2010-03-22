@@ -1,20 +1,21 @@
 <form id = "ip_left">
 <fieldset>
-  <legend>Currently Blocked IPs</legend>
+  <legend>Currently Blocked</legend>
   <table>
     <col />
     <col />
     <tr class="ip">
       <td class="ip">
         <label for="option_list">IP Address</label>
-        <%= select_tag("option_list",
-        options_for_select(["321.234.345.21","342.235.32.1","223.452.12.354","642.987.35.52","234.212.34.2","235.232.56.21","65.312.678.21","345.456.31.1"]),
-        html_options = {"size" => 5, "multiple" => true}) %>
+        <%= select_tag("option_list[]",
+        options_for_select(@list), 
+        html_options = {"size" => 20, "multiple" => true }) %>
       </td>
       <td class="ip">
-        <%= select_tag("proto_list",
-        options_for_select(["UDP", "POP", "TCP", "DCHP", "DNS"]),
-        html_options = {"size" => 5, "multiple" => true}) %>
+         <label for="proto_list">Protocols</label>
+        <%= select_tag('proto_list[]',
+        options_for_select(@proto),
+        html_options = {"size" => 15, "multiple" => true}) %>
         <%= submit_tag( "Remove" ) %>
       </td>
     </tr>
@@ -24,7 +25,7 @@
       </td>
       <td class="ip">
         <%= select("option", "person_id", ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
-        <%= submit_tag( "Add" ) %>
+          <%= submit_tag 'Add' %>
       </td>
     </tr>
   </div>
@@ -33,11 +34,14 @@
 </form>
 
 <form id = "ip_right">
-<fieldset width="25%">
+<fieldset width="20%" align="right">
   <legend>Add New IP</legend>
-
-  <label>IP Address:</label>
-  <%= text_field "option", "ip", "size" => 20 %>
-  <%= submit_tag( "Add" ) %>
+  <% form_for :blocked, :url => { :action => "create" } do |f| %>
+    IP Address: <%= f.text_field :ip, :size => 20 %> </br>
+    Protocol  : <%= f.text_field :protocol, :size => 20 %> </br>
+    Port      : <%= f.text_field :port, :size => 20 %> </br>
+    <%= f.hidden_field :userid, :value => 1 %>
+    <%= submit_tag 'Add IP' %>
+  <% end %>
 </fieldset>
 </form>
