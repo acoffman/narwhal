@@ -33,10 +33,8 @@ def ip
   @nav_ip = "current"
   @userid = 1
 
-  @blockeds = Blocked.find( :all, :select => "ip" )
-  
-  #@blockeds = Blocked.find(:all, :conditions => [], :select => "ip", :order => "ip").collect { |b| b.ip }
-  @protocols = Protocol.find(:all, :order => "name")
+  @blockeds = Blocked.all.collect { |b| b.ip }
+  @protocols = Protocol.all
 
   respond_to do |format|
     format.html { render :action => 'ip' }
