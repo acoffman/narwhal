@@ -3000,7 +3000,7 @@ ti_keys(char *item, int size, device_t dev)
 
   keys[1] = ABS(bug[1]);
 
-  if((concat = ti_concat(item,item1)) == NULL)
+  if((concat = ti_concat(item,rev)) == NULL)
     return NULL; 
 
   device_printf(dev, "concat: %s", concat);
