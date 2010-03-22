@@ -23,14 +23,16 @@
 	      <td class="ip">
 						<% @blockeds.each do |blocked| %>
 							<tr>
-						    <td><%= link_to blocked.ip, { :controller => 'dashboard', :action => 'destroy', :id => blocked.id }, :confirm => 'Are you sure?', :method => :delete %></td>
+						    <td><%= link_to blocked.ip, { :controller => 'dashboard', :action => 'destroy', :id => blocked.id },
+											:confirm => 'Are you sure?', :method => :delete %></td>
 							</tr>
 						<% end %>	
 	      </td>
 	      <td class="proto">
 					<% @protocols.each do |protocol| %>
 						<tr>
-			    		<td><%= link_to protocol.name, { :controller => 'dashboard', :action => 'destroy', :id => protocol.id }, :confirm => 'Are you sure?', :method => :delete %></td>
+			    		<td><%= link_to protocol.name, { :controller => 'dashboard', :action => 'destroy', :id => protocol.id },
+										:confirm => 'Are you sure?', :method => :delete %></td>
 						</tr>
 					<% end %>
 	      </td>
