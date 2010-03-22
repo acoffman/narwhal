@@ -8,7 +8,7 @@ NotificationHandler::NotificationHandler(int userid){
   generateKeys();
   createFilter();
   mapBits();
-  test();
+  //test();
 };
 
 NotificationHandler::~NotificationHandler(){
@@ -46,40 +46,51 @@ int NotificationHandler::calculateFilterSize(){
 };
 
 void NotificationHandler::mapBits(){
-  int shmid;
-  char * shm;
-  int * shm_size;
+  int file_desc = open("/dev/ti0", O_RDWR);
+  cout << file_desc << endl;
+  //cout << ioctl(file_desc, SIOCADDMULTI, (*filter).getBitArray()) << endl;
+  char * bloom = (*filter).getBitArray();
+  cout << ioctl(file_desc,BLOOM_IOCTL,&bloom);
+  close(file_desc);
+  fprintf(stderr,"ioctl error: %s\n",strerror(errno));
+  for(int i = 0; i < 13; i++)
+    cout << bloom++;
+  cout << endl;
+  bloom = NULL;
+  //int shmid;
+  //char * shm;
+  //int * shm_size;
 
-  if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), IPC_CREAT | PERMS)) < 0) {
-    perror("shmget");
-    exit(1);
-  }  
-  if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
-    perror("shmat");
-    exit(1);
-  }
+  //if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), IPC_CREAT | PERMS)) < 0) {
+    //perror("shmget");
+    //exit(1);
+  //}  
+  //if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
+    //perror("shmat");
+    //exit(1);
+  //}
 
-  char * data = (*filter).getBitArray();
-  char * detach = shm;
-  for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++)
-    *shm++ = *data++;
-  shmdt(detach);
-  data = NULL;
-  shm = NULL;
-  detach = NULL;
+  //char * data = (*filter).getBitArray();
+  //char * detach = shm;
+  //for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++)
+    //*shm++ = *data++;
+  //shmdt(detach);
+  //data = NULL;
+  //shm = NULL;
+  //detach = NULL;
 
-  if ((shmid = shmget(KEY_SIZE, sizeof(int), IPC_CREAT | PERMS)) < 0) {
-    perror("shmget");
-    exit(1);
-  } 
-  if ((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1) {
-    perror("shmat");
-    exit(1);
-  }
+  //if ((shmid = shmget(KEY_SIZE, sizeof(int), IPC_CREAT | PERMS)) < 0) {
+    //perror("shmget");
+    //exit(1);
+  //} 
+  //if ((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1) {
+    //perror("shmat");
+    //exit(1);
+  //}
 
-  *shm_size = (*filter).getSize();
-  shmdt(shm_size);
-  shm_size = NULL;
+  //*shm_size = (*filter).getSize();
+  //shmdt(shm_size);
+  //shm_size = NULL;
 
 };
 

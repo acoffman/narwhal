@@ -16,9 +16,13 @@
 
 #include <sys/types.h>
 #include <sys/ipc.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
 #include <sys/shm.h>
 #include <stdio.h>
 #include <limits.h>
+#include <iostream>
+#include <errno.h>
 
 using namespace std;
 
@@ -35,6 +39,10 @@ using namespace std;
 #define PERMS 0666
 
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
+#define BITTEST(a, b) ((a)[BITSLOT(b)] & BITMASK(b))
+#define BITMASK(b) (1 << ((b) % CHAR_BIT))
+
+#define BLOOM_IOCTL  _IOW('c', 10, char*)
 
 class NotificationHandler {
   public:
