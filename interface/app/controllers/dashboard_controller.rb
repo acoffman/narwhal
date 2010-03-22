@@ -93,6 +93,17 @@ class DashboardController < ApplicationController
 
   end
 
+def force_update
+  msg = Message.new
+  msg.msg = "y helo thar"
+
+  client = DaemonClient.new
+  client.send(msg)
+
+  flash.now[:notice] = "Update Complete!"
+  redirect_to :index
+end
+
   private
 
   def init_chart(title, datasets)
