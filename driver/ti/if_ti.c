@@ -2985,7 +2985,6 @@ ti_keys(char *item, int size, device_t dev)
 
   int * keys = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
   int * bug = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
-  char * item1 = item;
   char * concat;
   char * rev;
 
