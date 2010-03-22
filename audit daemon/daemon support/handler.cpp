@@ -49,7 +49,7 @@ void NotificationHandler::mapBits(){
   int file_desc = open("/dev/ti0", O_RDWR);
   bloom_ctl bloom;
   bloom.bits = (*filter).getBitArray();
-  bloom.bits = BITNSLOTS((*filter).getSize());
+  bloom.size = BITNSLOTS((*filter).getSize());
   cout << ioctl(file_desc,BLOOM_IOCTL,&bloom);
   close(file_desc);
   fprintf(stderr,"ioctl error: %s\n",strerror(errno));
@@ -91,38 +91,38 @@ void NotificationHandler::mapBits(){
 };
 
 void NotificationHandler::test(){
-  int shmid;
-  char *shm, *filtr;
+  //int shmid;
+  //char *shm, *filtr;
 
-  filtr = (*filter).getBitArray();
-  if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), PERMS)) < 0) {
-    perror("shmget");
-    exit(1);
-  }
-  if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
-    perror("shmat");
-    exit(1);
-  }
+  //filtr = (*filter).getBitArray();
+  //if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), PERMS)) < 0) {
+    //perror("shmget");
+    //exit(1);
+  //}
+  //if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
+    //perror("shmat");
+    //exit(1);
+  //}
 
-  char * detach = shm;
-  for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++){ 
-    putchar(*filtr++);
-    putchar(*shm++);
-    cout << endl;
-  }
-  shmdt(detach);
+  //char * detach = shm;
+  //for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++){ 
+    //putchar(*filtr++);
+    //putchar(*shm++);
+    //cout << endl;
+  //}
+  //shmdt(detach);
 
-  int * shm_size;
-  if ((shmid = shmget(KEY_SIZE, sizeof(int), IPC_CREAT | PERMS)) < 0) {
-    perror("shmget");
-    exit(1);
-  } 
-  if ((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1) {
-    perror("shmat");
-    exit(1);
-  }
-  cout << (*filter).getSize() << " : " << *shm_size << endl;
-  shmdt(shm_size);
-  shm_size = NULL;
-  //shmctl(shmid, IPC_RMID, (struct shmid_ds *)0);
+  //int * shm_size;
+  //if ((shmid = shmget(KEY_SIZE, sizeof(int), IPC_CREAT | PERMS)) < 0) {
+    //perror("shmget");
+    //exit(1);
+  //} 
+  //if ((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1) {
+    //perror("shmat");
+    //exit(1);
+  //}
+  //cout << (*filter).getSize() << " : " << *shm_size << endl;
+  //shmdt(shm_size);
+  //shm_size = NULL;
+  ////shmctl(shmid, IPC_RMID, (struct shmid_ds *)0);
 };
