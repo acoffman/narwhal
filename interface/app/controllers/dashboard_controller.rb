@@ -41,19 +41,19 @@ class DashboardController < ApplicationController
     end
   end
 
-  # DELETE /dashboard/ip/1
- def destroy
-    if params[:ip_list]
-      Blocked.find(params[:ip_list]).destroy   
-    elsif params[:proto_list]
-      Protocol.find(params[:proto_list]).destroy
-    end
+    # DELETE /dashboard/ip/1
+   def destroy
+      if params[:ip_list]
+        Blocked.find(params[:ip_list]).destroy   
+      elsif params[:proto_list]
+        Protocol.find(params[:proto_list]).destroy
+      end
        
-    respond_to do |format|
-      format.html { redirect_to ip }
-      format.xml  { head :ok }
-    end
- end
+      respond_to do |format|
+        format.html { redirect_to ip }
+        format.xml  { head :ok }
+      end
+   end
 
   # POST /dashboard
   def create
@@ -62,7 +62,7 @@ class DashboardController < ApplicationController
   
     respond_to do |format|
       if @blocked.save
-        format.html { redirect_to ip }
+        format.html { redirect_to :action => 'ip'  }
       else
         format.html { redirect_to :action => "index" }
       end
