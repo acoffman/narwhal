@@ -2,7 +2,5 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 jQuery(function() {
-
     $('input[type="text"]:first').focus();
-
-    });
+});
