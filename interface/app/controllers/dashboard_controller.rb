@@ -50,7 +50,7 @@ class DashboardController < ApplicationController
       end
        
       respond_to do |format|
-        format.html { redirect_to ip }
+        format.html { redirect_to :action => 'ip'  }
         format.xml  { head :ok }
       end
    end
@@ -64,7 +64,7 @@ class DashboardController < ApplicationController
       if @blocked.save
         format.html { redirect_to :action => 'ip'  }
       else
-        format.html { redirect_to :action => "index" }
+        format.html { redirect_to :action => 'index' }
       end
     end
   end
