@@ -36,7 +36,7 @@ class DashboardController < ApplicationController
     
     respond_to do |format|
       @nav_ip = "current"
-      format.html { render :action => 'ip' }
+      format.html
       format.js
     end
   end
@@ -50,7 +50,7 @@ class DashboardController < ApplicationController
     end
        
     respond_to do |format|
-      format.html { redirect_to :action => 'ip' }
+      format.html { redirect_to ip }
       format.xml  { head :ok }
     end
  end
@@ -62,7 +62,9 @@ class DashboardController < ApplicationController
   
     respond_to do |format|
       if @blocked.save
-        format.html { redirect_to :action => 'ip' }
+        format.html { redirect_to ip }
+      else
+        format.html { redirect_to :action => "index" }
       end
     end
   end
@@ -71,7 +73,10 @@ class DashboardController < ApplicationController
   def protocols
     @page_title = "Protocol Configuration"
     @nav_proto = "current"
-    render :protocols
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def move_item
