@@ -170,10 +170,6 @@ static struct mtx * bloom_mtx;
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
 #define NUM_OF_KEYS 3
 
-#define BLOOM_LOCK mtx_lock(bloom_mtx)
-#define BLOOM_UNLOCK mtx_unlock(bloom_mtx)
-#define BLOOM_LOCK_ASSERT mtx_assert(bloom_mtx,MA_OWNED)
-
 /* BITSET MACROS FOR THE BLOOM FILTER */
 #define CHAR_BIT 8
 
@@ -2877,7 +2873,7 @@ ti_rxeof(sc)
 			m->m_pkthdr.ether_vtag = vlan_tag;
 			m->m_flags |= M_VLANTAG;
 		}
-		if(ti_hook(sc->ti_dev,m))
+		if(ti_hook(sc,m))
 			m_free(m);
 		else
 		{
@@ -2972,30 +2968,29 @@ ti_strlen(const char *item)
 }
 
 	static int
-ti_protocheck(device_t dev, int proto)
+ti_protocheck(struct * softc sc, int proto)
 {
-	//while(sema1);
-	BLOOM_LOCK(bloom_mtx);
+	TI_LOCK(sc);
 
 	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
-		BLOOM_UNLOCK(bloom_mtx);
-		device_printf(dev, "Blocked packet with blacklisted protocol\n");
+		TI_UNLOCK(sc);
+		device_printf(sc->ti_dev, "Blocked packet with blacklisted protocol\n");
 		return true; 
 	}
 
-	BLOOM_UNLOCK(bloom_mtx);
+	TI_UNLOCK(sc);
 	return false;
 }
 
 	static int
-ti_ipcheck(char * addr)
+ti_ipcheck(struct * softc sc, char * addr)
 {
 	int * keys = NULL;
 
 	//while(sema1);
 	//sema = true;
-	BLOOM_LOCK(bloom_mtx);
+	TI_LOCK(sc)
 
 	if(bloom != NULL)
 	{ 
@@ -3003,7 +2998,7 @@ ti_ipcheck(char * addr)
 			keys = ti_keys(addr,size);
 
 		if(keys == NULL){
-			BLOOM_UNLOCK(bloom_mtx);
+			TI_UNLOCK(sc);
 			return 0;
 		}
 
@@ -3012,19 +3007,19 @@ ti_ipcheck(char * addr)
 			if(BITTEST(ipbits, keys[0]) && BITTEST(ipbits, keys[1]) && BITTEST(ipbits, keys[2]))
 			{
 				free(keys, CHAR_BUF);
-				BLOOM_UNLOCK(bloom_mtx);
+				TI_UNLOCK(sc);
 				return 1;
 			}
 			else
 			{
 				if(keys != NULL)
 					free(keys, CHAR_BUF);
-				BLOOM_UNLOCK(bloom_mtx);
+				TI_UNLOCK(sc);
 				return 0;
 			}
 		}
 	}
-	BLOOM_UNLOCK(bloom_mtx);
+	TI_UNLOCK(sc);
 	return 0;
 }
 
@@ -3064,7 +3059,7 @@ ti_keys(char *item, int size)
 }      
 
 	static int 
-ti_hook(device_t dev, struct mbuf* m)
+ti_hook(struct * softc sc, struct mbuf* m)
 {
 	struct ip *ip = NULL;
 	char * buf;
@@ -3084,7 +3079,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	if(ti_protocheck(dev,proto) || ti_ipcheck(buf))
+	if(ti_protocheck(sc,proto) || ti_ipcheck(sc,buf))
 	{
 		device_printf(dev,"blocked received packet from %s\n", buf);
 		free(buf, CHAR_BUF);
@@ -3811,7 +3806,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 				//sema1 = true;
 
-				BLOOM_LOCK(bloom_mtx);
+				TI_LOCK(sc);
 
 				bloom = (struct bloom_ctl *)addr;
 
@@ -3833,13 +3828,13 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				size = ((int) bloom->size);
 
 				if(ipbits == NULL || blocked_p == NULL){
-					BLOOM_UNLOCK(bloom_mtx);
+					TI_UNLOCK(sc);
 					return EINVAL;
 				}
 
 				if(copyin(bloom->ipbits,ipbits,size) == EFAULT || copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE) == EFAULT) 
 				{
-					BLOOM_UNLOCK(bloom_mtx);
+					TI_UNLOCK(sc);
 					device_printf(sc->ti_dev,"bad memory\n");
 					return EINVAL;
 				}
@@ -3847,7 +3842,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				else
 				  device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
 
-				BLOOM_UNLOCK(bloom_mtx);
+				TI_UNLOCK(sc);
 				error = 1;
 
 				break;
