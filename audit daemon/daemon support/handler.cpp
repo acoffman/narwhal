@@ -33,8 +33,8 @@ void NotificationHandler::performQuery(){
 void NotificationHandler::generateKeys(){
   cout << "IPS:" << endl;
   while (res->next()) {
-    cout << res->getString("ip") << endl;
     keyList.push_back(res->getString("ip"));
+    cout << res->getString("ip") << endl;
   }
 };
 
