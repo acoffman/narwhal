@@ -3813,22 +3813,25 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 					blocked_p = NULL;
 				}
 
-				ipbits = malloc(bloom->size * sizeof(*ipbits), CHAR_BUF, M_NOWAIT); 
-				blocked_p = malloc(bloom->size * sizeof(*blocked_p), CHAR_BUF, M_NOWAIT); 
+				ipbits = malloc(bloom->size / CHAR_BIT, CHAR_BUF, M_NOWAIT); 
+				blocked_p = malloc(PROTO_SIZE / CHAR_BIT, CHAR_BUF, M_NOWAIT); 
 
 				size = ((int) bloom->size) * CHAR_BIT;
 
 				if(ipbits == NULL || blocked_p == NULL){
 					sema1 = false;
-					return error;
+					return EINVAL;
 				}
 
-				device_printf(sc->ti_dev,"page fault?\n");
+				if(copyin(bloom->ipbits,ipbits,size) == EFAULT || copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE) == EFAULT) 
+				{
+					sema1 = false;
+					device_printf(sc->ti_dev,"bad memory\n");
+					return EINVAL;
+				}
 
-				copyin(bloom->ipbits,ipbits,size); 
-				copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE); 
-
-				device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
+				else
+				  device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
 
 				sema1= false;
 				error = 1;
