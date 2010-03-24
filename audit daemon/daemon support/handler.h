@@ -28,9 +28,11 @@ using namespace std;
 #define TABLE "narwhal_development"
 
 #define FP_PERCENT 0.01
+#define NUM_PROTOCOLS 141
 
 struct bloom_ctl{
   char* bits;
+  char* protocols;
   int size;
 };
 
@@ -49,10 +51,12 @@ class NotificationHandler {
     sql::Connection * con;
     sql::Statement * stmnt;
     sql::ResultSet * res;
+    sql::ResultSet * res1;
     void performQuery();
     int calculateFilterSize();
     void createFilter();
     void mapBits();
+    char * getProtoArray();
     void generateKeys();
 };
 #include "handler.cpp"

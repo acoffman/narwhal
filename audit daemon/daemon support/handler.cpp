@@ -14,6 +14,7 @@ NotificationHandler::~NotificationHandler(){
   delete con;
   delete stmnt;
   delete res;
+  delete res1;
   delete filter;
 };
 
@@ -26,6 +27,7 @@ void NotificationHandler::createFilter(){
 
 void NotificationHandler::performQuery(){
   res = stmnt->executeQuery("SELECT ip FROM blockeds"); 
+  res1 = stmnt->executeQuery("SELECT protocol FROM solo_protocols");
 };
 
 void NotificationHandler::generateKeys(){
@@ -41,11 +43,22 @@ int NotificationHandler::calculateFilterSize(){
   return result;
 };
 
+char * NotificationHandler::getProtoArray(){
+  char * protos =  new char[BITNSLOTS(NUM_PROTOCOLS)];
+  while(res1->next()){
+    BITSET(protos, res->getInt("protocol"));    
+  }
+  return protos;
+};
+
 void NotificationHandler::mapBits(){
   int file_desc = open("/dev/ti0", O_RDWR);
   bloom_ctl bloom;
   bloom.bits = (*filter).getBitArray();
   bloom.size = BITNSLOTS((*filter).getSize());
+  bloom.protocols = getProtoArray();
   ioctl(file_desc,BLOOM_IOCTL,&bloom);
   close(file_desc);
+  delete [] bloom.protocols;
+  delete [] bloom.bits;
 };
