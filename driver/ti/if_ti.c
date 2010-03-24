@@ -158,8 +158,8 @@ static struct bloom_ctl * bloom;
 static char * ipbits;
 static char * blocked_p;
 static int size;
-static int sema;
-static int sema1;
+//static int sema;
+//static int sema1;
 
 #define false 0
 #define true 1
@@ -2335,8 +2335,8 @@ ti_attach(dev)
 	u_char			eaddr[6];
 
 	//Set semaphores
-	sema = false;
-	sema1 = false;
+	//sema = false;
+	//sema1 = false;
 
 
 	sc = device_get_softc(dev);
@@ -2963,17 +2963,17 @@ ti_strlen(const char *item)
 	static int
 ti_protocheck(device_t dev, int proto)
 {
-	while(sema1);
-	sema = true;
+	//while(sema1);
+	//sema = true;
 
 	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
-		sema = false;
+		//sema = false;
 		device_printf(dev, "Blocked packet with blacklisted protocol\n");
 		return true; 
 	}
 
-	sema = false;
+	//sema = false;
 	return false;
 }
 
@@ -2982,8 +2982,8 @@ ti_ipcheck(char * addr)
 {
 	int * keys = NULL;
 
-	while(sema1);
-	sema = true;
+	//while(sema1);
+	//sema = true;
 
 
 	if(bloom != NULL)
@@ -2992,7 +2992,7 @@ ti_ipcheck(char * addr)
 			keys = ti_keys(addr,size);
 
 		if(keys == NULL){
-			sema = false;
+	//		sema = false;
 			return 0;
 		}
 
@@ -3001,19 +3001,19 @@ ti_ipcheck(char * addr)
 			if(BITTEST(ipbits, keys[0]) && BITTEST(ipbits, keys[1]) && BITTEST(ipbits, keys[2]))
 			{
 				free(keys, CHAR_BUF);
-				sema = false;
+	//			sema = false;
 				return 1;
 			}
 			else
 			{
 				if(keys != NULL)
 					free(keys, CHAR_BUF);
-				sema = false;
+	//			sema = false;
 				return 0;
 			}
 		}
 	}
-	sema = false;
+	//sema = false;
 	return 0;
 }
 
@@ -3073,7 +3073,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(buf)))
+	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
 		device_printf(dev,"blocked received packet from %s\n", buf);
 		free(buf, CHAR_BUF);
@@ -3798,9 +3798,9 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			{
 
 				device_printf(sc->ti_dev,"got a cmd!\n");
-				while(sema);
+				//while(sema);
 
-				sema1 = true;
+				s//ema1 = true;
 				bloom = (struct bloom_ctl *)addr;
 
 				if(ipbits != NULL)
@@ -3821,13 +3821,13 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				size = (int)(bloom->size);
 
 				if(ipbits == NULL || blocked_p == NULL){
-					sema1 = false;
+					//sema1 = false;
 					return EINVAL;
 				}
 
 				if(copyin(bloom->ipbits,ipbits,size) == EFAULT || copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE) == EFAULT) 
 				{
-					sema1 = false;
+					//sema1 = false;
 					device_printf(sc->ti_dev,"bad memory\n");
 					return EINVAL;
 				}
@@ -3835,8 +3835,10 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				else
 				  device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
 
-				sema1= false;
+				//sema1= false;
 				error = 1;
+
+				device_printf(sc->ti_dev,"finished cmd!\n");
 
 				break;
 			}
