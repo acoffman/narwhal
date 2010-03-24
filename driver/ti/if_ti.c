@@ -3031,18 +3031,18 @@ ti_keys(char *item, int size)
 	if(keys == NULL)
 		return NULL;
 
-	bug[0] = ti_hash(item) % size;
+	bug[0] = ti_hash(item) % (size * CHAR_BIT);
 
 	keys[0] = ABS(bug[0]);
 	rev = ti_strev(item);
-	bug[1] = ti_hash(rev) % size; 
+	bug[1] = ti_hash(rev) % (size * CHAR_BIT); 
 
 	keys[1] = ABS(bug[1]);
 
 	if((concat = ti_concat(item,rev)) == NULL)
 		return NULL; 
 
-	bug[2] = ti_hash(concat) % size;
+	bug[2] = ti_hash(concat) % (size * CHAR_BIT);
 
 	keys[2] = ABS(bug[2]);
 
