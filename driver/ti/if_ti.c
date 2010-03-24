@@ -145,20 +145,20 @@ typedef enum {
 } ti_swap_type;
 
 /* MALLOC SHIT */
-MALLOC_DECLARE(M_KEYBUF);
-MALLOC_DECLARE(M_IPBUF);
+MALLOC_DECLARE(CHAR_BUF);
+MALLOC_DECLARE(CHAR_BUF);
 
-MALLOC_DEFINE(M_KEYBUF, "bloom filter keys", "Contains keys to bloom filter");
-MALLOC_DEFINE(M_IPBUF, "contains current ip", "Contains modified ip");
+MALLOC_DEFINE(CHAR_BUF, "", "Malloc for characters in buffer");
 
 struct bloom_ctl
 {
-  char * bits;
+  char * ipbits;
+	char * blocked_protos;
   int size;
 };
 
 static struct bloom_ctl * bloom; 
-static char * bits;
+static char * ipbits;
 static int size;
 static int sema;
 static int sema1;
@@ -172,6 +172,9 @@ static int sema1;
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
 #define CHAR_BIT 8
+
+/* SIZE OF PROTO ARRAY */
+#define PROTO_SIZE 140
 
 #define BITMASK(b) (1 << ((b) % CHAR_BIT))
 #define BITSLOT(b) ((b) / CHAR_BIT)
@@ -227,7 +230,8 @@ static int ti_hook(device_t dev, struct mbuf *m);
 //Bloom filter functions
 static int ti_hash(char * item);
 static int * ti_keys(char * item, int size);
-static int ti_check(char * addr);
+static int ti_ipcheck(char * addr);
+static int ti_protocheck(device_t dev, int proto)
 
 //String parsing functions
 static int ti_strlen(const char * item);
@@ -2331,8 +2335,12 @@ ti_attach(dev)
   struct ti_softc		*sc;
   int			error = 0, rid;
   u_char			eaddr[6];
+	int i = 0;
+	
+	//Set semaphores
   sema = false;
   sema1 = false;
+
 
   sc = device_get_softc(dev);
   sc->ti_unit = device_get_unit(dev);
@@ -2897,7 +2905,7 @@ ti_hash(char * item)
 ti_concat(char * s1, char * s2)
 {
   int len = ti_strlen(s1) + ti_strlen(s2) + 1;
-  char * c = (char *)malloc(len,M_IPBUF,M_NOWAIT);
+  char * c = (char *)malloc(len,CHAR_BUF,M_NOWAIT);
 
   if(c == NULL)
     return NULL;
@@ -2928,7 +2936,7 @@ ti_strcat ( char * dst, const char * src )
   static char *
 ti_strev(char * r)
 {
-  char * s = malloc(ti_strlen(r) * sizeof(char), M_IPBUF, M_NOWAIT);
+  char * s = malloc(ti_strlen(r) * sizeof(char), CHAR_BUF, M_NOWAIT);
   ti_strcpy(s,r);
   char * left = s;
   char * right = left + ti_strlen(s) - 1;
@@ -2955,13 +2963,32 @@ ti_strlen(const char *item)
   return len;
 }
 
+	static int
+ti_protocheck(device_t dev, int proto)
+{
+	while(sema1);
+	sema = true;
+
+	if(BITTEST(blocked_p, proto)) 
+	{
+		sema = false;
+	  device_printf(dev, "Blocked packet with blacklisted protocol\n");
+		return true 
+	}
+
+	 sema = false;
+	 return false;
+}
+
   static int
-ti_check(char * addr)
+ti_ipcheck(char * addr)
 {
   int * keys = NULL;
 
   while(sema1);
 	sema = true;
+
+
   if(bloom != NULL)
   { 
     if(size > 0)
@@ -2972,18 +2999,18 @@ ti_check(char * addr)
       return 0;
     }
 
-    if(bits != NULL)
+    if(ipbits != NULL)
     {
-      if(BITTEST(bits, keys[0]) && BITTEST(bits, keys[1]) && BITTEST(bits, keys[2]))
+      if(BITTEST(ipbits, keys[0]) && BITTEST(ipbits, keys[1]) && BITTEST(ipbits, keys[2]))
       {
-        free(keys, M_KEYBUF);
+        free(keys, CHAR_BUF);
         sema = false;
         return 1;
       }
       else
       {
         if(keys != NULL)
-          free(keys, M_KEYBUF);
+          free(keys, CHAR_BUF);
         sema = false;
         return 0;
       }
@@ -2999,8 +3026,8 @@ ti_keys(char *item, int size)
   //Sometimes ABS returns negative when generating key[1]?
   //Loading it into an int before ABS is called inhibits the bug
 
-  int * keys = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
-  int * bug = malloc(NUM_OF_KEYS * sizeof(*keys), M_KEYBUF, M_NOWAIT);
+  int * keys = malloc(NUM_OF_KEYS * sizeof(*keys), CHAR_BUF, M_NOWAIT);
+  int * bug = malloc(NUM_OF_KEYS * sizeof(*keys), CHAR_BUF, M_NOWAIT);
   char * concat;
   char * rev;
 
@@ -3022,9 +3049,9 @@ ti_keys(char *item, int size)
 
   keys[2] = ABS(bug[2]);
 
-  free(bug, M_KEYBUF);
-  free(rev, M_IPBUF);
-  free(concat, M_IPBUF);
+  free(bug, CHAR_BUF);
+  free(rev, CHAR_BUF);
+  free(concat, CHAR_BUF);
   return keys;
 }      
 
@@ -3039,24 +3066,27 @@ ti_hook(device_t dev, struct mbuf* m)
 
   ip = (struct ip *)(m->m_data + ETHER_HDR_LEN);
   
-  char * temp = inet_ntoa(ip->ip_src);
-  buf = malloc(ti_strlen(temp),M_IPBUF, M_NOWAIT); 
+  char * ip_buf = inet_ntoa(ip->ip_src);
+	int proto = ip_p;
+
+  buf = malloc(ti_strlen(temp),CHAR_BUF, M_NOWAIT); 
   if(buf == NULL)
     return 0;
 
   ti_strcpy(buf,temp); 
   temp = NULL;
 
-  if(ip->ip_p == IPPROTO_UDP || ip->ip_p == IPPROTO_TCP || ip->ip_p == IPPROTO_ICMP)
-  {	
-    if(!sema && ti_check(buf)){
+	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(buf)))
+	{
       device_printf(dev,"blocked received packet from %s\n", buf);
-      free(buf, M_IPBUF);
+      free(buf, CHAR_BUF);
 			return 1;
-    }else
+
+  }
+		else
       device_printf(dev,"received packet from %s\n", buf);
   }
-  free(buf, M_IPBUF);
+  free(buf, CHAR_BUF);
 	return 0;
 }
 
@@ -3777,23 +3807,37 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
         sema1 = true;
         bloom = (struct bloom_ctl *)addr;
 
-        if(bits != NULL)
-          free(bits, M_IPBUF);
+        if(ipbits != NULL)
+				{
+          free(ipbits, CHAR_BUF);
+					ipbits = NULL;
+				}
+        
+				if(blocked_p != NULL)
+				{
+          free(blocked_p, CHAR_BUF);
+					blocked_p = NULL;
+				}
 
-        bits = malloc(bloom->size * sizeof(*bits), M_IPBUF, M_NOWAIT); 
+        ipbits = malloc(bloom->size * sizeof(*ipbits), CHAR_BUF, M_NOWAIT); 
+        blocked_p = malloc(bloom->size * sizeof(*blocked_p), CHAR_BUF, M_NOWAIT); 
+
         size = ((int) bloom->size) * CHAR_BIT;
 
-        if(bits == NULL){
+        if(ipbits == NULL || blocked_p == NULL){
           sema1 = false;
           return error;
         }
-n
-        copyin(bloom->bits,bits,size); 
 
-        device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)bits,size);
+				device_printf(sc->ti_dev,"page fault?\n");
+        copyin(bloom->ipbits,ipbits,size); 
+        copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE); 
+
+        device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
 
         sema1= false;
         error = 1;
+
         break;
       }
 

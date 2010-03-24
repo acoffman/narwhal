@@ -16,12 +16,17 @@ class InitialMigration < ActiveRecord::Migration
       t.integer :blocked_id
       t.string :name
     end
+
+    create_table :solo_protocols do |t|
+      t.integer :protocol
+    end
   end
 
   def self.down
     drop_table :blockeds
     drop_table :users
     drop_table :protocols
+    drop_table :solo_protocols
   end
 end
 

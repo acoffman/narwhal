@@ -74,6 +74,10 @@ class DashboardController < ApplicationController
   def protocols
     @page_title = "Protocol Configuration"
     @nav_proto = "current"
+    @blocked_protos = Solo_Protocol.find(:all).map { |proto| $protocol_ids[proto.protocol] }
+    @allowed_protos = $protocol_names.keys - @blocked_protos
+    @blocked_protos << "" 
+    @allowed_protos << ""
 
     respond_to do |format|
       format.html
@@ -84,9 +88,15 @@ class DashboardController < ApplicationController
     protocol = params[:protocol].split("_")[0]
     list = params[:protocol].split("_")[1]
 
+    if list=="blocked"
+      Solo_Protocol.new({:protocol => $protocol_names[protocol]}).save!
+    else
+      Solo_Protocol.find(:all, :conditions => {:protocol => $protocol_names[protocol]}).each {|entry| entry.destroy}
+    end
+
     render :update do |page|
       page.remove "protocol_#{protocol}"
-      page.insert_html :bottom, list, render(:partial=>"protocol", :object => protocol)
+      page.insert_html :top, list, render(:partial=>"protocol", :object => protocol)
       page.visual_effect :highlight, "protocol_#{protocol}"
     end
 
