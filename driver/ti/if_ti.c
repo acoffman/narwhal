@@ -3073,7 +3073,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	device_printf(dev, "Protocol %d\n", ip->p);
+	device_printf(dev, "Protocol %d\n", ip->ip_p);
 
 	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
