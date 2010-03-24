@@ -19,7 +19,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <limits.h>
-#include <iostream>
 
 using namespace std;
 
@@ -52,8 +51,6 @@ class NotificationHandler {
     sql::Connection * con;
     sql::Statement * stmnt;
     sql::ResultSet * res;
-    sql::ResultSet * res1;
-    void performQuery();
     int calculateFilterSize();
     void createFilter();
     void mapBits();

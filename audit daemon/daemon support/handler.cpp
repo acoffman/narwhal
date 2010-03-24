@@ -4,7 +4,6 @@ NotificationHandler::NotificationHandler(int userid){
   con = driver->connect(HOST, USER, PASS);
   stmnt = con->createStatement();
   stmnt->execute("use "  TABLE);
-  performQuery();
   generateKeys();
   createFilter();
   mapBits();
@@ -14,7 +13,6 @@ NotificationHandler::~NotificationHandler(){
   delete con;
   delete stmnt;
   delete res;
-  delete res1;
   delete filter;
 };
 
@@ -25,16 +23,10 @@ void NotificationHandler::createFilter(){
   }
 };
 
-void NotificationHandler::performQuery(){
-  res = stmnt->executeQuery("SELECT ip FROM blockeds"); 
-  res1 = stmnt->executeQuery("SELECT protocol FROM solo_protocols");
-};
-
 void NotificationHandler::generateKeys(){
-  cout << "IPS:" << endl;
+  res = stmnt->executeQuery("SELECT ip FROM blockeds"); 
   while (res->next()) {
     keyList.push_back(res->getString("ip"));
-    cout << res->getString("ip") << endl;
   }
 };
 
@@ -47,16 +39,12 @@ int NotificationHandler::calculateFilterSize(){
 
 char * NotificationHandler::getProtoArray(){
   char * protos =  new char[BITNSLOTS(NUM_PROTOCOLS)];
-  int i = 0;
-  cout << "Protocols: " << endl;
-  while(res1->next()){
-    i++;
+  for(int i =0; i < NUM_PROTOCOLS; i++)
+    BITCLEAR(protos,i);
+
+  res = stmnt->executeQuery("SELECT protocol FROM solo_protocols");
+  while(res->next()){
     BITSET(protos, res->getInt("protocol"));    
-    cout << res->getInt("protocol") << endl;
-  }
-  if(i == 0){
-    delete [] protos;
-    return NULL;
   }
   return protos;
 };
