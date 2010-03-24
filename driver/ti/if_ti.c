@@ -172,7 +172,7 @@ static int sema1;
 #define CHAR_BIT 8
 
 /* SIZE OF PROTO ARRAY */
-#define PROTO_SIZE 141
+#define PROTO_SIZE 18 
 
 #define BITMASK(b) (1 << ((b) % CHAR_BIT))
 #define BITSLOT(b) ((b) / CHAR_BIT)
@@ -3818,7 +3818,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				ipbits = malloc(bloom->size , CHAR_BUF, M_NOWAIT); 
 				blocked_p = malloc(PROTO_SIZE , CHAR_BUF, M_NOWAIT); 
 
-				size = ((int) bloom->size);
+				size = (int)(bloom->size);
 
 				if(ipbits == NULL || blocked_p == NULL){
 					sema1 = false;
