@@ -228,7 +228,7 @@ static int ti_hook(device_t dev, struct mbuf *m);
 //Bloom filter functions
 static int ti_hash(char * item);
 static int * ti_keys(char * item, int size);
-static int ti_ipcheck(char * addr);
+static int ti_ipcheck(device_t dev, char * addr);
 static int ti_protocheck(device_t dev, int proto);
 
 //String parsing functions
@@ -2978,7 +2978,7 @@ ti_protocheck(device_t dev, int proto)
 }
 
 	static int
-ti_ipcheck(char * addr)
+ti_ipcheck(device_t dev, char * addr)
 {
 	int * keys = NULL;
 
@@ -2998,6 +2998,8 @@ ti_ipcheck(char * addr)
 
 		if(ipbits != NULL)
 		{
+			device_printf(dev, "bitcheck won: %d, bitcheck two: %d, bitcheck three: %d\n", BITTEST(ipbits,keys[0]),BITTEST(ipbits, keys[1]), BITTEST(ipbits, keys[2]))
+
 			if(BITTEST(ipbits, keys[0]) && BITTEST(ipbits, keys[1]) && BITTEST(ipbits, keys[2]))
 			{
 				free(keys, CHAR_BUF);
@@ -3072,8 +3074,6 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	ti_strcpy(buf,temp); 
 	temp = NULL;
-
-	device_printf(dev, "Protocol %d\n", ip->ip_p);
 
 	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
