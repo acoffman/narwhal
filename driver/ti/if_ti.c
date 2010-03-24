@@ -2990,7 +2990,7 @@ ti_ipcheck(struct ti_softc * sc, char * addr)
 
 	//while(sema1);
 	//sema = true;
-	TI_LOCK(sc)
+	TI_LOCK(sc);
 
 	if(bloom != NULL)
 	{ 
@@ -3081,7 +3081,7 @@ ti_hook(struct ti_softc * sc, struct mbuf* m)
 
 	if(ti_protocheck(sc,proto) || ti_ipcheck(sc,buf))
 	{
-		device_printf(dev,"blocked received packet from %s\n", buf);
+		device_printf(sc->ti_dev,"blocked received packet from %s\n", buf);
 		free(buf, CHAR_BUF);
 		return 1;
   }	
