@@ -52,8 +52,6 @@ class NotificationHandler {
     sql::Connection * con;
     sql::Statement * stmnt;
     sql::ResultSet * res;
-    sql::ResultSet * res1;
-    void performQuery();
     int calculateFilterSize();
     void createFilter();
     void mapBits();
