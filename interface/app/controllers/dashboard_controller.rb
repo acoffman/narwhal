@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
 
   # GET /dashboard
   def index
+    @protocols = Protocol.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"])
     @page_title = "Firewall Performance Overview"
     @test_num = params[:test_num]
     @test_num ||= 55
