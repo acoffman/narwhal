@@ -7,7 +7,7 @@
 		<div class = "protoTitle"><h4> allowed protocols </h4></div>
 		<div class = "protoBox">
 		  <ul height = "100%" width="50%" id="allowed">
-		  <% ['TCP','SNMP', 'POP3','DHCP','DNS'].each do |protocol| %>
+		  <% @allowed_protos.each do |protocol| %>
 		    <%= render :partial=>"protocol", :object => protocol %>
 		  <% end %>
 		</ul>
@@ -18,7 +18,7 @@
 		<div class = "protoTitle"><h4> blocked protocols </h4></div>
 		<div class = "protoBox">
 		<ul height = "100%" width="50%" id="blocked">
-		  <% ['UDP','SSH'].each do |protocol| %>
+		  <% @blocked_protos.each do |protocol| %>
 		    <%= render :partial=>"protocol", :object => protocol %>
 		  <% end %>
 		</ul>
