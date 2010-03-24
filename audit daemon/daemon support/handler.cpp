@@ -39,16 +39,12 @@ int NotificationHandler::calculateFilterSize(){
 
 char * NotificationHandler::getProtoArray(){
   char * protos =  new char[BITNSLOTS(NUM_PROTOCOLS)];
-  int i = 0;
+  for(int i =0; i < NUM_PROTOCOLS; i++){
+    BITCLEAR(bitarry,i);
 
   res = stmnt->executeQuery("SELECT protocol FROM solo_protocols");
   while(res->next()){
-    i++;
     BITSET(protos, res->getInt("protocol"));    
-  }
-  if(i == 0){
-    delete [] protos;
-    return NULL;
   }
   return protos;
 };
