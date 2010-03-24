@@ -172,7 +172,7 @@ static int sema1;
 #define CHAR_BIT 8
 
 /* SIZE OF PROTO ARRAY */
-#define PROTO_SIZE 140
+#define PROTO_SIZE 141
 
 #define BITMASK(b) (1 << ((b) % CHAR_BIT))
 #define BITSLOT(b) ((b) / CHAR_BIT)
@@ -2966,7 +2966,7 @@ ti_protocheck(device_t dev, int proto)
 	while(sema1);
 	sema = true;
 
-	if(BITTEST(blocked_p, proto)) 
+	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
 		sema = false;
 		device_printf(dev, "Blocked packet with blacklisted protocol\n");
@@ -3072,6 +3072,8 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	ti_strcpy(buf,temp); 
 	temp = NULL;
+
+	device_printf(dev, "Protocol %d\n", ip->ip_p);
 
 	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
@@ -3827,6 +3829,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				}
 
 				device_printf(sc->ti_dev,"page fault?\n");
+
 				copyin(bloom->ipbits,ipbits,size); 
 				copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE); 
 
