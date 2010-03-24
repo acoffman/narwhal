@@ -2966,7 +2966,7 @@ ti_protocheck(device_t dev, int proto)
 	while(sema1);
 	sema = true;
 
-	if(BITTEST(blocked_p, proto)) 
+	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
 		sema = false;
 		device_printf(dev, "Blocked packet with blacklisted protocol\n");
