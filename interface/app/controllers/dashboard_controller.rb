@@ -29,7 +29,10 @@ class DashboardController < ApplicationController
   # GET /dashboard/ip
   def ip          
     @blockeds  = Blocked.all
-    @protocols = Protocol.all
+    @protocols = Protocol.all.map do |cur|
+      cur.name = $protocol_ids[cur.name.to_i] if cur.name
+      cur
+    end
 
     respond_to do |format|
       @nav_ip = "current"
@@ -55,7 +58,7 @@ class DashboardController < ApplicationController
   # POST /dashboard
   def create
     @blocked = Blocked.new( :ip => params[:blocked][:ip], :port => params[:blocked][:port] )
-    @blocked.protocols << Protocol.new( :name => params[:blocked][:protocols] )
+    @blocked.protocols << Protocol.new( :name => $protocol_names[params[:blocked][:protocols].upcase])
 
     respond_to do |format|
       if @blocked.save
@@ -115,7 +118,6 @@ class DashboardController < ApplicationController
     @protos = $protocol_names.keys.reject { |curr| !curr.match re }
     render :inline => "<%= content_tag(:ul, @protos.map { |org| content_tag(:li, h(org)) }) %>"
   end
-
 
   private
 
