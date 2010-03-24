@@ -223,13 +223,13 @@ static int ti_detach(device_t);
 static void ti_txeof(struct ti_softc *);
 static void ti_rxeof(struct ti_softc *);
 
-static int ti_hook(struct mbuf *m);
+static int ti_hook(device_t dev, struct mbuf *m);
 
 //Bloom filter functions
 static int ti_hash(char * item);
 static int * ti_keys(char * item, int size);
 static int ti_ipcheck(char * addr);
-static int ti_protocheck(int proto);
+static int ti_protocheck(device_t dev, int proto);
 
 //String parsing functions
 static int ti_strlen(const char * item);
@@ -2867,7 +2867,7 @@ ti_rxeof(sc)
 			m->m_pkthdr.ether_vtag = vlan_tag;
 			m->m_flags |= M_VLANTAG;
 		}
-		if(ti_hook(sc,m))
+		if(ti_hook(sc->ti_dev,m))
 			m_free(m);
 		else
 		{
@@ -2968,7 +2968,7 @@ ti_protocheck(device_t dev, int proto)
 
 	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
-		TI_UNLOCK(sc);
+		//TI_UNLOCK(sc);
 		device_printf(dev, "Blocked packet with blacklisted protocol\n");
 		return true; 
 	}
