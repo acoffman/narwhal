@@ -2975,7 +2975,7 @@ ti_strlen(const char *item)
 ti_protocheck(device_t dev, int proto)
 {
 	//while(sema1);
-	BLOOM_LOCK(&bloom_mtx);
+	BLOOM_LOCK(bloom_mtx);
 
 	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
