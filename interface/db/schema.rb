@@ -22,6 +22,10 @@ ActiveRecord::Schema.define(:version => 20100211021825) do
     t.string  "name"
   end
 
+  create_table "solo_protocols", :force => true do |t|
+    t.integer "protocol"
+  end
+
   create_table "users", :force => true do |t|
     t.string "username"
     t.string "password"
