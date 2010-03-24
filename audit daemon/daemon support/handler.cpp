@@ -45,8 +45,14 @@ int NotificationHandler::calculateFilterSize(){
 
 char * NotificationHandler::getProtoArray(){
   char * protos =  new char[BITNSLOTS(NUM_PROTOCOLS)];
+  int i = 0;
   while(res1->next()){
+    i++;
     BITSET(protos, res->getInt("protocol"));    
+  }
+  if(i == 0){
+    delete [] protos;
+    return NULL;
   }
   return protos;
 };
