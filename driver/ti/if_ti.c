@@ -161,8 +161,6 @@ static int size;
 static int sema;
 static int sema1;
 
-static struct mtx * bloom_mtx;
-
 #define false 0
 #define true 1
 
@@ -2348,8 +2346,6 @@ ti_attach(dev)
 	mtx_init(&sc->ti_mtx, device_get_nameunit(dev), MTX_NETWORK_LOCK,
 			MTX_DEF);
 
-	mtx_init(bloom_mtx,"bloom filter lock",MTX_NETWORK_LOCK,MTX_DEF);
-
 	ifmedia_init(&sc->ifmedia, IFM_IMASK, ti_ifmedia_upd, ti_ifmedia_sts);
 	ifp = sc->ti_ifp = if_alloc(IFT_ETHER);
 	if (ifp == NULL) {
@@ -2636,7 +2632,6 @@ ti_detach(dev)
 	if (sc->dev)
 		destroy_dev(sc->dev);
 	KASSERT(mtx_initialized(&sc->ti_mtx), ("ti mutex not initialized"));
-	KASSERT(mtx_initialized(bloom_mtx), ("bloom mutex not initialized"));
 	attached = device_is_attached(dev);
 	TI_LOCK(sc);
 	ifp = sc->ti_ifp;
@@ -2682,7 +2677,6 @@ ti_detach(dev)
 		if_free(ifp);
 
 	mtx_destroy(&sc->ti_mtx);
-	mtx_destroy(bloom_mtx);
 
 	return (0);
 }
@@ -2970,16 +2964,16 @@ ti_strlen(const char *item)
 	static int
 ti_protocheck(struct ti_softc * sc, int proto)
 {
-	//TI_LOCK(sc);
+	TI_LOCK(sc);
 
 	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
-		//TI_UNLOCK(sc);
+		TI_UNLOCK(sc);
 		device_printf(sc->ti_dev, "Blocked packet with blacklisted protocol\n");
 		return true; 
 	}
 
-	//TI_UNLOCK(sc);
+	TI_UNLOCK(sc);
 	return false;
 }
 
@@ -2990,7 +2984,7 @@ ti_ipcheck(struct ti_softc * sc, char * addr)
 
 	//while(sema1);
 	//sema = true;
-	//TI_LOCK(sc);
+	TI_LOCK(sc);
 
 	if(bloom != NULL)
 	{ 
@@ -2998,7 +2992,7 @@ ti_ipcheck(struct ti_softc * sc, char * addr)
 			keys = ti_keys(addr,size);
 
 		if(keys == NULL){
-			//TI_UNLOCK(sc);
+			TI_UNLOCK(sc);
 			return 0;
 		}
 
@@ -3007,19 +3001,19 @@ ti_ipcheck(struct ti_softc * sc, char * addr)
 			if(BITTEST(ipbits, keys[0]) && BITTEST(ipbits, keys[1]) && BITTEST(ipbits, keys[2]))
 			{
 				free(keys, CHAR_BUF);
-				//TI_UNLOCK(sc);
+				TI_UNLOCK(sc);
 				return 1;
 			}
 			else
 			{
 				if(keys != NULL)
 					free(keys, CHAR_BUF);
-				//TI_UNLOCK(sc);
+				TI_UNLOCK(sc);
 				return 0;
 			}
 		}
 	}
-	//TI_UNLOCK(sc);
+	TI_UNLOCK(sc);
 	return 0;
 }
 
@@ -3806,7 +3800,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 				//sema1 = true;
 
-				//TI_LOCK(sc);
+				TI_LOCK(sc);
 
 				bloom = (struct bloom_ctl *)addr;
 
@@ -3842,7 +3836,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				else
 				  device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
 
-				//TI_UNLOCK(sc);
+				TI_UNLOCK(sc);
 				error = 1;
 
 				break;
