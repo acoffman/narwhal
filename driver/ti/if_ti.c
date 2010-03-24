@@ -225,13 +225,13 @@ static int ti_detach(device_t);
 static void ti_txeof(struct ti_softc *);
 static void ti_rxeof(struct ti_softc *);
 
-static int ti_hook(struct softc *, struct mbuf *m);
+static int ti_hook(struct ti_softc *, struct mbuf *m);
 
 //Bloom filter functions
 static int ti_hash(char * item);
 static int * ti_keys(char * item, int size);
-static int ti_ipcheck(struct softc *, char * addr);
-static int ti_protocheck(struct softc *, int proto);
+static int ti_ipcheck(struct ti_softc *, char * addr);
+static int ti_protocheck(struct ti_softc *, int proto);
 
 //String parsing functions
 static int ti_strlen(const char * item);
