@@ -3800,7 +3800,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				device_printf(sc->ti_dev,"got a cmd!\n");
 				//while(sema);
 
-				s//ema1 = true;
+				//ema1 = true;
 				bloom = (struct bloom_ctl *)addr;
 
 				if(ipbits != NULL)
