@@ -1,9 +1,9 @@
 class DashboardController < ApplicationController
-  
   use_google_charts
 
   # GET /dashboard
   def index
+    @protocols = Protocol.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"])
     @page_title = "Firewall Performance Overview"
     @test_num = params[:test_num]
     @test_num ||= 55
@@ -32,7 +32,8 @@ class DashboardController < ApplicationController
   	@blocked.protocols << Protocol.new
   	    
     @blockeds  = Blocked.all
-    @protocols = Protocol.all
+    @protocols = Protocol.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"])
+
     
     respond_to do |format|
       @nav_ip = "current"

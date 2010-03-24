@@ -5,7 +5,8 @@
 		  <% form_for :blocked, :url => { :action => "create" } do |f| %>
 		    	IP Address: <%= f.text_field :ip, :size => 20 %> <br />
 		    	Port      : <%= f.text_field :port, :size => 20 %> <br />
-					Protocol  : <%= f.select( 'protocols', ['ALL','UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %> <br />
+          Protocol  : <%= text_field_with_auto_complete :protocol, :name, {}, { :url => formatted_protocols_path(:js), :method => :get} %> <br />
+          <%#['ALL','UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>  
 		    <%= f.hidden_field :userid, :value => 1 %>
 		    <%= submit_tag 'Add IP' %>
 		  <% end %>
