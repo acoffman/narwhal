@@ -3823,12 +3823,11 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 					return error;
 				}
 
-				device_printf(sc->ti_dev,"page fault?\n");
+				if(copyin(bloom->ipbits,ipbits,size) == EFAULT || copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE) == EFAULT) 
+					device_printf(sc->ti_dev,"bad memory\n");
 
-				copyin(bloom->ipbits,ipbits,size); 
-				copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE); 
-
-				device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
+				else
+				  device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
 
 				sema1= false;
 				error = 1;
