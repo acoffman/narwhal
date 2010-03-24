@@ -3073,6 +3073,8 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
+	device_printf(dev, "Protocol %d\n", ip->p);
+
 	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
 		device_printf(dev,"blocked received packet from %s\n", buf);
@@ -3827,6 +3829,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				}
 
 				device_printf(sc->ti_dev,"page fault?\n");
+
 				copyin(bloom->ipbits,ipbits,size); 
 				copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE); 
 
