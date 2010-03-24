@@ -1,8 +1,5 @@
 class DashboardController < ApplicationController
-<<<<<<< HEAD:interface/app/controllers/dashboard_controller.rb
-=======
 
->>>>>>> ec948851b55afe872fc60e34d32aebef3bf5ef28:interface/app/controllers/dashboard_controller.rb
   use_google_charts
 
   # GET /dashboard
@@ -33,14 +30,8 @@ class DashboardController < ApplicationController
   # GET /dashboard/ip
   def ip          
     @blockeds  = Blocked.all
-<<<<<<< HEAD:interface/app/controllers/dashboard_controller.rb
-    @protocols = Protocol.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"])
-
-    
-=======
     @protocols = Protocol.all
 
->>>>>>> ec948851b55afe872fc60e34d32aebef3bf5ef28:interface/app/controllers/dashboard_controller.rb
     respond_to do |format|
       @nav_ip = "current"
       format.html
