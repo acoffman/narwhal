@@ -170,9 +170,9 @@ static struct mtx bloom_mtx;
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
 #define NUM_OF_KEYS 3
 
-#define BLOOM_LOCK mtx_lock(bloom_mtx);
-#define BLOOM_UNLOCK mtx_unlock(bloom_mtx);
-#define BLOOM_LOCK_ASSERT mtx_assert(bloom_mtx,MA_OWNED);
+#define BLOOM_LOCK mtx_lock(bloom_mtx)
+#define BLOOM_UNLOCK mtx_unlock(bloom_mtx)
+#define BLOOM_LOCK_ASSERT mtx_assert(bloom_mtx,MA_OWNED)
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
 #define CHAR_BIT 8
