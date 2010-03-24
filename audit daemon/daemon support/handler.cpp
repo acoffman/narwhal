@@ -4,7 +4,6 @@ NotificationHandler::NotificationHandler(int userid){
   con = driver->connect(HOST, USER, PASS);
   stmnt = con->createStatement();
   stmnt->execute("use "  TABLE);
-  performQuery();
   generateKeys();
   createFilter();
   mapBits();
@@ -43,12 +42,10 @@ char * NotificationHandler::getProtoArray(){
   int i = 0;
 
   res = stmnt->executeQuery("SELECT protocol FROM solo_protocols");
-  cout << "Protocols: " << endl;
   while(res->next()){
     i++;
     BITSET(protos, res->getInt("protocol"));    
   }
-  cout << "I: " << i << endl;
   if(i == 0){
     delete [] protos;
     return NULL;
