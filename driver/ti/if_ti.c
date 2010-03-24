@@ -2873,7 +2873,6 @@ ti_rxeof(sc)
 			m->m_pkthdr.ether_vtag = vlan_tag;
 			m->m_flags |= M_VLANTAG;
 		}
-
 		if(ti_hook(sc,m))
 			m_free(m);
 		else
@@ -2971,16 +2970,16 @@ ti_strlen(const char *item)
 	static int
 ti_protocheck(struct ti_softc * sc, int proto)
 {
-//	TI_LOCK(sc);
+	TI_LOCK(sc);
 
 	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
-//		TI_UNLOCK(sc);
+		TI_UNLOCK(sc);
 		device_printf(sc->ti_dev, "Blocked packet with blacklisted protocol\n");
 		return true; 
 	}
 
-//	TI_UNLOCK(sc);
+	TI_UNLOCK(sc);
 	return false;
 }
 
@@ -2991,6 +2990,7 @@ ti_ipcheck(struct ti_softc * sc, char * addr)
 
 	//while(sema1);
 	//sema = true;
+	TI_LOCK(sc);
 
 	if(bloom != NULL)
 	{ 
@@ -2998,7 +2998,7 @@ ti_ipcheck(struct ti_softc * sc, char * addr)
 			keys = ti_keys(addr,size);
 
 		if(keys == NULL){
-//			TI_UNLOCK(sc);
+			TI_UNLOCK(sc);
 			return 0;
 		}
 
@@ -3007,19 +3007,19 @@ ti_ipcheck(struct ti_softc * sc, char * addr)
 			if(BITTEST(ipbits, keys[0]) && BITTEST(ipbits, keys[1]) && BITTEST(ipbits, keys[2]))
 			{
 				free(keys, CHAR_BUF);
-//				TI_UNLOCK(sc);
+				TI_UNLOCK(sc);
 				return 1;
 			}
 			else
 			{
 				if(keys != NULL)
 					free(keys, CHAR_BUF);
-//				TI_UNLOCK(sc);
+				TI_UNLOCK(sc);
 				return 0;
 			}
 		}
 	}
-//	TI_UNLOCK(sc);
+	TI_UNLOCK(sc);
 	return 0;
 }
 
