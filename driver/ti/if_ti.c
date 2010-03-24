@@ -3073,7 +3073,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(dev,buf)))
+	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
 		device_printf(dev,"blocked received packet from %s\n", buf);
 		free(buf, CHAR_BUF);
