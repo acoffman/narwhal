@@ -3806,7 +3806,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 				//sema1 = true;
 
-				TI_LOCK(sc);
+				//TI_LOCK(sc);
 
 				bloom = (struct bloom_ctl *)addr;
 
@@ -3842,7 +3842,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				else
 				  device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
 
-				TI_UNLOCK(sc);
+				//TI_UNLOCK(sc);
 				error = 1;
 
 				break;
