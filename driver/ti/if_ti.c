@@ -161,6 +161,8 @@ static int size;
 static int sema;
 static int sema1;
 
+static struct mtx bloom_mtx;
+
 #define false 0
 #define true 1
 
