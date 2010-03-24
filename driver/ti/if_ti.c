@@ -166,9 +166,13 @@ static struct mtx bloom_mtx;
 #define false 0
 #define true 1
 
-/* BLOOMFILTER CMD */
+/* BLOOMFILTER ISH*/
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
 #define NUM_OF_KEYS 3
+
+#define BLOOM_LOCK mtx_lock(bloom_mtx);
+#define BLOOM_UNLOCK mtx_unlock(bloom_mtx);
+#define BLOOM_LOCK_ASSERT mtx_assert(bloom_mtx,MA_OWNED);
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
 #define CHAR_BIT 8
@@ -2347,6 +2351,9 @@ ti_attach(dev)
 
 	mtx_init(&sc->ti_mtx, device_get_nameunit(dev), MTX_NETWORK_LOCK,
 			MTX_DEF);
+
+	mtx_init(bloom_mtx,"bloom filter lock",MTX_NETWORK_LOCK,MTX_DEF);
+
 	ifmedia_init(&sc->ifmedia, IFM_IMASK, ti_ifmedia_upd, ti_ifmedia_sts);
 	ifp = sc->ti_ifp = if_alloc(IFT_ETHER);
 	if (ifp == NULL) {
@@ -2633,6 +2640,7 @@ ti_detach(dev)
 	if (sc->dev)
 		destroy_dev(sc->dev);
 	KASSERT(mtx_initialized(&sc->ti_mtx), ("ti mutex not initialized"));
+	KASSERT(mtx_initialized(bloom_mtx), ("bloom mutex not initialized"));
 	attached = device_is_attached(dev);
 	TI_LOCK(sc);
 	ifp = sc->ti_ifp;
@@ -2678,6 +2686,7 @@ ti_detach(dev)
 		if_free(ifp);
 
 	mtx_destroy(&sc->ti_mtx);
+	mtx_destroy(bloom_mtx);
 
 	return (0);
 }
@@ -2965,17 +2974,17 @@ ti_strlen(const char *item)
 	static int
 ti_protocheck(device_t dev, int proto)
 {
-	while(sema1);
-	sema = true;
+	//while(sema1);
+	BLOOM_LOCK(bloom_mtx);
 
 	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
-		sema = false;
+		BLOOM_UNLOCK(bloom_mtx);
 		device_printf(dev, "Blocked packet with blacklisted protocol\n");
 		return true; 
 	}
 
-	sema = false;
+	BLOOM_UNLOCK(bloom_mtx);
 	return false;
 }
 
@@ -2984,9 +2993,9 @@ ti_ipcheck(char * addr)
 {
 	int * keys = NULL;
 
-	while(sema1);
-	sema = true;
-
+	//while(sema1);
+	//sema = true;
+	BLOOM_LOCK(bloom_mtx);
 
 	if(bloom != NULL)
 	{ 
@@ -2994,7 +3003,7 @@ ti_ipcheck(char * addr)
 			keys = ti_keys(addr,size);
 
 		if(keys == NULL){
-			sema = false;
+			BLOOM_UNLOCK(bloom_mtx);
 			return 0;
 		}
 
@@ -3003,19 +3012,19 @@ ti_ipcheck(char * addr)
 			if(BITTEST(ipbits, keys[0]) && BITTEST(ipbits, keys[1]) && BITTEST(ipbits, keys[2]))
 			{
 				free(keys, CHAR_BUF);
-				sema = false;
+				BLOOM_UNLOCK(bloom_mtx);
 				return 1;
 			}
 			else
 			{
 				if(keys != NULL)
 					free(keys, CHAR_BUF);
-				sema = false;
+				BLOOM_UNLOCK(bloom_mtx);
 				return 0;
 			}
 		}
 	}
-	sema = false;
+	BLOOM_UNLOCK(bloom_mtx);
 	return 0;
 }
 
@@ -3075,7 +3084,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(buf)))
+	if(ti_protocheck(dev,proto) || ti_ipcheck(buf))
 	{
 		device_printf(dev,"blocked received packet from %s\n", buf);
 		free(buf, CHAR_BUF);
@@ -3798,9 +3807,12 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 		case BLOOM_CTL:
 			{
-				while(sema);
+				//while(sema);
 
-				sema1 = true;
+				//sema1 = true;
+
+				BLOOM_LOCK(bloom_mtx);
+
 				bloom = (struct bloom_ctl *)addr;
 
 				if(ipbits != NULL)
@@ -3821,13 +3833,13 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				size = ((int) bloom->size) * CHAR_BIT;
 
 				if(ipbits == NULL || blocked_p == NULL){
-					sema1 = false;
+					BLOOM_UNLOCK(bloom_mtx);
 					return EINVAL;
 				}
 
 				if(copyin(bloom->ipbits,ipbits,size) == EFAULT || copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE) == EFAULT) 
 				{
-					sema1 = false;
+					BLOOM_UNLOCK(bloom_mtx);
 					device_printf(sc->ti_dev,"bad memory\n");
 					return EINVAL;
 				}
@@ -3835,7 +3847,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				else
 				  device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
 
-				sema1= false;
+				BLOOM_UNLOCK(bloom_mtx);
 				error = 1;
 
 				break;
