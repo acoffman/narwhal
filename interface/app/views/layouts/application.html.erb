@@ -11,6 +11,7 @@
 	  <li id="nav_dash" class = <%= @nav_over %> ><a href="/dashboard">dashboard</a></li>
 	  <li id="nav_ip" class = <%= @nav_ip %> > <a href="/dashboard/ip">ip blocking</a></li>
 	  <li id="nav_proto" class = <%= @nav_proto %> ><a href="/dashboard/protocols">protocols</a></li>
+    <li><%= button_to "Force Update", :controller => "dashboard", :action => "force_update" %></li>
 	  <li class="padding"></li>
 	</ul>
 
