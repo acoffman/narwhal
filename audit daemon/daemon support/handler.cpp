@@ -31,7 +31,9 @@ void NotificationHandler::performQuery(){
 };
 
 void NotificationHandler::generateKeys(){
+  cout << "IPS:" << endl;
   while (res->next()) {
+    cout << res->getString("ip") << endl;
     keyList.push_back(res->getString("ip"));
   }
 };
@@ -46,9 +48,11 @@ int NotificationHandler::calculateFilterSize(){
 char * NotificationHandler::getProtoArray(){
   char * protos =  new char[BITNSLOTS(NUM_PROTOCOLS)];
   int i = 0;
+  cout << "Protocols: " << endl;
   while(res1->next()){
     i++;
     BITSET(protos, res->getInt("protocol"));    
+    cout << res->getInt("protocol") << endl;
   }
   if(i == 0){
     delete [] protos;
