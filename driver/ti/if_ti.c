@@ -2968,7 +2968,7 @@ ti_strlen(const char *item)
 }
 
 	static int
-ti_protocheck(struct * softc sc, int proto)
+ti_protocheck(struct * ti_softc sc, int proto)
 {
 	TI_LOCK(sc);
 
@@ -2984,7 +2984,7 @@ ti_protocheck(struct * softc sc, int proto)
 }
 
 	static int
-ti_ipcheck(struct * softc sc, char * addr)
+ti_ipcheck(struct * ti_softc sc, char * addr)
 {
 	int * keys = NULL;
 
@@ -3059,7 +3059,7 @@ ti_keys(char *item, int size)
 }      
 
 	static int 
-ti_hook(struct * softc sc, struct mbuf* m)
+ti_hook(struct * ti_softc sc, struct mbuf* m)
 {
 	struct ip *ip = NULL;
 	char * buf;
