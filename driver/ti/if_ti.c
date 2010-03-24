@@ -2998,7 +2998,7 @@ ti_ipcheck(device_t dev, char * addr)
 
 		if(ipbits != NULL)
 		{
-			device_printf(dev, "bitcheck won: %d, bitcheck two: %d, bitcheck three: %d\n", BITTEST(ipbits,keys[0]),BITTEST(ipbits, keys[1]), BITTEST(ipbits, keys[2]))
+			device_printf(dev, "bitcheck won: %d, bitcheck two: %d, bitcheck three: %d\n", BITTEST(ipbits,keys[0]),BITTEST(ipbits, keys[1]), BITTEST(ipbits, keys[2]));
 
 			if(BITTEST(ipbits, keys[0]) && BITTEST(ipbits, keys[1]) && BITTEST(ipbits, keys[2]))
 			{
@@ -3075,7 +3075,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(buf)))
+	if(!sema && (ti_protocheck(dev,proto) || ti_ipcheck(dev,buf)))
 	{
 		device_printf(dev,"blocked received packet from %s\n", buf);
 		free(buf, CHAR_BUF);
