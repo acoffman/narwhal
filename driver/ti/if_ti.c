@@ -172,7 +172,7 @@ static int sema1;
 #define CHAR_BIT 8
 
 /* SIZE OF PROTO ARRAY */
-#define PROTO_SIZE 140
+#define PROTO_SIZE 141
 
 #define BITMASK(b) (1 << ((b) % CHAR_BIT))
 #define BITSLOT(b) ((b) / CHAR_BIT)
