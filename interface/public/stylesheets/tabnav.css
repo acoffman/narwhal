@@ -3,11 +3,11 @@
 html { font: small/1.4 "Lucinda Grande", Tahoma, sans-serif; background: #312B2D; color: #312B2D; }
 body { font-size: 92%; }
 
-#page_title { color: #312B2D; font: large/0.5 "Lucinda Grande", Tahoma, sans-serif; text-align: center; position: relative; z-index:5; padding-bottom: 5; }
-#instructions { padding: -20px; text-align:center; color: #312B2D; font: medium/1.5 "Lucinda Grande", Tahoma, sans-serif; }
+#page_title { color: #312B2D; font: large/0.5 "Lucinda Grande", Tahoma, sans-serif; text-align: center; position: relative; z-index:5; padding: 20 20 20 50; }
+#instructions { padding-top: 20px; text-align:center; color: #312B2D; font: medium/1.5 "Lucinda Grande", Tahoma, sans-serif; }
 
 #nav li { margin: 0; padding: 0; float: left; width: 100%; }
-#nav li.padding { padding-bottom: 276%; /* not sure why this wont work "right" */ /*height: 552px;*/ }
+#nav li.padding { padding-bottom: 365px; /* not sure why this wont work "right" */ /*height: 552px;*/ }
 #nav li.current a { background: #585E6A; color: #F0F0F0; font-weight: bold; }
 #nav ul { list-style: none; list-style-position: inside; }
 
@@ -19,13 +19,13 @@ body { font-size: 92%; }
 #box { margin: 35px 0px 0px 230px;  padding: 10px; background: #F0F0F0;  width: 76.5%; height: 90%;  opacity: 0.95; position: absolute;  z-index: 1; }
 #content { font: medium/2.4 "Lucinda Grande", Tahoma, sans-serif; margin: 0px 0px, 0px, 230px; width: 100%; height: 100%; position: absolute; z-index: 3; }
 
-.protocol { margin-left: 18px; text-align: center;}
-
-.proto-left{  margin: 0px auto; padding: 0.5em; float: left; }
-.proto-right{  margin: 0px auto; padding: 0.5em; float: left; }
+.protocol { margin-left: 0px; text-align: center;}
+.protocol li {padding-left: 35px;}
+.proto-left { padding: 0 0 0 100px; float: left; }
+.proto-right { padding: 0 0 0 100px; float: left; }/*realllll ghetto*/
 
 .protoTitle { margin: 0px auto; color: #312B2D; font: medium/4.0 "Lucinda Grande", Tahoma, sans-serif;} 
-.protoBox { margin: 0px auto; padding: 0px; border: 5 solid gray; width: 100px;  height: 40%; background: #FFF; float: left;}
+.protoBox { margin: 0px auto; padding: 0px; border: 5 solid gray; width: 100px;  height: 40%; background: #FFF; float: center;}
 
 #narwhal { background: url(/images/narhwal.png) no-repeat; position: absolute; bottom: 0;  right: 0px; width: 520; height: 289; z-index: 0; }
 #narwhal_small { background: url(/images/narhwal.png) no-repeat; position: absolute; top: 25px; left: 20px; width: 200px; height:85px; z-index: -1; }
@@ -51,6 +51,6 @@ td.ip, td.proto {	padding: 0.5em; }
 td.ip select, td.proto select { width: 100px;  }
 tr { background-color: #F0F0F0 }
 
-.wrapper { width: 600px; margin: 0px auto; }
+.wrapper {padding: 0 0 0 0px; width: 600px; margin: 0px auto; position: center;}
 #ip_left {  margin: 0px auto; padding: 0.5em; float: left; }
 #ip_right { margin: 0px auto; padding: 0.5em; float: left; }
