@@ -3796,6 +3796,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 		case BLOOM_CTL:
 			{
+
+				device_printf(sc->ti_dev,"got a cmd!\n");
 				while(sema);
 
 				sema1 = true;
@@ -3813,10 +3815,10 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 					blocked_p = NULL;
 				}
 
-				ipbits = malloc(bloom->size / CHAR_BIT, CHAR_BUF, M_NOWAIT); 
-				blocked_p = malloc(PROTO_SIZE / CHAR_BIT, CHAR_BUF, M_NOWAIT); 
+				ipbits = malloc(bloom->size , CHAR_BUF, M_NOWAIT); 
+				blocked_p = malloc(PROTO_SIZE , CHAR_BUF, M_NOWAIT); 
 
-				size = ((int) bloom->size) * CHAR_BIT;
+				size = ((int) bloom->size);
 
 				if(ipbits == NULL || blocked_p == NULL){
 					sema1 = false;
