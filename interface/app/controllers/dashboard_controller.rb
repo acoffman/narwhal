@@ -58,7 +58,14 @@ def ip
 end
 
 def delete
-
+  debugger
+  ip = params[:option_list]
+  ip.each do |i|
+    @ip = i[0]
+    to_delete = Blocked.find(:all, :conditions => "userid = 1 and ip = #@ip",
+                              :select => "id")
+    Blocked.delete(to_delete.id)
+  end
 end
 
 def new

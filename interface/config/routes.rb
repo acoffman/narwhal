@@ -3,6 +3,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'dashboard/ip/create', :controller => 'dashboard', :action => 'create'
   map.connect 'dashboard/ip/new', :controller => 'dashboard', :action => 'new'
+  map.connect 'dashboard/ip/delete', :controller => 'dashboard', :action => 'delete'
   # Sample of regular route:
   #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'
   # Keep in mind you can assign values other than :controller and :action
