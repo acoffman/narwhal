@@ -54,3 +54,5 @@ tr { background-color: #F0F0F0 }
 .wrapper {padding: 0 0 0 0px; width: 600px; margin: 0px auto; position: center;}
 #ip_left {  margin: 0px auto; padding: 0.5em; float: left; }
 #ip_right { margin: 0px auto; padding: 0.5em; float: left; }
+div#content div.auto_complete { width: 50px; background: #fff; }
+
