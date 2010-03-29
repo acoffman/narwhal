@@ -1,47 +1,44 @@
-<form id = "ip_left">
-<fieldset>
-  <legend>Currently Blocked</legend>
-  <table>
-    <col />
-    <col />
-    <tr class="ip">
-      <td class="ip">
-        <label for="option_list">IP Address</label>
-        <%= select_tag("option_list[]",
-        options_for_select(@list), 
-        html_options = {"size" => 20, "multiple" => true }) %>
-      </td>
-      <td class="ip">
-         <label for="proto_list">Protocols</label>
-        <%= select_tag('proto_list[]',
-        options_for_select(@proto),
-        html_options = {"size" => 15, "multiple" => true}) %>
-        <%= submit_tag( "Remove" ) %>
-      </td>
-    </tr>
-    <tr class="ip">
-      <td class="ip">
-        <%= submit_tag( "Delete IP" ) %>
-      </td>
-      <td class="ip">
-        <%= select("option", "person_id", ['UDP','POP','TCP','SNMP','DHCP','DNS','NNTP','Telnet','SSH']) %>
-          <%= submit_tag 'Add' %>
-      </td>
-    </tr>
-  </div>
-</table>
-</fieldset>
-</form>
-
-<form id = "ip_right">
-<fieldset width="20%" align="right">
-  <legend>Add New IP</legend>
-  <% form_for :blocked, :url => { :action => "create" } do |f| %>
-    IP Address: <%= f.text_field :ip, :size => 20 %> </br>
-    Protocol  : <%= f.text_field :protocol, :size => 20 %> </br>
-    Port      : <%= f.text_field :port, :size => 20 %> </br>
-    <%= f.hidden_field :userid, :value => 1 %>
-    <%= submit_tag 'Add IP' %>
-  <% end %>
-</fieldset>
-</form>
+<div class="wrapper">
+	<div id="ip_left">
+		<fieldset width="20%" align="right">
+		  <legend>Add New IP</legend>
+		  <% form_for :blocked, :url => { :action => "create" } do |f| %>
+		    	IP Address: <%= f.text_field :ip, :size => 20 %> <br />
+		    	Port      : <%= f.text_field :port, :size => 20 %> <br />
+          Protocol  : <%= text_field_with_auto_complete :blocked, :protocols, :autocomplete => "off" %> <br />
+		    <%= f.hidden_field :userid, :value => 1 %>
+		    <%= submit_tag 'Add IP' %>
+		  <% end %>
+		</fieldset>
+	</div>
+	<div id="ip_right">
+		<fieldset>
+		  <legend>Currently Blocked</legend>
+		  <table>
+		    <col />
+		    <col />
+		    <tr>
+		      <td class="ip">
+		        <label for="option_list">IP Address</label>
+						<% form_for :blockeds, :url => { :action => 'destroy' } do |block| -%>
+							<%= select_tag("ip_list", options_from_collection_for_select(@blockeds, :id, :ip),
+								{'size' => 20 } )%>
+								<br />
+						  <%= submit_tag "Delete"%>
+						<% end -%>
+		      </td>
+		      <td class="proto">
+		         <label for="proto_list">Protocols</label>
+							<% form_for :protocols, :url => { :action => 'destroy' } do |proto| -%>
+								<%= select_tag("proto_list", options_from_collection_for_select(@protocols, :id, :name),
+									{ 'size' => 20 }) %>
+									<br />
+									<%= submit_tag "Delete" %>
+							<% end -%>
+			      </td>
+		    </tr>
+		  </div>
+		</table>
+		</fieldset>
+	</div>
+</div>

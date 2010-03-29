@@ -1,31 +1,39 @@
 <div id = "instructions"><body> To block: Drag desired protocol from the allowed list and drop in the blocked list.<br>
-                              To allow: Drag desired protocol from the blocked list and drop in the allowed list.</body></div>
-<div id = "allowTitle"><h4> allowed protocols </h4></div>
-<div id = "blockTitle"><h4> blocked protocols </h4></div>
-<div id = "protoAllowBox">
-  <ul height = "100%" width="50%" id="allowed">
-  <% ['TCP','SNMP', 'POP3','DHCP','DNS'].each do |protocol| %>
-    <%= render :partial=>"protocol", :object => protocol %>
-  <% end %>
-</ul>
-</div>
+    To allow: Drag desired protocol from the blocked list and drop in the allowed list.</body></div>
 
-<div id = "protoBlockBox">
-<ul height = "100%" width="50%" id="blocked">
-  <% ['UDP','SSH'].each do |protocol| %>
-    <%= render :partial=>"protocol", :object => protocol %>
-  <% end %>
-</ul>
+<div class="wrapper">
+  <div class="proto-left">
+    <div class = "protoTitle"><h4> allowed protocols </h4></div>
+    <div class = "protoBox">
+      <ul height = "100%" width="50%" id="allowed">
+        <% @allowed_protos.each do |protocol| %>
+        <%= render :partial=>"protocol", :object => protocol %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="proto-right">
+    <div class = "protoTitle"><h4> blocked protocols </h4></div>
+    <div class = "protoBox">
+      <ul height = "100%" width="50%" id="blocked">
+        <% @blocked_protos.each do |protocol| %>
+        <%= render :partial=>"protocol", :object => protocol %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
 </div>
 
 <%= drop_receiving_element('blocked',                             # The id of the receiving element
-  :accept => "protocol",                                          # The CSS class of the dropped elememt
-  :with   => "'protocol=' + (element.id.split('_').last()) + '_blocked'",      # The query string parameters
-  :url    => {:action=>:move_item}                                # The action to call
+:accept => "protocol",                                          # The CSS class of the dropped elememt
+:with   => "'protocol=' + (element.id.split('_').last()) + '_blocked'",      # The query string parameters
+:url    => {:action=>:move_item}                                # The action to call
 )%>
 
 <%= drop_receiving_element('allowed',                             # The id of the receiving element
-  :accept => "protocol",                                          # The CSS class of the dropped elememt
-  :with   => "'protocol=' + (element.id.split('_').last()) + '_allowed'",      # The query string parameters
-  :url    => {:action=>:move_item}                                # The action to call
-                          )%>
+:accept => "protocol",                                          # The CSS class of the dropped elememt
+:with   => "'protocol=' + (element.id.split('_').last()) + '_allowed'",      # The query string parameters
+:url    => {:action=>:move_item}                                # The action to call
+)%>

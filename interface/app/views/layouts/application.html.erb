@@ -1,18 +1,30 @@
-<%= stylesheet_link_tag 'tabnav' %>
-<%= javascript_include_tag :defaults %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+			<%= stylesheet_link_tag 'tabnav' %>
+			<%= javascript_include_tag 'jquery-1.3.2.js'%>
+			<%= javascript_include_tag :defaults %>
+	</head>
+	<body>
+	<ul id="nav">
+	  <li id="nav_dash" class = <%= @nav_over %> ><a href="/dashboard">dashboard</a></li>
+	  <li id="nav_ip" class = <%= @nav_ip %> > <a href="/dashboard/ip">ip blocking</a></li>
+	  <li id="nav_proto" class = <%= @nav_proto %> ><a href="/dashboard/protocols">protocols</a></li>
+    <li><%= button_to "Force Update", :controller => "dashboard", :action => "force_update" %></li>
+	  <li class="padding"></li>
+	</ul>
 
-<ul id="nav">
-  <li id="nav_dash" class = <%= @nav_over %> ><a href="/dashboard">dashboard</a></li>
-  <li id="nav_ip" class = <%= @nav_ip %> > <a href="/dashboard/ip">ip blocking</a></li>
-  <li id="nav_proto" class = <%= @nav_proto %> ><a href="/dashboard/protocols">protocols</a></li>
-  <li class="padding"></li>
-</ul>
+	<div id="narwhal_small"></div>
+	<div id="box">
+		<div id="page_title"><h3><%= @page_title || "IP Configuration"%></h3></div>
+	  <div id="content">  
+			<p style="color: green"><%= flash[:notice] %></p>
+	
+	    <%= yield %>
 
-<div id="narwhal_small"></div>
-<div id="box">
-	<div id="page_title"><h3><%= @page_title %></h3></div>
-  <div id="content">  
-    <%= yield %>
-  </div>
-</div>
-<div id="narwhal"></div>
+	  </div>
+	</div>
+	<div id="narwhal"></div>
+	</body>
+</html>

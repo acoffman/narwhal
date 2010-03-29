@@ -6,7 +6,7 @@ include AuditDaemon
 
 class DaemonClient
   def initialize
-    @transport = Thrift::BufferedTransport.new(Thrift::Socket.new('127.0.0.1', 9090))
+    @transport = Thrift::BufferedTransport.new(Thrift::Socket.new('146.163.150.138', 9090))
     protocol = Thrift::BinaryProtocol.new(@transport)
     @client = Client.new(protocol)
 
@@ -32,7 +32,6 @@ if $0 == __FILE__
 
   client = DaemonClient.new
   client.send(msg)
-  client.ping()
 end
 
 

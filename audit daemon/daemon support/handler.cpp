@@ -1,20 +1,18 @@
 NotificationHandler::NotificationHandler(int userid){
   this->userid = userid;
-  //driver = get_driver_instance();
-  //con = driver->connect(HOST, USER, PASS);
-  //stmnt = con->createStatement();
-  //stmnt->execute("use "  TABLE);
-  performQuery();
+  driver = get_driver_instance();
+  con = driver->connect(HOST, USER, PASS);
+  stmnt = con->createStatement();
+  stmnt->execute("use "  TABLE);
   generateKeys();
   createFilter();
   mapBits();
-  //test();
 };
 
 NotificationHandler::~NotificationHandler(){
-  //delete con;
-  //delete stmnt;
-  //delete res;
+  delete con;
+  delete stmnt;
+  delete res;
   delete filter;
 };
 
@@ -25,18 +23,11 @@ void NotificationHandler::createFilter(){
   }
 };
 
-void NotificationHandler::performQuery(){
-  //do db query here
-};
-
 void NotificationHandler::generateKeys(){
-  //populate vector with keys from the query
-  keyList.push_back("hello");
-  keyList.push_back("hi");
-  keyList.push_back("welcome");
-  keyList.push_back("y helo thar");
-  keyList.push_back("i hope this works");
-  keyList.push_back("10.1.1.1");
+  res = stmnt->executeQuery("SELECT ip FROM blockeds"); 
+  while (res->next()) {
+    keyList.push_back(res->getString("ip"));
+  }
 };
 
 int NotificationHandler::calculateFilterSize(){
@@ -46,84 +37,26 @@ int NotificationHandler::calculateFilterSize(){
   return result;
 };
 
+char * NotificationHandler::getProtoArray(){
+  char * protos =  new char[BITNSLOTS(NUM_PROTOCOLS)];
+  for(int i =0; i < NUM_PROTOCOLS; i++)
+    BITCLEAR(protos,i);
+
+  res = stmnt->executeQuery("SELECT protocol FROM solo_protocols");
+  while(res->next()){
+    BITSET(protos, res->getInt("protocol"));    
+  }
+  return protos;
+};
+
 void NotificationHandler::mapBits(){
   int file_desc = open("/dev/ti0", O_RDWR);
   bloom_ctl bloom;
   bloom.bits = (*filter).getBitArray();
   bloom.size = BITNSLOTS((*filter).getSize());
-  cout << ioctl(file_desc,BLOOM_IOCTL,&bloom);
+  bloom.protocols = getProtoArray();
+  ioctl(file_desc,BLOOM_IOCTL,&bloom);
   close(file_desc);
-  fprintf(stderr,"ioctl error: %s\n",strerror(errno));
-  //int shmid;
-  //char * shm;
-  //int * shm_size;
-
-  //if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), IPC_CREAT | PERMS)) < 0) {
-    //perror("shmget");
-    //exit(1);
-  //}  
-  //if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
-    //perror("shmat");
-    //exit(1);
-  //}
-
-  //char * data = (*filter).getBitArray();
-  //char * detach = shm;
-  //for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++)
-    //*shm++ = *data++;
-  //shmdt(detach);
-  //data = NULL;
-  //shm = NULL;
-  //detach = NULL;
-
-  //if ((shmid = shmget(KEY_SIZE, sizeof(int), IPC_CREAT | PERMS)) < 0) {
-    //perror("shmget");
-    //exit(1);
-  //} 
-  //if ((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1) {
-    //perror("shmat");
-    //exit(1);
-  //}
-
-  //*shm_size = (*filter).getSize();
-  //shmdt(shm_size);
-  //shm_size = NULL;
-
-};
-
-void NotificationHandler::test(){
-  //int shmid;
-  //char *shm, *filtr;
-
-  //filtr = (*filter).getBitArray();
-  //if ((shmid = shmget(KEY, sizeof(char) * BITNSLOTS((*filter).getSize()), PERMS)) < 0) {
-    //perror("shmget");
-    //exit(1);
-  //}
-  //if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
-    //perror("shmat");
-    //exit(1);
-  //}
-
-  //char * detach = shm;
-  //for(int i = 0; i < BITNSLOTS((*filter).getSize()); i++){ 
-    //putchar(*filtr++);
-    //putchar(*shm++);
-    //cout << endl;
-  //}
-  //shmdt(detach);
-
-  //int * shm_size;
-  //if ((shmid = shmget(KEY_SIZE, sizeof(int), IPC_CREAT | PERMS)) < 0) {
-    //perror("shmget");
-    //exit(1);
-  //} 
-  //if ((shm_size = (int *) shmat(shmid, NULL, 0)) == (int *) -1) {
-    //perror("shmat");
-    //exit(1);
-  //}
-  //cout << (*filter).getSize() << " : " << *shm_size << endl;
-  //shmdt(shm_size);
-  //shm_size = NULL;
-  ////shmctl(shmid, IPC_RMID, (struct shmid_ds *)0);
+  delete [] bloom.protocols;
+  delete [] bloom.bits;
 };

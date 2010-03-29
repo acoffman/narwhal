@@ -15,30 +15,24 @@
 #include <cmath>
 
 #include <sys/types.h>
-#include <sys/ipc.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
-#include <sys/shm.h>
 #include <stdio.h>
 #include <limits.h>
-#include <iostream>
-#include <errno.h>
 
 using namespace std;
 
 #define HOST "localhost"
 #define USER "root"
 #define PASS ""
-#define TABLE "tablename"
+#define TABLE "narwhal_development"
 
 #define FP_PERCENT 0.01
-
-#define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
-#define BITTEST(a, b) ((a)[BITSLOT(b)] & BITMASK(b))
-#define BITMASK(b) (1 << ((b) % CHAR_BIT))
+#define NUM_PROTOCOLS 141
 
 struct bloom_ctl{
   char* bits;
+  char* protocols;
   int size;
 };
 
@@ -57,13 +51,11 @@ class NotificationHandler {
     sql::Connection * con;
     sql::Statement * stmnt;
     sql::ResultSet * res;
-    void performQuery();
     int calculateFilterSize();
     void createFilter();
     void mapBits();
+    char * getProtoArray();
     void generateKeys();
-    void test();
-
 };
 #include "handler.cpp"
 #endif
