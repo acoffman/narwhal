@@ -16,7 +16,7 @@ StatsNotificationHandler::~StatsNotificationHandler(){
 void StatsNotificationHandler::getKernelStats(){
   int file_desc = open("/dev/ti0", O_RDWR);
   currentStats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl));
-  ioctl(file_desc,STAT_IOCTL,currentStats);
+  ioctl(file_desc,STAT_IOCTL,&currentStats);
   close(file_desc);
 };
 
