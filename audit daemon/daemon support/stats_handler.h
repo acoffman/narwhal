@@ -32,7 +32,9 @@ struct stat_ctl{
   unsigned long totalData;
 };
 
-#define STAT_IOCTL  _IOR('c', 11, struct stat_ctl)
+//#define STAT_IOCTL  _IOR('c', 11, struct stat_ctl)
+
+#define STAT_IOCTL  _IOR('c', 11, int)
 
 class StatsNotificationHandler {
   public:
@@ -47,6 +49,7 @@ class StatsNotificationHandler {
     void saveData();
     stat_ctl * currentStats;
     stat_ctl stat_struct;
+    int myint;
 };
 
 #include "stats_handler.cpp"
