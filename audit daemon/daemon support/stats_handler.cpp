@@ -1,8 +1,8 @@
 StatsNotificationHandler::StatsNotificationHandler(){
   cout << "CONSTRUCT" << endl;
-  driver = get_driver_instance();
-  con = driver->connect(HOST, USER, PASS);
-  stmnt = con->createStatement();
+  //driver = get_driver_instance();
+  //con = driver->connect(HOST, USER, PASS);
+  //stmnt = con->createStatement();
  // stmnt->execute("use "  DB);
   cout << "BEFORE STATS" << endl;
   //getKernelStats();
