@@ -3079,11 +3079,11 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	stats->data += ip->ip_len;
+	stats->data += ntohs(ip->ip_len);
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
-		device_printf(dev,"blocked received packet from %s, with packet length %d\n", buf, ntohl(ip->ip_len));
+		device_printf(dev,"blocked received packet from %s");
 		stats->dropped_pkts++;
 		free(buf, CHAR_BUF);
 		return 1;
