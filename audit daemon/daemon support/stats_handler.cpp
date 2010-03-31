@@ -4,11 +4,8 @@ StatsNotificationHandler::StatsNotificationHandler(){
   con = driver->connect(HOST, USER, PASS);
   stmnt = con->createStatement();
   stmnt->execute("use "  DB);
-  cout << "BEFORE STATS" << endl;
   getKernelStats();
-  cout << "AFTER STATS" << endl;
   saveData();
-  cout << "AFTER SAVE" << endl;
 };
 
 StatsNotificationHandler::~StatsNotificationHandler(){
@@ -18,9 +15,7 @@ StatsNotificationHandler::~StatsNotificationHandler(){
 
 void StatsNotificationHandler::getKernelStats(){
   int file_desc = open("/dev/ti0", O_RDWR);
-  cout << "DESC OPEN" << endl;
   ioctl(file_desc,STAT_IOCTL,&currentStats);
-  cout << "IOCTL DONE" << endl;
   close(file_desc);
 };
 
@@ -29,6 +24,5 @@ void StatsNotificationHandler::saveData(){
   string dropped = boost::lexical_cast<std::string>(currentStats.numDroppedPackets);
   string traffic = boost::lexical_cast<std::string>(currentStats.totalData);
   cout << packets << ":" << dropped << ":" << traffic << ":" << endl;
-  stmnt->execute("INSERT INTO stats (numPackets, numDroppedPackets, totalData) VALUES (" + packets + ", " + dropped + ", " + traffic + " )"); 
-  cout << "AFTER INSERT" << endl;
+  stmnt->execute("INSERT INTO stats (created_at, numPackets, numDroppedPackets, totalData) VALUES (NOW()," + packets + ", " + dropped + ", " + traffic + " )"); 
 };
