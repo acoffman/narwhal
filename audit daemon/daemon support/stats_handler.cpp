@@ -4,30 +4,26 @@ StatsNotificationHandler::StatsNotificationHandler(){
   stmnt = con->createStatement();
   stmnt->execute("use "  DB);
   getKernelStats();
-  //saveData();
+  saveData();
 };
 
 StatsNotificationHandler::~StatsNotificationHandler(){
   delete con;
   delete stmnt;
-  delete myint;
-  //delete currentStats;
+  delete currentStats;
 };
 
 void StatsNotificationHandler::getKernelStats(){
   currentStats = &stat_struct; 
-  myint = new int;
   int file_desc = open("/dev/ti0", O_RDWR);
-  ioctl(file_desc,STAT_IOCTL,&myint);
-  saveData();
+  ioctl(file_desc,STAT_IOCTL,&currentStats);
   close(file_desc);
 };
 
 void StatsNotificationHandler::saveData(){
-  cout << *myint << endl;
-  //string packets = boost::lexical_cast<std::string>(currentStats->numPackets);
-  //string dropped = boost::lexical_cast<std::string>(currentStats->numDroppedPackets);
-  //string traffic = boost::lexical_cast<std::string>(currentStats->totalData);
-  //cout << packets << ":" << dropped << ":" << traffic << ":" << endl;
+  string packets = boost::lexical_cast<std::string>(currentStats->numPackets);
+  string dropped = boost::lexical_cast<std::string>(currentStats->numDroppedPackets);
+  string traffic = boost::lexical_cast<std::string>(currentStats->totalData);
+  cout << packets << ":" << dropped << ":" << traffic << ":" << endl;
   //stmnt->execute("INSERT INTO stats (created_at, numPackets, numDroppedPackets, totalData) VALUES (NOW()," + packets + ", " + dropped + ", " + traffic + " )"); 
 };
