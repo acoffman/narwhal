@@ -47,6 +47,7 @@ require File.dirname(__FILE__) + "/../../audit daemon/audit_daemon_client"
 include AuditDaemon
 
 def getStats
+  $stdout.puts "hi"
   sleep 10
   $msg ||= Message.new
   $msg.msg = "stats"
