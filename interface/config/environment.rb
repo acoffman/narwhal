@@ -53,8 +53,10 @@ def getStats
   $msg.msg = "stats"
 
   $client ||= DaemonClient.new
-  $client.send(msg) rescue nil
+  $client.send(msg) 
 end
+
+getStats
 
 Thread.new do 
   while true 
