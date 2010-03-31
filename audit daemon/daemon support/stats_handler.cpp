@@ -10,7 +10,7 @@ StatsNotificationHandler::StatsNotificationHandler(){
 StatsNotificationHandler::~StatsNotificationHandler(){
   delete con;
   delete stmnt;
-  delete currentStats;
+  //delete currentStats;
 };
 
 void StatsNotificationHandler::getKernelStats(){
@@ -24,6 +24,6 @@ void StatsNotificationHandler::saveData(){
   string packets = boost::lexical_cast<std::string>(currentStats->numPackets);
   string dropped = boost::lexical_cast<std::string>(currentStats->numDroppedPackets);
   string traffic = boost::lexical_cast<std::string>(currentStats->totalData);
-  cout << packets << ":" << dropped << ":" << traffic << ":" << endl;
+  cout << packets << ":" << dropped << ":" << traffic << endl;
   //stmnt->execute("INSERT INTO stats (created_at, numPackets, numDroppedPackets, totalData) VALUES (NOW()," + packets + ", " + dropped + ", " + traffic + " )"); 
 };
