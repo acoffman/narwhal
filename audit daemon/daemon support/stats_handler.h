@@ -49,7 +49,6 @@ class StatsNotificationHandler {
     void saveData();
     stat_ctl * currentStats;
     stat_ctl stat_struct;
-    int * myint;
 };
 
 #include "stats_handler.cpp"
