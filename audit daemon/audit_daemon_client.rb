@@ -6,7 +6,7 @@ include AuditDaemon
 
 class DaemonClient
   def initialize
-    @transport = Thrift::BufferedTransport.new(Thrift::Socket.new('146.163.150.138', 9090))
+    @transport = Thrift::BufferedTransport.new(Thrift::Socket.new('localhost', 9090))
     protocol = Thrift::BinaryProtocol.new(@transport)
     @client = Client.new(protocol)
 
