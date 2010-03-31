@@ -146,6 +146,7 @@ typedef enum {
 
 /* MALLOC SHIT */
 MALLOC_DEFINE(CHAR_BUF, "", "Malloc for characters in buffer");
+MALLOC_DEFINE(STAT_BUF, "", "Malloc for unsigned longs");
 
 struct bloom_ctl
 {
@@ -154,7 +155,15 @@ struct bloom_ctl
 	int size;
 };
 
+struct stat_ctl
+{
+	unsigned long num_pkts;
+	unsigned long dropped_pkts;
+	unsigned long data;
+};
+
 static struct bloom_ctl * bloom; 
+static struct stat_ctl * stats;
 static char * ipbits;
 static char * blocked_p;
 static int size;
@@ -164,6 +173,7 @@ static int size;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
+#define STAT_CTL _IOR('c',11, struct stat_ctl)
 #define NUM_OF_KEYS 3
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
@@ -2332,6 +2342,8 @@ ti_attach(dev)
 	int			error = 0, rid;
 	u_char			eaddr[6];
 
+	stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl *),CHAR_BUF,M_NOWAIT);
+
 	sc = device_get_softc(dev);
 	sc->ti_unit = device_get_unit(dev);
 	sc->ti_dev = dev;
@@ -2619,6 +2631,12 @@ ti_detach(dev)
 	struct ti_softc		*sc;
 	struct ifnet		*ifp;
 	int			attached;
+
+	//Free the allocated memory on detach
+	free(stats,STAT_BUF);
+	free(bloom,CHAR_BUF);
+	free(ipbits,CHAR_BUF);
+	free(blocked_p,CHAR_BUF);
 
 	sc = device_get_softc(dev);
 	if (sc->dev)
@@ -3815,6 +3833,29 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 				break;
 			}
+
+		case STAT_CTL:
+		{
+			device_printf(sc->ti_dev,"got a stat cmd!\n");
+
+			size = (int)sizeof(struct stat_ctl *);
+
+			stats->num_pkts = 5;
+			stats->dropped_pkts = 1;
+			stats->data = 1337;
+
+			if(copyout(stats,addr,size) == EFAULT)
+			{
+					device_printf(sc->ti_dev,"bad copy out\n");
+					return EINVAL;
+			}
+				
+			device_printf(sc->ti_dev,"finished copying out!\n");
+
+			error = 0;
+
+			break;
+		}
 
 		case TIIOCGETSTATS:
 			{
