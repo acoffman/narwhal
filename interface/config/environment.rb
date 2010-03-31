@@ -49,7 +49,7 @@ include AuditDaemon
 def getStats
   sleep 10
   $client ||= DaemonClient.new
-  client.ping
+  $client.ping
 end
 
 getStats
