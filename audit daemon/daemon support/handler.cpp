@@ -13,7 +13,6 @@ NotificationHandler::~NotificationHandler(){
   delete con;
   delete stmnt;
   delete res;
-  delete driver;
   delete filter;
 };
 

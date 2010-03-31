@@ -13,7 +13,6 @@ StatsNotificationHandler::StatsNotificationHandler(){
 
 StatsNotificationHandler::~StatsNotificationHandler(){
   delete con;
-  delete driver;
   delete stmnt;
 };
 
