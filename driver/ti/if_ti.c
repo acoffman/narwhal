@@ -3083,7 +3083,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
-		device_printf(dev,"blocked received packet from %s\n", buf);
+		device_printf(dev,"blocked received packet from %s, with packet length %d\n", buf, ip->ip_len);
 		stats->dropped_pkts++;
 		free(buf, CHAR_BUF);
 		return 1;
