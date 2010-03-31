@@ -23,10 +23,12 @@ class AuditDaemonHandler : virtual public AuditDaemonIf {
   }
 
   void notify(const Message& msg) {
-    if(msg.msg == "stats")
+    if(msg.msg == "stats"){
       StatsNotificationHandler s();
-    else
+      printf("stats\n");
+    }else{
       NotificationHandler n(100);
+    }
   }
 
 };
