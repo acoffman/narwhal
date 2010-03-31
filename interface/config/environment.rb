@@ -43,3 +43,20 @@ Rails::Initializer.run do |config|
 end
 
 require File.dirname(__FILE__) + "/../../audit daemon/audit_daemon_client"
+
+include AuditDaemon
+
+def getStats
+  sleep 10
+  $msg ||= Message.new
+  $msg.msg = "stats"
+
+  $client ||= DaemonClient.new
+  $client.send(msg) rescue nil
+end
+
+Thread.new do 
+  while true 
+    getStats rescue nil 
+  end 
+end
