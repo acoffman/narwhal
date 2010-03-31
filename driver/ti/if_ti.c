@@ -2342,7 +2342,7 @@ ti_attach(dev)
 	int			error = 0, rid;
 	u_char			eaddr[6];
 
-	stats = (struct stat_ctl)malloc(sizeof(struct stat_ctl),CHAR_BUF,M_NOWAIT);
+	stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl),CHAR_BUF,M_NOWAIT);
 	stats->num_pkts = 0;
 	stats->dropped_pkts = 0;
 	stats->data = 0;
