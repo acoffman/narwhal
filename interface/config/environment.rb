@@ -52,10 +52,8 @@ def getStats
   $client.ping
 end
 
-getStats
-
-#Thread.new do 
-  #while true 
-    #getStats rescue nil 
-  #end 
-#end
+Thread.new do 
+  while true 
+    getStats rescue nil 
+  end 
+end
