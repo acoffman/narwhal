@@ -3871,7 +3871,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			korea = 5;
 
 			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
-			if(copyout(&korea, (caddr_t)addr, sizeof(int)))
+			if(copyout(&korea, addr, sizeof(int)))
 			{	
 					device_printf(sc->ti_dev,"bad copy out\n");
 					return EFAULT;
