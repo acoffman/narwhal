@@ -162,7 +162,6 @@ struct stat_ctl
 	unsigned long data;
 };
 
-static unsigned long total_d;
 static struct bloom_ctl * bloom; 
 static struct stat_ctl * stats;
 static char * ipbits;
