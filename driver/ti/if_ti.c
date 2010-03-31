@@ -163,7 +163,7 @@ struct stat_ctl
 };
 
 static struct bloom_ctl * bloom; 
-static struct stat_ctl * stats;
+static struct stat_ctl stats;
 static char * ipbits;
 static char * blocked_p;
 static int size;
@@ -2343,9 +2343,9 @@ ti_attach(dev)
 	u_char			eaddr[6];
 
 	stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl),CHAR_BUF,M_NOWAIT);
-	stats->num_pkts = 0;
-	stats->dropped_pkts = 0;
-	stats->data = 0;
+	stats.num_pkts = 0;
+	stats.dropped_pkts = 0;
+	stats.data = 0;
 
 	sc = device_get_softc(dev);
 	sc->ti_unit = device_get_unit(dev);
@@ -3854,7 +3854,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			if(stats == NULL)
 				return EINVAL;
 
-			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);
+			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats.dropped_pkts,stats.num_pkts,stats.data);
+			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);*/
 
 			if(copyout(&stats,addr,sizeof(stats)))
 			{	
@@ -3864,9 +3865,14 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			device_printf(sc->ti_dev,"finished copying out!\n");
 
-			stats->data = 0;
-      stats->num_pkts = 0;
-      stats->dropped_pkts = 0;
+		stats.num_pkts = 0;
+		stats.dropped_pkts = 0;
+		stats.data = 0;
+
+
+		 /* stats->data = 0;*/
+      /*stats->num_pkts = 0;*/
+      /*stats->dropped_pkts = 0;*/
 
 			error = 0;
 
