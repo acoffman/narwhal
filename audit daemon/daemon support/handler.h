@@ -36,7 +36,14 @@ struct bloom_ctl{
   int size;
 };
 
+struct stat_ctl{
+  unsigned long numPackets;
+  unsigned long numDroppedPackets;
+  unsigned long totalData;
+};
+
 #define BLOOM_IOCTL  _IOW('c', 10, struct bloom_ctl)
+#define STAT_IOCTL  _IOR('c', 11, struct stat_ctl)
 
 class NotificationHandler {
   public:
