@@ -2342,7 +2342,7 @@ ti_attach(dev)
 	int			error = 0, rid;
 	u_char			eaddr[6];
 
-	stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl *),CHAR_BUF,M_NOWAIT);
+	stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl),CHAR_BUF,M_NOWAIT);
 	stats->num_pkts = 0;
 	stats->dropped_pkts = 0;
 	stats->data = 0;
@@ -3836,7 +3836,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				if(copyin(bloom->ipbits,ipbits,size) == EFAULT || copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE) == EFAULT) 
 				{
 					device_printf(sc->ti_dev,"bad memory\n");
-					return EINVAL;
+					return EFAULT;
 				}
 
 				else
@@ -3856,13 +3856,12 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);
 
-			//if(copyout((caddr_t)&stats,addr,sizeof(struct stat_ctl *)) == EFAULT)
-		//	{
-			//		device_printf(sc->ti_dev,"bad copy out\n");
-			//		return EINVAL;
-		//	}
-			(struct stat_ctl *)addr = stats;
-     
+			if(copyout(&stats,addr,sizeof(stats)))
+			{	
+					device_printf(sc->ti_dev,"bad copy out\n");
+					return EFAULT;
+			}
+
 			device_printf(sc->ti_dev,"finished copying out!\n");
 
 			stats->data = 0;
