@@ -3,7 +3,6 @@ StatsNotificationHandler::StatsNotificationHandler(){
   con = driver->connect(HOST, USER, PASS);
   stmnt = con->createStatement();
   stmnt->execute("use "  DB);
-  currentStats = new stat_ctl(); 
   getKernelStats();
   saveData();
 };
@@ -11,7 +10,6 @@ StatsNotificationHandler::StatsNotificationHandler(){
 StatsNotificationHandler::~StatsNotificationHandler(){
   delete con;
   delete stmnt;
-  delete currentStats;
 };
 
 void StatsNotificationHandler::getKernelStats(){
