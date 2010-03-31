@@ -173,7 +173,8 @@ static int size;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
-#define STAT_CTL _IOR('c',11, struct stat_ctl)
+/*#define STAT_CTL _IOR('c',11, struct stat_ctl)*/
+#define STAT_CTL _IOR('c',11, int)
 #define NUM_OF_KEYS 3
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
@@ -3856,7 +3857,12 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);
 
-			if(copyout(stats,addr,sizeof(struct stat_ctl *)) == EFAULT)
+			int * test;
+			int d = 5;
+		  test = &d;
+
+			/*if(copyout(stats,addr,sizeof(struct stat_ctl *)) == EFAULT)*/
+			if(copyout(test,addr,sizeof(int *)) == EFAULT)
 			{
 					device_printf(sc->ti_dev,"bad copy out\n");
 					return EINVAL;
