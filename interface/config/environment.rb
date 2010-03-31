@@ -50,8 +50,8 @@ def getStats
   $stdout.puts "before"
   sleep 10
   $client ||= DaemonClient.new
-  client.ping
   $stdout.puts "after"
+  client.ping
 end
 
 Thread.new do 
