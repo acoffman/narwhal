@@ -163,7 +163,7 @@ struct stat_ctl
 };
 
 static struct bloom_ctl * bloom; 
-static struct stat_ctl stats;
+static struct stat_ctl * stats;
 static char * ipbits;
 static char * blocked_p;
 static int size;
@@ -2342,10 +2342,10 @@ ti_attach(dev)
 	int			error = 0, rid;
 	u_char			eaddr[6];
 
-	/*stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl),CHAR_BUF,M_NOWAIT);*/
-	stats.num_pkts = 0;
-	stats.dropped_pkts = 0;
-	stats.data = 0;
+	stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl),CHAR_BUF,M_NOWAIT);
+	stats->num_pkts = 0;
+	stats->dropped_pkts = 0;
+	stats->data = 0;
 
 	sc = device_get_softc(dev);
 	sc->ti_unit = device_get_unit(dev);
@@ -2636,8 +2636,8 @@ ti_detach(dev)
 	int			attached;
 
 	//Free the allocated memory on detach
-	/*if(stats != NULL)*/
-		/*free(stats,STAT_BUF);*/
+	if(stats != NULL)
+		free(stats,STAT_BUF);
 	
 	if(bloom != NULL)
 		free(bloom,CHAR_BUF);
@@ -3079,21 +3079,18 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	/*stats->data += ntohs(ip->ip_len);*/
-	stats.data += ntohs(ip->ip_len);
+	stats->data += ntohs(ip->ip_len);
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
 		device_printf(dev,"blocked received packet from %s",buf);
-		/*stats->dropped_pkts++;*/
-		stats.dropped_pkts++;
+		stats->dropped_pkts++;
 		free(buf, CHAR_BUF);
 		return 1;
   }	
 
  	free(buf, CHAR_BUF);
-	/*stats->num_pkts++;*/
-	stats.num_pkts++;
+	stats->num_pkts++;
   return 0;
 }
 
@@ -3854,13 +3851,12 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 		case STAT_CTL:
 		{
-			/*if(stats == NULL)*/
-				/*return EINVAL;*/
+			if(stats == NULL)
+				return EINVAL;
 
-			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats.dropped_pkts,stats.num_pkts,stats.data);
-			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);*/
+			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);
 
-			if(copyout(&stats,&addr,sizeof(stats)))
+			if(copyout(&stats,&addr,sizeof(struct stat_ctl)))
 			{	
 					device_printf(sc->ti_dev,"bad copy out\n");
 					return EFAULT;
@@ -3868,14 +3864,9 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			device_printf(sc->ti_dev,"finished copying out!\n");
 
-		stats.num_pkts = 0;
-		stats.dropped_pkts = 0;
-		stats.data = 0;
-
-
-		 /* stats->data = 0;*/
-      /*stats->num_pkts = 0;*/
-      /*stats->dropped_pkts = 0;*/
+		  stats->data = 0;
+		  stats->num_pkts = 0;
+		  stats->dropped_pkts = 0;
 
 			error = 0;
 
