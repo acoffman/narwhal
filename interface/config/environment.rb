@@ -47,16 +47,12 @@ require File.dirname(__FILE__) + "/../../audit daemon/audit_daemon_client"
 include AuditDaemon
 
 def getStats
-  $stdout.puts "hi"
+  $stdout.puts "before"
   sleep 10
-  msg = Message.new
-  msg.msg = "stats"
-
-  client = DaemonClient.new
-  client.send(msg) 
+  $client ||= DaemonClient.new
+  client.ping
+  $stdout.puts "after"
 end
-
-getStats
 
 Thread.new do 
   while true 

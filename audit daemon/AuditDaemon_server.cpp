@@ -20,16 +20,11 @@ class AuditDaemonHandler : virtual public AuditDaemonIf {
 
   bool ping() {
     printf("ping\n");
+    StatsNotificationHandler s();
   }
 
   void notify(const Message& msg) {
-    printf("called\n");
-    if(msg.msg == "stats"){
-      StatsNotificationHandler s();
-      printf("stats\n");
-    }else{
-      NotificationHandler n(100);
-    }
+    NotificationHandler n(100);
   }
 
 };
