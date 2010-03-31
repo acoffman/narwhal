@@ -1,5 +1,4 @@
 StatsNotificationHandler::StatsNotificationHandler(){
-  cout << "CONSTRUCT" << endl;
   driver = get_driver_instance();
   con = driver->connect(HOST, USER, PASS);
   stmnt = con->createStatement();
@@ -11,11 +10,11 @@ StatsNotificationHandler::StatsNotificationHandler(){
 StatsNotificationHandler::~StatsNotificationHandler(){
   delete con;
   delete stmnt;
-  if(currentStats != NULL)
-    delete currentStats;
+  delete currentStats;
 };
 
 void StatsNotificationHandler::getKernelStats(){
+  currentStats = new stat_ctl; 
   int file_desc = open("/dev/ti0", O_RDWR);
   ioctl(file_desc,STAT_IOCTL,&currentStats);
   close(file_desc);
