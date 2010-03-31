@@ -10,7 +10,7 @@ StatsNotificationHandler::StatsNotificationHandler(){
 StatsNotificationHandler::~StatsNotificationHandler(){
   delete con;
   delete stmnt;
-  delete currentStats;
+  //delete currentStats;
 };
 
 void StatsNotificationHandler::getKernelStats(){
