@@ -23,7 +23,10 @@ class AuditDaemonHandler : virtual public AuditDaemonIf {
   }
 
   void notify(const Message& msg) {
-    NotificationHandler n(100);
+    if(msg.msg == "stats")
+      StatsNotificationHandler s();
+    else
+      NotificationHandler n(100);
   }
 
 };
