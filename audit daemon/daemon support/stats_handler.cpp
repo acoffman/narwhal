@@ -11,6 +11,8 @@ StatsNotificationHandler::StatsNotificationHandler(){
 StatsNotificationHandler::~StatsNotificationHandler(){
   delete con;
   delete stmnt;
+  if(currentStats != NULL)
+    delete currentStats;
 };
 
 void StatsNotificationHandler::getKernelStats(){
