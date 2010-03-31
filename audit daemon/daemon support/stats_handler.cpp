@@ -4,7 +4,7 @@ StatsNotificationHandler::StatsNotificationHandler(){
   stmnt = con->createStatement();
   stmnt->execute("use "  DB);
   getKernelStats();
-  saveData();
+  //saveData();
 };
 
 StatsNotificationHandler::~StatsNotificationHandler(){
@@ -19,6 +19,7 @@ void StatsNotificationHandler::getKernelStats(){
   myint = new int;
   int file_desc = open("/dev/ti0", O_RDWR);
   ioctl(file_desc,STAT_IOCTL,&myint);
+  saveData();
   close(file_desc);
 };
 
