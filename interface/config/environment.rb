@@ -48,15 +48,14 @@ include AuditDaemon
 
 def getStats
   sleep 10
-  $msg ||= Message.new
-  $msg.msg = "stats"
-
   $client ||= DaemonClient.new
-  $client.send(msg) rescue nil
+  $client.ping
 end
 
-Thread.new do 
-  while true 
-    getStats rescue nil 
-  end 
-end
+getStats
+
+#Thread.new do 
+  #while true 
+    #getStats rescue nil 
+  #end 
+#end
