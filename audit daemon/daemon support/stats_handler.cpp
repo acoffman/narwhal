@@ -1,13 +1,13 @@
 StatsNotificationHandler::StatsNotificationHandler(){
   cout << "CONSTRUCT" << endl;
-  //driver = get_driver_instance();
-  //con = driver->connect(HOST, USER, PASS);
-  //stmnt = con->createStatement();
- // stmnt->execute("use "  DB);
+  driver = get_driver_instance();
+  con = driver->connect(HOST, USER, PASS);
+  stmnt = con->createStatement();
+  stmnt->execute("use "  DB);
   cout << "BEFORE STATS" << endl;
-  //getKernelStats();
+  getKernelStats();
   cout << "AFTER STATS" << endl;
-  //saveData();
+  saveData();
   cout << "AFTER SAVE" << endl;
 };
 
