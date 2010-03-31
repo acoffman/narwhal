@@ -25,7 +25,7 @@ using namespace std;
 #define HOST "localhost"
 #define USER "root"
 #define PASS ""
-#define TABLE "narwhal_development"
+#define DB "narwhal_development" 
 
 #define FP_PERCENT 0.01
 #define NUM_PROTOCOLS 141
@@ -36,14 +36,7 @@ struct bloom_ctl{
   int size;
 };
 
-struct stat_ctl{
-  unsigned long numPackets;
-  unsigned long numDroppedPackets;
-  unsigned long totalData;
-};
-
 #define BLOOM_IOCTL  _IOW('c', 10, struct bloom_ctl)
-#define STAT_IOCTL  _IOR('c', 11, struct stat_ctl)
 
 class NotificationHandler {
   public:

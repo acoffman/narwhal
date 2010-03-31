@@ -4,6 +4,7 @@
 #include <transport/TServerSocket.h>
 #include <transport/TBufferTransports.h>
 #include "daemon support/handler.h"
+#include "daemon support/stats_handler.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;

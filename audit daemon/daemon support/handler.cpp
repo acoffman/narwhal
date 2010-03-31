@@ -3,7 +3,7 @@ NotificationHandler::NotificationHandler(int userid){
   driver = get_driver_instance();
   con = driver->connect(HOST, USER, PASS);
   stmnt = con->createStatement();
-  stmnt->execute("use "  TABLE);
+  stmnt->execute("use "  DB);
   generateKeys();
   createFilter();
   mapBits();
