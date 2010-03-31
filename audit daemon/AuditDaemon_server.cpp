@@ -20,7 +20,7 @@ class AuditDaemonHandler : virtual public AuditDaemonIf {
 
   bool ping() {
     printf("ping\n");
-    StatsNotificationHandler s();
+    StatsNotificationHandler s;
     printf("after\n");
     return true;
   }
