@@ -168,13 +168,15 @@ static struct stat_ctl stats;
 static char * ipbits;
 static char * blocked_p;
 static int size;
+static int korea;
 
 #define false 0
 #define true 1
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
-#define STAT_CTL _IOR('c',11, struct stat_ctl)
+/*#define STAT_CTL _IOR('c',11, struct stat_ctl)*/
+#define STAT_CTL _IOR('c',11, int)
 #define NUM_OF_KEYS 3
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
@@ -3866,7 +3868,10 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats.dropped_pkts,stats.num_pkts,stats.data);
 			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);*/
 
-			if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))
+			korea = 5;
+
+			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
+			if(copyout(&korea, (caddr_t)addr, sizeof(int)))
 			{	
 					device_printf(sc->ti_dev,"bad copy out\n");
 					return EFAULT;
