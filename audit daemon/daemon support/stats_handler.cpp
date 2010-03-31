@@ -18,7 +18,7 @@ void StatsNotificationHandler::getKernelStats(){
   //ioctl(file_desc,STAT_IOCTL,&currentStats);
   ioctl(file_desc,STAT_IOCTL,myint);
   close(file_desc);
-  cout << myint << endl;
+  cout << *myint << endl;
   delete myint;
 };
 
