@@ -17,6 +17,8 @@
 
 #include <string>
 
+#include <iostream>
+
 using namespace std;
 
 #define HOST "localhost"
