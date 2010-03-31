@@ -2342,10 +2342,8 @@ ti_attach(dev)
 	int			error = 0, rid;
 	u_char			eaddr[6];
 
+	stats = NULL;
 	stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl *),CHAR_BUF,M_NOWAIT);
-	stats->num_pkts = 0;
-	stats->dropped_pkts = 0;
-	stats->data = 0;
 
 	sc = device_get_softc(dev);
 	sc->ti_unit = device_get_unit(dev);
@@ -3079,18 +3077,14 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	stats->data += ip->ip_len;
-
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
 		device_printf(dev,"blocked received packet from %s\n", buf);
-		stats->dropped_pkts++;
 		free(buf, CHAR_BUF);
 		return 1;
   }	
 
  	free(buf, CHAR_BUF);
-	stats->num_pkts++;
   return 0;
 }
 
@@ -3860,6 +3854,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			stats->num_pkts = 5;
 			stats->dropped_pkts = 1;
+			stats->data = 1337;
 
 			if(copyout(stats,addr,size) == EFAULT)
 			{
