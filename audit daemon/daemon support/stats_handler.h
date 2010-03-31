@@ -45,8 +45,7 @@ class StatsNotificationHandler {
     sql::Statement * stmnt;
     void getKernelStats();
     void saveData();
-    stat_ctl * currentStats;
-    stat_ctl stat_struct;
+    stat_ctl currentStats;
 };
 
 #include "stats_handler.cpp"
