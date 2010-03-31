@@ -46,7 +46,6 @@ class StatsNotificationHandler {
     void getKernelStats();
     void saveData();
     stat_ctl * currentStats;
-    stat_ctl stat_struct;
 };
 
 #include "stats_handler.cpp"
