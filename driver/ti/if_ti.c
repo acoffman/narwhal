@@ -2342,6 +2342,7 @@ ti_attach(dev)
 	int			error = 0, rid;
 	u_char			eaddr[6];
 
+	stats = NULL;
 	stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl *),CHAR_BUF,M_NOWAIT);
 
 	sc = device_get_softc(dev);
@@ -2633,10 +2634,17 @@ ti_detach(dev)
 	int			attached;
 
 	//Free the allocated memory on detach
-	free(stats,STAT_BUF);
-	free(bloom,CHAR_BUF);
-	free(ipbits,CHAR_BUF);
-	free(blocked_p,CHAR_BUF);
+	if(stats != NULL)
+		free(stats,STAT_BUF);
+	
+	if(bloom != NULL)
+		free(bloom,CHAR_BUF);
+	
+	if(ipbits != NULL)
+		free(ipbits,CHAR_BUF);
+
+	if(blocked_p != NULL)
+		free(blocked_p,CHAR_BUF);
 
 	sc = device_get_softc(dev);
 	if (sc->dev)
@@ -3076,8 +3084,8 @@ ti_hook(device_t dev, struct mbuf* m)
 		return 1;
   }	
 
-free(buf, CHAR_BUF);
-return 0;
+ 	free(buf, CHAR_BUF);
+  return 0;
 }
 
 	static void
@@ -3795,7 +3803,11 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 				device_printf(sc->ti_dev,"got a cmd!\n");
 
+				bloom = NULL;
 				bloom = (struct bloom_ctl *)addr;
+
+				if(bloom == NULL)
+					return EINVAL;
 
 				if(ipbits != NULL)
 				{
@@ -3836,6 +3848,9 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 		case STAT_CTL:
 		{
+			if(stats == NULL)
+				return EINVAL;
+
 			device_printf(sc->ti_dev,"got a stat cmd!\n");
 
 			size = (int)sizeof(struct stat_ctl *);
@@ -3851,7 +3866,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			}
 				
 			device_printf(sc->ti_dev,"finished copying out!\n");
-
 			error = 0;
 
 			break;
