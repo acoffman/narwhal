@@ -3854,11 +3854,11 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			if(stats == NULL)
 				return EINVAL;
 
-			device_printf(sc->ti_dev,"got a stat cmd!\n");
+			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);
 
 			size = (int)sizeof(struct stat_ctl *);
 
-			if(copyout(stats,addr,size) == EFAULT)
+			if(copyout(stats,(struct stat_ctl *)addr,size) == EFAULT)
 			{
 					device_printf(sc->ti_dev,"bad copy out\n");
 					return EINVAL;
