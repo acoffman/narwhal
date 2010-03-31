@@ -3083,7 +3083,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
-		device_printf(dev,"blocked received packet from %s\n", buf);
+		device_printf(dev,"blocked received packet from %s, with packet length %d\n", buf, ip->ip_len);
 		stats->dropped_pkts++;
 		free(buf, CHAR_BUF);
 		return 1;
@@ -3857,9 +3857,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			device_printf(sc->ti_dev,"got a stat cmd!\n");
 
 			size = (int)sizeof(struct stat_ctl *);
-
-			stats->num_pkts = 5;
-			stats->dropped_pkts = 1;
 
 			if(copyout(stats,addr,size) == EFAULT)
 			{
