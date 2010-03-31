@@ -47,15 +47,15 @@ require File.dirname(__FILE__) + "/../../audit daemon/audit_daemon_client"
 include AuditDaemon
 
 def getStats
-  $stdout.puts "before"
   sleep 10
   $client ||= DaemonClient.new
-  $stdout.puts "after"
   client.ping
 end
 
-Thread.new do 
-  while true 
-    getStats rescue nil 
-  end 
-end
+getStats
+
+#Thread.new do 
+  #while true 
+    #getStats rescue nil 
+  #end 
+#end
