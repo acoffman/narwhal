@@ -49,11 +49,11 @@ include AuditDaemon
 def getStats
   $stdout.puts "hi"
   sleep 10
-  $msg ||= Message.new
-  $msg.msg = "stats"
+  msg = Message.new
+  msg.msg = "stats"
 
-  $client ||= DaemonClient.new
-  $client.send(msg) 
+  client = DaemonClient.new
+  client.send(msg) 
 end
 
 getStats
