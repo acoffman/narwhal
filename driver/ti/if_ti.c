@@ -173,7 +173,8 @@ static int size;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
-#define STAT_CTL _IOR('c',11, struct stat_ctl)
+/*#define STAT_CTL _IOR('c',11, struct stat_ctl)*/
+#define STAT_CTL _IOR('c',11, int crap)
 #define NUM_OF_KEYS 3
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
