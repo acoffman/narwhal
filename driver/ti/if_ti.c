@@ -174,7 +174,7 @@ static int size;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
-#define STAT_CTL_IOW('c',11, struct stat_ctl)
+#define STAT_CTL_IOR('c',11, struct stat_ctl)
 #define NUM_OF_KEYS 3
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
@@ -2343,7 +2343,7 @@ ti_attach(dev)
 	int			error = 0, rid;
 	u_char			eaddr[6];
 
-	stats = malloc(sizeof(struct * stat_ctl),CHAR_BUF,M_NOWAIT);
+	stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl *),CHAR_BUF,M_NOWAIT);
 
 	sc = device_get_softc(dev);
 	sc->ti_unit = device_get_unit(dev);
@@ -3839,10 +3839,10 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 		{
 			device_printf(sc->ti_dev,"got a stat cmd!\n");
 
-			size = sizeof(struct * stat_ctl);
+			size = (int)sizeof(struct stat_ctl *);
 
 			stats->num_pkts = 5;
-			stats->blocked_pkts = 1;
+			stats->dropped_pkts = 1;
 			stats->data = 1337;
 
 			if(copyout(stats,addr,size) == EFAULT)
