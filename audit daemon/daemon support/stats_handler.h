@@ -13,6 +13,9 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <limits.h>
+#include <boost/lexical_cast.hpp>
+
+#include <string>
 
 using namespace std;
 
