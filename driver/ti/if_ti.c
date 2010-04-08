@@ -146,6 +146,7 @@ typedef enum {
 
 /* MALLOC SHIT */
 MALLOC_DEFINE(CHAR_BUF, "", "Malloc for characters in buffer");
+MALLOC_DEFINE(STAT_BUF, "", "Malloc for unsigned longs");
 
 struct bloom_ctl
 {
@@ -154,18 +155,28 @@ struct bloom_ctl
 	int size;
 };
 
+struct stat_ctl
+{
+	unsigned long num_pkts;
+	unsigned long dropped_pkts;
+	unsigned long data;
+};
+
 static struct bloom_ctl * bloom; 
+/*static struct stat_ctl * stats;*/
+static struct stat_ctl stats;
 static char * ipbits;
 static char * blocked_p;
 static int size;
-//static int sema;
-//static int sema1;
+static int korea;
 
 #define false 0
 #define true 1
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
+/*#define STAT_CTL _IOR('c',11, struct stat_ctl)*/
+#define STAT_CTL _IOR('c',11, int)
 #define NUM_OF_KEYS 3
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
@@ -2334,9 +2345,14 @@ ti_attach(dev)
 	int			error = 0, rid;
 	u_char			eaddr[6];
 
-	//Set semaphores
-	//sema = false;
-	//sema1 = false;
+	/*stats = (struct stat_ctl *)malloc(sizeof(struct stat_ctl),CHAR_BUF,M_NOWAIT);*/
+	/*stats->num_pkts = 0;*/
+	/*stats->dropped_pkts = 0;*/
+	/*stats->data = 0;*/
+
+	stats.num_pkts = 0;
+	stats.dropped_pkts = 0;
+	stats.data = 0;
 
 
 	sc = device_get_softc(dev);
@@ -2626,6 +2642,19 @@ ti_detach(dev)
 	struct ti_softc		*sc;
 	struct ifnet		*ifp;
 	int			attached;
+
+	//Free the allocated memory on detach
+	/*if(stats != NULL)*/
+		/*free(stats,STAT_BUF);*/
+	
+	if(bloom != NULL)
+		free(bloom,CHAR_BUF);
+	
+	if(ipbits != NULL)
+		free(ipbits,CHAR_BUF);
+
+	if(blocked_p != NULL)
+		free(blocked_p,CHAR_BUF);
 
 	sc = device_get_softc(dev);
 	if (sc->dev)
@@ -2963,17 +2992,11 @@ ti_strlen(const char *item)
 	static int
 ti_protocheck(device_t dev, int proto)
 {
-	//while(sema1);
-	//sema = true;
-
 	if(blocked_p != NULL && BITTEST(blocked_p, proto)) 
 	{
-		//sema = false;
 		device_printf(dev, "Blocked packet with blacklisted protocol\n");
 		return true; 
 	}
-
-	//sema = false;
 	return false;
 }
 
@@ -2982,17 +3005,12 @@ ti_ipcheck(char * addr)
 {
 	int * keys = NULL;
 
-	//while(sema1);
-	//sema = true;
-
-
 	if(bloom != NULL)
 	{ 
 		if(size > 0)
 			keys = ti_keys(addr,size);
 
 		if(keys == NULL){
-	//		sema = false;
 			return 0;
 		}
 
@@ -3001,19 +3019,16 @@ ti_ipcheck(char * addr)
 			if(BITTEST(ipbits, keys[0]) && BITTEST(ipbits, keys[1]) && BITTEST(ipbits, keys[2]))
 			{
 				free(keys, CHAR_BUF);
-	//			sema = false;
 				return 1;
 			}
 			else
 			{
 				if(keys != NULL)
 					free(keys, CHAR_BUF);
-	//			sema = false;
 				return 0;
 			}
 		}
 	}
-	//sema = false;
 	return 0;
 }
 
@@ -3032,18 +3047,17 @@ ti_keys(char *item, int size)
 		return NULL;
 
 	bug[0] = ti_hash(item) % (size * CHAR_BIT);
-
 	keys[0] = ABS(bug[0]);
-	rev = ti_strev(item);
-	bug[1] = ti_hash(rev) % (size * CHAR_BIT); 
 
+	rev = ti_strev(item);
+
+	bug[1] = ti_hash(rev) % (size * CHAR_BIT); 
 	keys[1] = ABS(bug[1]);
 
 	if((concat = ti_concat(item,rev)) == NULL)
 		return NULL; 
 
 	bug[2] = ti_hash(concat) % (size * CHAR_BIT);
-
 	keys[2] = ABS(bug[2]);
 
 	free(bug, CHAR_BUF);
@@ -3073,15 +3087,22 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
+	/*stats->data += ntohs(ip->ip_len);*/
+	stats.data += ntohs(ip->ip_len);
+
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
-		device_printf(dev,"blocked received packet from %s\n", buf);
+		device_printf(dev,"blocked received packet from %s",buf);
+		/*stats->dropped_pkts++;*/
+		stats.dropped_pkts++;
 		free(buf, CHAR_BUF);
 		return 1;
   }	
 
-free(buf, CHAR_BUF);
-return 0;
+ 	free(buf, CHAR_BUF);
+	/*stats->num_pkts++;*/
+	stats.num_pkts++;
+  return 0;
 }
 
 	static void
@@ -3798,9 +3819,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			{
 
 				device_printf(sc->ti_dev,"got a cmd!\n");
-				//while(sema);
 
-				//ema1 = true;
+				bloom = NULL;
 				bloom = (struct bloom_ctl *)addr;
 
 				if(ipbits != NULL)
@@ -3821,27 +3841,56 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				size = (int)(bloom->size);
 
 				if(ipbits == NULL || blocked_p == NULL){
-					//sema1 = false;
 					return EINVAL;
 				}
 
 				if(copyin(bloom->ipbits,ipbits,size) == EFAULT || copyin(bloom->blocked_protos,blocked_p,PROTO_SIZE) == EFAULT) 
 				{
-					//sema1 = false;
 					device_printf(sc->ti_dev,"bad memory\n");
-					return EINVAL;
+					return EFAULT;
 				}
 
 				else
 				  device_printf(sc->ti_dev,"received bloom filter: %s , with size: %d\n",(char *)ipbits,size);
 
-				//sema1= false;
-				error = 1;
-
 				device_printf(sc->ti_dev,"finished cmd!\n");
+
+				error = 0;
 
 				break;
 			}
+
+		case STAT_CTL:
+		{
+			/*if(stats == NULL)*/
+				/*return EINVAL;*/
+
+			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats.dropped_pkts,stats.num_pkts,stats.data);
+			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);*/
+
+			korea = 5;
+
+			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
+			if(copyout(&korea, addr, sizeof(int)))
+			{	
+					device_printf(sc->ti_dev,"bad copy out\n");
+					return EFAULT;
+			}
+
+			device_printf(sc->ti_dev,"finished copying out!\n");
+
+ /*     stats->data = 0;*/
+			/*stats->num_pkts = 0;*/
+			/*stats->dropped_pkts = 0;*/
+
+			stats.data = 0;
+			stats.num_pkts = 0;
+			stats.dropped_pkts = 0;
+
+			error = 0;
+
+			break;
+		}
 
 		case TIIOCGETSTATS:
 			{

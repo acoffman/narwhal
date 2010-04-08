@@ -25,7 +25,7 @@ using namespace std;
 #define HOST "localhost"
 #define USER "root"
 #define PASS ""
-#define TABLE "narwhal_development"
+#define DB "narwhal_development" 
 
 #define FP_PERCENT 0.01
 #define NUM_PROTOCOLS 141

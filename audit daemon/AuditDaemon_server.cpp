@@ -4,6 +4,7 @@
 #include <transport/TServerSocket.h>
 #include <transport/TBufferTransports.h>
 #include "daemon support/handler.h"
+#include "daemon support/stats_handler.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -18,7 +19,8 @@ class AuditDaemonHandler : virtual public AuditDaemonIf {
   }
 
   bool ping() {
-    printf("ping\n");
+    StatsNotificationHandler s;
+    return true;
   }
 
   void notify(const Message& msg) {
@@ -39,4 +41,3 @@ int main(int argc, char **argv) {
   server.serve();
   return 0;
 }
-

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100211021825) do
+ActiveRecord::Schema.define(:version => 20100331012036) do
 
   create_table "blockeds", :force => true do |t|
     t.integer "user_id"
@@ -24,6 +24,13 @@ ActiveRecord::Schema.define(:version => 20100211021825) do
 
   create_table "solo_protocols", :force => true do |t|
     t.integer "protocol"
+  end
+
+  create_table "stats", :force => true do |t|
+    t.datetime "created_at"
+    t.integer  "numPackets"
+    t.integer  "numDroppedPackets"
+    t.integer  "totalData"
   end
 
   create_table "users", :force => true do |t|
