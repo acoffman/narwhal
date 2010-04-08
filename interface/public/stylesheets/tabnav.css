@@ -3,7 +3,7 @@
 html { font: small/1.4 "Lucinda Grande", Tahoma, sans-serif; background: #312B2D; color: #312B2D; }
 body { font-size: 92%; }
 
-#page_title { color: #312B2D; font: large/0.5 "Lucinda Grande", Tahoma, sans-serif; text-align: center; position: relative; z-index:5; padding: 20 20 20 50; }
+#page_title { color: #312B2D; font: large/2.0 "Lucinda Grande", Tahoma, sans-serif; text-align: center; position: relative; z-index:5; padding: 20 20 20 50; }
 #instructions { padding-top: 20px; text-align:center; color: #312B2D; font: medium/1.5 "Lucinda Grande", Tahoma, sans-serif; }
 
 #nav li { margin: 0; padding: 0; float: left; width: 100%; }
@@ -16,7 +16,7 @@ body { font-size: 92%; }
 #nav a { display: block; color: #FFF; text-decoration: none; padding: 0 15px; line-height: 2.5; border-bottom: 1px solid #FFF; }
 #nav a:hover  { background: #CED379; }
 
-#box { margin: 35px 0px 0px 230px;  padding: 10px; background: #F0F0F0;  width: 76.5%; height: 90%;  opacity: 0.95; position: absolute;  z-index: 1; }
+#box { margin: 35px 0px 0px 230px;  padding: 10px; background: #F0F0F0;  width: 76.5%; height: 85%;  opacity: 0.95; position: absolute;  z-index: 1; }
 #content { font: medium/2.4 "Lucinda Grande", Tahoma, sans-serif; margin: 0px 0px, 0px, 230px; width: 100%; height: 100%; position: absolute; z-index: 3; }
 
 .protocol { margin-left: 0px; text-align: center;}
@@ -30,7 +30,8 @@ body { font-size: 92%; }
 #narwhal { background: url(/images/narhwal.png) no-repeat; position: absolute; bottom: 0;  right: 0px; width: 520; height: 289; z-index: 0; }
 #narwhal_small { background: url(/images/narhwal.png) no-repeat; position: absolute; top: 25px; left: 20px; width: 200px; height:85px; z-index: -1; }
 
-#chart_div { position:absolute; right: 10px; top: 75px; }
+#chart_div { position:absolute; right: 15px; top: 35px; }
+#overview_table { position:absolute; left: 0px; top: 35px; }
 
 #allowed li { text-align: left; }
 #blocked li { text-align: left; }
@@ -38,7 +39,7 @@ body { font-size: 92%; }
 tr { background-color: #D9ECDB; }
 tr.even {  background-color: #E9FFE1; }
 
-legend { margin-left: 1em; color: #000000; font-weight: bold; }
+legend { margin-left: 0em; color: #000000; font-weight: bold; }
 
 fieldset { margin: 1.5em 0 0 0; padding: 0 0 0 0.5em; }
 fieldset ol { padding: 1em 1em 0em 1em; list-style: none; }
@@ -47,12 +48,14 @@ fieldset.submit {	border-style: none; }
 
 label { padding-left: 0.5em; font: 1em Helvetica; display:block;}
 
-td.ip, td.proto {	padding: 0.5em; }
-td.ip select, td.proto select { width: 100px;  }
+td.ip, td.proto, td.port {	padding: 0.0em; }
+td.ip select, td.proto select, td.port select { width: 90px;  }
 tr { background-color: #F0F0F0 }
 
-.wrapper {padding: 0 0 0 0px; width: 600px; margin: 0px auto; position: center;}
-#ip_left {  margin: 0px auto; padding: 0.5em; float: left; }
-#ip_right { margin: 0px auto; padding: 0.5em; float: left; }
+.wrapper {padding: 0 0 0 0px; width: 90%; margin: 0px auto; position: center;}
+.prowrapper {padding: 0 0 0 0px; width: 60%; margin: 0px auto; position: center;}
+#ip_left {  margin: 50px auto; padding: 0.5em; float: left; }
+#ip_right { margin: 0px auto; padding: 2.5em 0 0em 1em; float: left; }
 div#content div.auto_complete { width: 50px; background: #fff; }
 
+td.header { background: #E9FFE1; font-size: small }
