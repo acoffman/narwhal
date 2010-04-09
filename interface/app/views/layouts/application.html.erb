@@ -15,7 +15,8 @@
 	  <li id="nav_ip" class = <%= @nav_ip %> > <a href="/dashboard/ip">ip blocking</a></li>
 	  <li id="nav_proto" class = <%= @nav_proto %> ><a href="/dashboard/protocols">protocols</a></li>
     <li><%= button_to "Force Update", :controller => "dashboard", :action => "force_update" %></li>
-	  <li class="padding"></li>
+    <li><%= button_to "Logout", :controller => "dashboard", :action => "logout" %></li>
+    <li class="padding"></li>
 	</ul>
 
 	<div id="narwhal_small"></div>
