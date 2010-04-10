@@ -28,15 +28,18 @@ class DashboardController < ApplicationController
   end
  
   # GET /dashboard/ip
-  def ip   
-    blockeds  = Blocked.find(:all, :include => :protocols) do #.map do |cur|
+  def ip  
+    @blockeds = Blocked.find(:all, 
+                             :select => 'ip, name, port',
+                             :joins => :protocols) do #.map do |cur|
    # blockeds = Blocked.all.map do |cur|
-     # cur.protocols.name = $protocol_ids[cur.protocols.name.to_i] if cur.protocols.name
-     # cur
-    #end
+    #  @blockeds.map do |cur|
+     # cur.name = $protocol_ids[cur.name.to_i] if cur.name
+      #cur
+  #  end
 
     if params[:_search] == "true"
-      ip =~ "%#{params[:ip]}%" if params[:id].present?
+      ip =~ "%#{params[:ip]}%" if params[:ip].present?
       protocol =~ "%#{params[:protocol]}%" if params[:protocol].present?
       port =~ "%#{params[:port]}%" if params[:port].present?
     end
@@ -46,8 +49,8 @@ class DashboardController < ApplicationController
     respond_to do |format|
       @nav_ip = "current"
       format.html
-      format.json { render :json => blockeds.to_jqgrid_json([:ip, :name, :port],
-                                     params[:page],params[:rows], blockeds.total_entries) }
+      format.json { render :json => @blockeds.to_jqgrid_json([:ip, :name, :port],
+                                     params[:page],params[:rows], @blockeds.total_entries) }
 
       format.js
 
