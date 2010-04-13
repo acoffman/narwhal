@@ -9,6 +9,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'dashboard/force_update', :controller => 'dashboard', :action => 'force_update'
   map.connect 'dashboard/init_chart', :controller => 'dashboard', :action => 'init_chart'
   map.connect 'dashboard/chart_scale', :controller => 'dashboard', :action => 'chart_scale'
+  map.connect 'dashboard/reports', :controller => 'dashboard', :action => 'reports'
+  map.connect 'dashboard/gen_report.csv', :controller => 'dashboard', :action => 'gen_report'
   
   map.resources :dashboard  
   map.root :controller => 'dashboard'

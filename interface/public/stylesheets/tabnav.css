@@ -7,7 +7,7 @@ body { font-size: 92%; }
 #instructions { padding-top: 20px; text-align:center; color: #312B2D; font: medium/1.5 "Lucinda Grande", Tahoma, sans-serif; }
 
 #nav li { margin: 0; padding: 0; float: left; width: 100%; }
-#nav li.padding { padding-bottom: 365px; /* not sure why this wont work "right" */ /*height: 552px;*/ }
+#nav li.padding { padding-bottom: 353px; /* not sure why this wont work "right" */ /*height: 552px;*/ }
 #nav li.current a { background: #585E6A; color: #F0F0F0; font-weight: bold; }
 #nav ul { list-style: none; list-style-position: inside; }
 

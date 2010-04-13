@@ -148,6 +148,17 @@ class DashboardController < ApplicationController
     session[:num] = params[:num]
     index
   end
+
+  def reports
+    @page_title = "Generate Custom Reports"
+    @nav_report = "current"
+  end
+
+  def gen_report
+    respond_to do |format|
+      format.csv { send_data "1,2,3", :filename => Time.now.to_s + "_report.csv" }
+    end
+  end
   
   def init_chart
     title = Title.new("Firewall Traffic Overview")
