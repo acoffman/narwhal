@@ -1,30 +1,32 @@
 class DashboardController < ApplicationController
  
-  use_google_charts
- 
   # GET /dashboard
   def index
     @protocols = Protocol.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"])
     @page_title = "Firewall Performance Overview"
-    @test_num = params[:test_num]
-    @test_num ||= 55
+    session[:avg] ||= 11
+    session[:peak] ||= 15
+    @peak = session[:peak]
+    @avg = session[:avg]
     @nav_over = "current"
-    dataset5 = GoogleChartDataset.new :data => [0,100]
-    dataset6 = GoogleChartDataset.new :data => [@test_num, @test_num], :color => '0000FF', :title => 'Allowable Average Rate'
-    dataset3 = GoogleChartDataset.new :data => [0,100]
-    dataset4 = GoogleChartDataset.new :data => [75, 75], :color => 'FF0000', :title => 'Allowable Peak Rate'
-    dataset1 = GoogleChartDataset.new :data => [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    dataset2 = GoogleChartDataset.new :data => [10, 50, 24, 10, 26, 32, 45, 43, 23, 42, 65], :color => '000000', :title => 'Traffic'
-    @chart = init_chart("Incoming Traffic Average Rates", [dataset1, dataset2, dataset3, dataset4, dataset5, dataset6])
- 
+    @chart = open_flash_chart_object(975,300,"/dashboard/init_chart")
+
     respond_to do |format|
       format.html { render :overview }
     end
   end
  
   def edit_num
-    @test_num = params[:value]
-    render :text => @test_num
+    if params[:editorId] == "avg"
+      session[:avg] = params[:value]
+    end
+
+    if params[:editorId] == "peak"
+      session[:peak] == params[:value]
+    end
+    render :update do |page|
+      page.reload
+    end
   end
  
   # GET /dashboard/ip
@@ -141,15 +143,63 @@ class DashboardController < ApplicationController
     render :inline => "<%= content_tag(:ul, @protos.map { |org| content_tag(:li, h(org)) }) %>"
   end
  
-  private
- 
-  def init_chart(title, datasets)
-    data = GoogleChartData.new :datasets => datasets
-    axis = GoogleChartAxis.new :axis  => [GoogleChartAxis::LEFT, GoogleChartAxis::BOTTOM]
-    chart = GoogleLineChart.new :chart_type => GoogleLineChart::XY , :width => 500, :height => 300, :title => title
-    chart.data = data
-    chart.axis = axis
-    chart
+  def chart_scale
+    session[:interval] = params[:interval]
+    session[:num] = params[:num]
+    index
+  end
+  
+  def init_chart
+    title = Title.new("Firewall Traffic Overview")
+    data1 = []
+
+    session[:num] ||= 7
+    session[:interval] ||= "Minutes"
+    session[:avg] ||= 11
+    session[:peak] ||= 15
+
+    session[:num].to_i.times do |x|
+      data1 << rand(5) + 1
+    end
+
+    line_traffic = Line.new
+    line_traffic.text = "Incoming Traffic"
+    line_traffic.width = 2
+    line_traffic.colour = '#000000'
+    line_traffic.values = data1
+
+    line_peak = Line.new
+    line_peak.text = "Peak Allowable Traffic"
+    line_peak.width = 1
+    line_peak.colour = '#FF0000'
+    line_peak.values = [session[:peak].to_i] * session[:num].to_i
+
+    line_avg = Line.new
+    line_avg.text = "Average Allowable Traffic"
+    line_avg.width = 1
+    line_avg.colour = '#0000FF'
+    line_avg.values = [session[:avg].to_i] * session[:num].to_i
+
+    y = YAxis.new
+    y.set_range(0,20,5)
+
+    x_legend = XLegend.new(session[:interval])
+    x_legend.set_style('{font-size: 10px; color: #000000}')
+
+    y_legend = YLegend.new("kbps")
+    y_legend.set_style('{font-size: 10px; color: #000000}')
+
+    chart =OpenFlashChart.new
+    chart.set_title(title)
+    chart.set_x_legend(x_legend)
+    chart.set_y_legend(y_legend)
+    chart.y_axis = y
+
+    chart.add_element(line_traffic)
+    chart.add_element(line_peak)
+    chart.add_element(line_avg)
+
+    render :text => chart.to_s
   end
  
 end

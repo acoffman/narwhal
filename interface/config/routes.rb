@@ -7,6 +7,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'dashboard/ip/', :controller => 'dashboard', :action => 'ip'
   map.connect 'dashboard/protocols', :controller => 'dashboard', :action => 'protocols'
   map.connect 'dashboard/force_update', :controller => 'dashboard', :action => 'force_update'
+  map.connect 'dashboard/init_chart', :controller => 'dashboard', :action => 'init_chart'
+  map.connect 'dashboard/chart_scale', :controller => 'dashboard', :action => 'chart_scale'
   
   map.resources :dashboard  
   map.root :controller => 'dashboard'

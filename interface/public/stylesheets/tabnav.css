@@ -30,8 +30,8 @@ body { font-size: 92%; }
 #narwhal { background: url(/images/narhwal.png) no-repeat; position: absolute; bottom: 0;  right: 0px; width: 520; height: 289; z-index: 0; }
 #narwhal_small { background: url(/images/narhwal.png) no-repeat; position: absolute; top: 25px; left: 20px; width: 200px; height:85px; z-index: -1; }
 
-#chart_div { position:absolute; right: 15px; top: 35px; }
-#overview_table { position:absolute; left: 0px; top: 35px; }
+#chart_div { margin-left: auto; margin-right: auto;}
+#overview_table { float:left; margin-left: auto; margin-right: auto; }
 
 #allowed li { text-align: left; }
 #blocked li { text-align: left; }

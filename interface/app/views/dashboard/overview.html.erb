@@ -1,6 +1,21 @@
-<table id="overview_table" width = 48%, height=50%>
-  <col width = 65% />
-  <col width = 35% />
+<%= javascript_include_tag 'swfobject.js' %>
+
+<div id="chart_div">
+<%= @chart %>
+</div>
+
+<div id="time_chooser">
+  <% form_tag '/dashboard/chart_scale' do -%>
+    Last: <%= select_tag(:num, options_for_select((1..10).to_a, session[:num].to_i || 7)) %> <%= select_tag(:interval, options_for_select(%w{Minutes Hours Days}, session[:interval] || "Minutes")) %> <%= submit_tag 'Show' %>
+  <% end -%>
+</div>
+
+<table id="overview_table" width = 70%, height=25%>
+  <col width = 40% />
+  <col width = 20% />
+  <col width = 40% />
+  <col width = 20% />
+
   <tbody>
     <tr class="even">
       <td>
@@ -9,8 +24,6 @@
       <td>
         <%= @traffic_rate_avg %>
       </td>
-    </tr>
-    <tr>
       <td>
         Recent Peak Traffic Rate: 
       </td>
@@ -20,31 +33,27 @@
     </tr>
     <tr class="even">
       <td>
-        Current Maximum Allowed Peak Rate: 
+        Maximum Allowed Average Rate: 
       </td>
       <td>
-        <span id="peak"><%= @test_num %></span>  
+        <span id="avg"><%= @avg %></span>  
+        <%= in_place_editor "avg", {:url => url_for(:action => :edit_num) } %>
+      </td>
+      <td>
+        Maximum Allowed Peak Rate: 
+      </td>
+      <td>
+        <span id="peak"><%= @peak %></span>  
         <%= in_place_editor "peak", {:url => url_for(:action => :edit_num) } %>
       </td>
     </tr>
     <tr>
-      <td>
-        Current Maximum Allowed Average Rate: 
-      </td>
-      <td>
-        <span id="avg"><%= @test_num %></span>  
-        <%= in_place_editor "avg", {:url => url_for(:action => :edit_num) } %>
-      </td>
-    </tr>
-    <tr class="even">
       <td>
         Packets Allowed: 
       </td>
       <td>
         <%= @packets_allowed %>
       </td>
-    </tr>
-    <tr>
       <td>
         Packets Blocked: 
       </td>
@@ -59,8 +68,6 @@
       <td>
         <%= @percent_good %>
       </td>
-    </tr>
-    <tr>
       <td>
         Percent Bad Traffic: 
       </td>
@@ -68,14 +75,8 @@
         <%= @percent_bad %>
       </td>
     </tr>
-    <tr>
   </tbody>
 </table>
 
-<div id="chart_div">
-  <div id="hidden_chart">
-    <%= image_tag @chart.to_url, :size =>"500x300" %>
-  </div>
-  </div>
 
 
