@@ -38,9 +38,9 @@ class DashboardController < ApplicationController
                              :joins => :protocols) do #.map do |cur|
    # blockeds = Blocked.all.map do |cur|
      # @blockedsnew = @blockeds.map do |cur|
-    #  cur.name = $protocol_ids[cur.name.to_i] if cur.name
-     # cur
-      #end
+     # cur.name = $protocol_ids[cur.name.to_i] if cur.name
+    #  cur
+    #  end
 
     if params[:_search] == "true"
       ip =~ "%#{params[:ip]}%" if params[:ip].present?
@@ -79,9 +79,24 @@ class DashboardController < ApplicationController
  
   # POST /dashboard
   def create
-    @blocked = Blocked.new( :ip => params[:blocked][:ip], :port => params[:blocked][:port], :user_id => current_user.id )
-    @blocked.protocols << Protocol.new( :name => $protocol_names[params[:blocked][:protocols].upcase])
- 
+    @ip = Array.new
+    (params[:blocked][:ip_1]..params[:blocked][:ip2_1]).each do |a|
+       (params[:blocked][:ip_2]..params[:blocked][:ip2_2]).each do |b|
+          (params[:blocked][:ip_3]..params[:blocked][:ip2_3]).each do |c|
+             (params[:blocked][:ip_4]..params[:blocked][:ip2_4]).each do |d|
+               @ip.push(a.to_s + "." + b.to_s + "." + c.to_s + "." + d.to_s)
+             end
+          end
+       end
+    end
+
+    @ip.each do |ip|
+       (params[:blocked][:port]..params[:blocked][:port2]).each do |port|
+         @blocked = Blocked.new( :ip => ip, :port => port, :user_id => current_user.id )
+         @blocked.protocols << Protocol.new( :name => $protocol_names[params[:blocked][:protocols].upcase])
+       end
+    end
+
     respond_to do |format|
       if @blocked.save
         format.html { redirect_to :action => 'ip'  }

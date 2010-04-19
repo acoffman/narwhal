@@ -54,8 +54,8 @@ tr { background-color: #F0F0F0 }
 
 .wrapper {padding: 0 0 0 0px; width: 90%; margin: 0px auto; position: center;}
 .prowrapper {padding: 0 0 0 0px; width: 60%; margin: 0px auto; position: center;}
-#ip_left {  margin: 50px auto; padding: 0.5em; float: left; }
-#ip_right { margin: 0px auto; padding: 2.5em 0 0em 1em; float: left; }
+#ip_left {  margin: 0px auto; padding: 0em 0 0em 0em; position: center; }
+#ip_right { margin: 0px auto; padding: 0em 0 0em 0em; position: center; }
 div#content div.auto_complete { width: 50px; background: #fff; }
 
 td.header { background: #E9FFE1; font-size: small }

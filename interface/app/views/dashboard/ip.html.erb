@@ -2,22 +2,9 @@
 <%= jqgrid_javascripts %>
 
 <div class="wrapper">
-	<div id="ip_left">
-		<fieldset width="30%" align="left">
-		  <legend>Add New IP</legend>
-		  <% form_for :blocked, :url => { :action => "create" } do |f| %>
-        IP Address: <%= f.text_field :ip, :size => 15 %> 
-        to <%= f.text_field :ip2, :size => 15 %> <br />
-        Port: <%= f.text_field :port, :size => 15 %>
-        to <%= f.text_field :port2, :size => 15 %> <br />
-        Protocol: <%= text_field_with_auto_complete :blocked, :protocols, :size => 15, :autocomplete => "off" %> <br />
-		    <%= f.hidden_field :userid, :value => 1 %>
-		    <%= submit_tag 'Add IP' %>
-		  <% end %>
-		</fieldset>
-	</div>
+
 	<div id="ip_right">
-		<fieldset align="left">
+		<fieldset align="center">
         <%= jqgrid("Currently Blocked", "blocked","/dashboard/ip",
         [
           { :field => "ip", :label => "IP address"},
@@ -27,6 +14,28 @@
           { :delete => true }
                   ) %>
 
+		</fieldset>
+	</div>
+
+
+	<div id="ip_left">
+		<fieldset width="100%" align="left">
+		  <legend>Add New IP</legend>
+		  <% form_for :blocked, :url => { :action => "create" } do |f| %>
+        IP Address: <%= f.text_field :ip_1, :size => 3 %>
+                   . <%= f.text_field :ip_2, :size => 3 %>
+                   . <%= f.text_field :ip_3, :size => 3 %>
+                   . <%= f.text_field :ip_4, :size => 3 %>
+                 to <%= f.text_field :ip2_1, :size => 3 %>
+                   . <%= f.text_field :ip2_2, :size => 3 %>
+                   . <%= f.text_field :ip2_3, :size => 3 %>
+                   . <%= f.text_field :ip2_4, :size => 3 %> <br />
+        Port: <%= f.text_field :port, :size => 5 %>
+        to <%= f.text_field :port2, :size => 5 %> <br />
+        Protocol: <%= text_field_with_auto_complete :blocked, :protocols, :size => 15, :autocomplete => "off" %>
+		    <%= f.hidden_field :userid, :value => current_user.id %>
+		    <%= submit_tag 'Add IP' %>
+		  <% end %>
 		</fieldset>
 	</div>
 </div>
