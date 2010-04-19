@@ -30,15 +30,17 @@ class DashboardController < ApplicationController
   end
  
   # GET /dashboard/ip
-  def ip  
+  def ip
+    @page_title = "IP Configuration"
     @blockeds = Blocked.find(:all, 
                              :select => 'ip, name, port',
+                             :conditions => ['user_id = ?', current_user.id],
                              :joins => :protocols) do #.map do |cur|
    # blockeds = Blocked.all.map do |cur|
-    #  @blockeds.map do |cur|
-     # cur.name = $protocol_ids[cur.name.to_i] if cur.name
-      #cur
-  #  end
+     # @blockedsnew = @blockeds.map do |cur|
+    #  cur.name = $protocol_ids[cur.name.to_i] if cur.name
+     # cur
+      #end
 
     if params[:_search] == "true"
       ip =~ "%#{params[:ip]}%" if params[:ip].present?
@@ -77,7 +79,7 @@ class DashboardController < ApplicationController
  
   # POST /dashboard
   def create
-    @blocked = Blocked.new( :ip => params[:blocked][:ip], :port => params[:blocked][:port] )
+    @blocked = Blocked.new( :ip => params[:blocked][:ip], :port => params[:blocked][:port], :user_id => current_user.id )
     @blocked.protocols << Protocol.new( :name => $protocol_names[params[:blocked][:protocols].upcase])
  
     respond_to do |format|
