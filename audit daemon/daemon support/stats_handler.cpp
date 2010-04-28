@@ -14,9 +14,9 @@ StatsNotificationHandler::~StatsNotificationHandler(){
 
 void StatsNotificationHandler::getKernelStats(){
   int file_desc = open("/dev/ti0", O_RDWR);
-  int * myint = new int();
+  int * myint; 
   //ioctl(file_desc,STAT_IOCTL,&currentStats);
-  ioctl(file_desc,STAT_IOCTL,&myint);
+  ioctl(file_desc,STAT_IOCTL,myint);
   close(file_desc);
   cout << *myint << endl;
   delete myint;
