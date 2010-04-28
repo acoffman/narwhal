@@ -3865,8 +3865,10 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			/*if(stats == NULL)*/
 				/*return EINVAL;*/
 
-			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats.dropped_pkts,stats.num_pkts,stats.data);
-			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",stats->dropped_pkts,stats->num_pkts,stats->data);*/
+			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",
+										stats.dropped_pkts,stats.num_pkts,stats.data);
+			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",
+			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
 
 			korea = 5;
 
