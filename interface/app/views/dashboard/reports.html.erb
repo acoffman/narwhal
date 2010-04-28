@@ -1,0 +1,8 @@
+Select The Date Range and The Fields You Would Like
+  <% form_tag '/dashboard/gen_report.csv' do -%>
+  Total Packets: <%= check_box_tag 'numPackets', true, true %><br/> 
+  Total Dropped Packets: <%= check_box_tag 'numDroppedPackets', true, true %><br/>
+  Total Data Transferred: <%= check_box_tag 'totalData', true, true %> <br/>
+ 
+    <%= submit_tag 'Download Report' %>
+  <% end -%>
