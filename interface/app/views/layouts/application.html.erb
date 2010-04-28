@@ -16,13 +16,18 @@
 	  <li id="nav_proto" class = <%= @nav_proto %> ><a href="/dashboard/protocols">protocols</a></li>
 	  <li id="nav_report" class = <%= @nav_report %> ><a href="/dashboard/reports">custom reports</a></li>
     <li><%= button_to "Force Update", :controller => "dashboard", :action => "force_update" %></li>
-    <li><%= button_to "Logout", :controller => "dashboard", :action => "logout" %></li>
+    <% if current_user %>
+      <li><%= button_to "Logout", logout_path %></li>
+    <% else %>
+      <li><%= button_to "Login", login_path %></li>
+      <li><%= button_to "Register", register_path %></li>
+    <% end %>
     <li class="padding"></li>
 	</ul>
 
 	<div id="narwhal_small"></div>
 	<div id="box">
-		<div id="page_title"><h3><%= @page_title || "IP Configuration"%></h3></div>
+		<div id="page_title"><h3><%= @page_title || " "%></h3></div>
 	  <div id="content">  
 			<p style="color: green"><%= flash[:notice] %></p>
 	

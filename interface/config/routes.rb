@@ -11,8 +11,16 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'dashboard/chart_scale', :controller => 'dashboard', :action => 'chart_scale'
   map.connect 'dashboard/reports', :controller => 'dashboard', :action => 'reports'
   map.connect 'dashboard/gen_report.csv', :controller => 'dashboard', :action => 'gen_report'
-  
-  map.resources :dashboard  
+ 
+  map.login "login", :controller => "user_sessions", :action => "new"
+  map.logout "logout", :controller => "user_sessions", :action => "destroy"
+  map.user_sessions "user_sessions", :controller => "user_sessions", :action => "create"
+  map.register "register", :controller => "users", :action => "new"
+
+  map.resources :user_session
+  map.resources :dashboard 
+  map.resource :account, :controller => "users"
+  map.resources :users
   map.root :controller => 'dashboard'
  
   # Sample of regular route:
