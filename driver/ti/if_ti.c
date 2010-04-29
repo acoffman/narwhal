@@ -3106,7 +3106,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
  	free(buf, CHAR_BUF);
 	/*stats->num_pkts++;*/
-	stats.num_pkts++;
+	/*stats.num_pkts++;*/
   return 0;
 }
 
