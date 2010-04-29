@@ -162,11 +162,11 @@ struct bloom_ctl
 	/*unsigned long data;*/
 /*};*/
 
-/*struct stats_ctl*/
-/*{*/
-	/*void *p;*/
-	/*size_t s;*/
-/*};*/
+struct stats_ctl
+{
+	void *p;
+	size_t s;
+};
 
 static struct bloom_ctl * bloom; 
 /*static struct stat_ctl * stats;*/
@@ -3865,42 +3865,43 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				break;
 			}
 
-	 /* case STAT_CTL:*/
-		/*{*/
-			/*[>if(stats == NULL)<]*/
-				/*[>return EINVAL;<]*/
+		case STAT_CTL:
+		{
+			/*if(stats == NULL)*/
+				/*return EINVAL;*/
 
- /*[>     device_printf(sc->ti_dev,"got stat cmd!, dropped packets %lu, received %lu, total %lu\n",<]*/
-										/*[>stats.dropped_pkts,stats.num_pkts,stats.data);<]*/
+ /*     device_printf(sc->ti_dev,"got stat cmd!, dropped packets %lu, received %lu, total %lu\n",*/
+										/*stats.dropped_pkts,stats.num_pkts,stats.data);*/
 			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",
 			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
-			/*[>int h = 5;<]*/
-			/*long data[3];*/
-			/*data[0] = 1;*/
-			/*data[1] = 1;*/
-			/*data[2] = 1;*/
+			/*int h = 5;*/
+			long data[3];
+			data[0] = 1;
+			data[1] = 1;
+			data[2] = 1;
 
-			/*[>if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))<]*/
-			/*if(copyout(data, ((struct stats_ctl*) addr)->p, ((struct stats_ctl*) addr)->s) == EFAULT)*/
-			/*{	*/
-					/*device_printf(sc->ti_dev,"bad copy out, address\n");*/
-					/*return EFAULT;*/
-			/*}*/
+			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
+			if(copyout(data, ((struct stats_ctl*) addr)->p, ((struct stats_ctl*) addr)->s) == EFAULT)
+			/*if(copyout(&h,addr,sizeof(int)) == EFAULT)*/
+			{	
+					device_printf(sc->ti_dev,"bad copy out, address\n");
+					return EFAULT;
+			}
 
-			/*device_printf(sc->ti_dev,"finished copying out!\n");*/
+			device_printf(sc->ti_dev,"finished copying out!\n");
 
- /*[>     stats->data = 0;<]*/
-			/*[>stats->num_pkts = 0;<]*/
-			/*[>stats->dropped_pkts = 0;<]*/
+ /*     stats->data = 0;*/
+			/*stats->num_pkts = 0;*/
+			/*stats->dropped_pkts = 0;*/
 
-			/*[>stats.data = 0;<]*/
-			/*[>stats.num_pkts = 0;<]*/
-			/*[>stats.dropped_pkts = 0;<]*/
+			/*stats.data = 0;*/
+			/*stats.num_pkts = 0;*/
+			/*stats.dropped_pkts = 0;*/
 
-			/*error = 0;*/
+			error = 0;
 
-			/*break;*/
-		/*}*/
+			break;
+		}
 
 		case TIIOCGETSTATS:
 			{
