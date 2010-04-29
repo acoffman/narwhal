@@ -18,8 +18,10 @@ void StatsNotificationHandler::getKernelStats(){
   int file_desc = open("/dev/ti0", O_RDWR);
   int myint = 0; 
   //ioctl(file_desc,STAT_IOCTL,&currentStats);
+	cout << &myint << end;
   ioctl(file_desc,STAT_IOCTL,&myint);
   close(file_desc);
+	cout << &myint << end;
   cout << myint << endl;
 };
 
