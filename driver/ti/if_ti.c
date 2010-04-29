@@ -162,11 +162,11 @@ struct bloom_ctl
 	/*unsigned long data;*/
 /*};*/
 
-struct stats_ctl
-{
-	void *p;
-	size_t s;
-};
+/*struct stats_ctl*/
+/*{*/
+	/*void *p;*/
+	/*size_t s;*/
+/*};*/
 
 static struct bloom_ctl * bloom; 
 /*static struct stat_ctl * stats;*/
@@ -3882,7 +3882,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
 			if(copyout(data, ((struct stats_ctl*) addr)->p, ((struct stats_ctl*) addr)->s) == EFAULT)
-			/*if(copyout(&h,addr,sizeof(int)) == EFAULT)*/
 			{	
 					device_printf(sc->ti_dev,"bad copy out, address\n");
 					return EFAULT;
