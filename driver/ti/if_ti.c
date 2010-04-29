@@ -168,7 +168,6 @@ static struct stat_ctl stats;
 static char * ipbits;
 static char * blocked_p;
 static int size;
-static int * hope;
 
 #define false 0
 #define true 1
@@ -3870,8 +3869,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",
 			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
 
-			static int h = 5;
-			hope = &h;
+			int h = 5;
+			int * hope = &h;
 
 			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
 			if(copyout(hope, addr, sizeof(int)))
