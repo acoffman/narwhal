@@ -3870,7 +3870,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
 
 			caddr_t go;
-			go = 5;
+			int h = 5;
+			go = (caddr_t)h;
 
 			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
 			if(copyout(&go, addr, sizeof(int)) == EFAULT)
