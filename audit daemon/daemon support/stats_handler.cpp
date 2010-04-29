@@ -22,6 +22,7 @@ void StatsNotificationHandler::getKernelStats(){
   stats.s = sizeof data;
   ioctl(file_desc,STAT_IOCTL,&stats);
   close(file_desc);
+  cout << stats.data[0] << stats.data[1] << stats.data[2] << endl;
 };
 
 void StatsNotificationHandler::saveData(){
