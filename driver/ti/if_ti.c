@@ -166,7 +166,7 @@ struct stats_ctl
 {
 	void *p;
 	size_t s;
-}
+};
 
 static struct bloom_ctl * bloom; 
 /*static struct stat_ctl * stats;*/
