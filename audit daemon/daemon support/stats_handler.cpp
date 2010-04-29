@@ -3,7 +3,9 @@ StatsNotificationHandler::StatsNotificationHandler(){
   con = driver->connect(HOST, USER, PASS);
   stmnt = con->createStatement();
   stmnt->execute("use "  DB);
+	cout << "Called" << endl;
   getKernelStats();
+	cout << "Call Win1" << endl;
   //saveData();
 };
 
