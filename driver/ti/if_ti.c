@@ -2355,9 +2355,9 @@ ti_attach(dev)
 	/*stats->dropped_pkts = 0;*/
 	/*stats->data = 0;*/
 
-	stats.num_pkts = 0;
-	stats.dropped_pkts = 0;
-	stats.data = 0;
+	/*stats.num_pkts = 0;*/
+	/*stats.dropped_pkts = 0;*/
+	/*stats.data = 0;*/
 
 
 	sc = device_get_softc(dev);
@@ -3093,7 +3093,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	temp = NULL;
 
 	/*stats->data += ntohs(ip->ip_len);*/
-	stats.data += ntohs(ip->ip_len);
+	/*stats.data += ntohs(ip->ip_len);*/
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
@@ -3870,8 +3870,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			/*if(stats == NULL)*/
 				/*return EINVAL;*/
 
-			device_printf(sc->ti_dev,"got stat cmd!, dropped packets %lu, received %lu, total %lu\n",
-										stats.dropped_pkts,stats.num_pkts,stats.data);
+ /*     device_printf(sc->ti_dev,"got stat cmd!, dropped packets %lu, received %lu, total %lu\n",*/
+										/*stats.dropped_pkts,stats.num_pkts,stats.data);*/
 			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",
 			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
 			/*int h = 5;*/
