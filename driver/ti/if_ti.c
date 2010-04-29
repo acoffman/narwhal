@@ -3880,7 +3880,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			data[1] = 1;
 			data[2] = 1;
 
-			//
+			dkhsdfkjhsdfjkhdsg
 			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
 			/*if(copyout(data, ((struct stats_ctl*) addr)->p, ((struct stats_ctl*) addr)->s) == EFAULT)*/
 			{	
