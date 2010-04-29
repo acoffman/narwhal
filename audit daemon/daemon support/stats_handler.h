@@ -38,7 +38,7 @@ struct stat_ctl{
 class StatsNotificationHandler {
   public:
     StatsNotificationHandler();
-    ~StatsNotificationHandler();
+		~StatsNotificationHandler();
 
   private:
     sql::Driver * driver;
