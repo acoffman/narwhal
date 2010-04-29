@@ -3099,7 +3099,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	{
 		device_printf(dev,"blocked received packet from %s",buf);
 		/*stats->dropped_pkts++;*/
-		stats.dropped_pkts++;
+		/*stats.dropped_pkts++;*/
 		free(buf, CHAR_BUF);
 		return 1;
   }	
@@ -3894,7 +3894,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			/*stats->num_pkts = 0;*/
 			/*stats->dropped_pkts = 0;*/
 
-			stats.data = 0;
+			/*stats.data = 0;*/
 			stats.num_pkts = 0;
 			stats.dropped_pkts = 0;
 
