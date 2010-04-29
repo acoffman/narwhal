@@ -27,13 +27,14 @@ using namespace std;
 #define DB "narwhal_development"
 
 struct stat_ctl{
-  unsigned long numPackets;
-  unsigned long numDroppedPackets;
-  unsigned long totalData;
+  void * p;
+  size_t s;
+  //unsigned long numPackets;
+  //unsigned long numDroppedPackets;
+  //unsigned long totalData;
 };
 
-//#define STAT_IOCTL  _IOR('c', 11, struct stat_ctl)
-#define STAT_IOCTL  _IOR('c', 11, int)
+#define STAT_IOCTL  _IOR('c', 11, struct stat_ctl)
 
 class StatsNotificationHandler {
   public:

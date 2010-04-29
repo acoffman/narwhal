@@ -16,13 +16,12 @@ StatsNotificationHandler::~StatsNotificationHandler(){
 
 void StatsNotificationHandler::getKernelStats(){
   int file_desc = open("/dev/ti0", O_RDWR);
-  int myint = 0; 
-  //ioctl(file_desc,STAT_IOCTL,&currentStats);
-	cout << &myint << endl;
-  ioctl(file_desc,STAT_IOCTL,&myint);
+  long data[3];
+  struct stat_ctl stats;
+  stats.p = data;
+  stats.s = sizeof data;
+  ioctl(file_desc,STAT_IOCTL,&stats);
   close(file_desc);
-	cout << &myint << endl;
-  cout << myint << endl;
 };
 
 void StatsNotificationHandler::saveData(){
