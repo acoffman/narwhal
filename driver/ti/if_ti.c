@@ -3872,7 +3872,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			int h = 5;
 			int * hope;
 			hope = &h;
-			addr = h;
+			addr = (caddr_t)&h;
 
 			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
 			if(copyout(hope, addr, sizeof(int)) == EFAULT)
