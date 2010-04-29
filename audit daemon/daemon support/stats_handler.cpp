@@ -3,7 +3,9 @@ StatsNotificationHandler::StatsNotificationHandler(){
   con = driver->connect(HOST, USER, PASS);
   stmnt = con->createStatement();
   stmnt->execute("use "  DB);
+	cout << "Called" << endl;
   getKernelStats();
+	cout << "Call Win1" << endl;
   //saveData();
 };
 
@@ -18,7 +20,7 @@ void StatsNotificationHandler::getKernelStats(){
   //ioctl(file_desc,STAT_IOCTL,&currentStats);
   ioctl(file_desc,STAT_IOCTL,myint);
   close(file_desc);
-  cout << *myint << endl;
+  cout << myint << endl;
   delete myint;
 };
 
