@@ -9,9 +9,10 @@
         [
           { :field => "ip", :label => "IP address"},
           { :field => "name", :label => "Protocol"},
-          { :field => "port", :label => "Port"}
+          { :field => "port", :label => "Port"},
+          { :hidden_field => "id"}
         ],
-          { :delete => true }
+          { :delete => true, :edit_url => "/dashboard/destroy" }
                   ) %>
 
 		</fieldset>
