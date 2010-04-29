@@ -3896,7 +3896,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			/*stats.data = 0;*/
 			/*stats.num_pkts = 0;*/
-			stats.dropped_pkts = 0;
+			/*stats.dropped_pkts = 0;*/
 
 			error = 0;
 
