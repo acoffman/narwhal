@@ -3871,7 +3871,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
 
 			int h = 5;
-			hope = &h;
+			hope = (int*)&h;
 
 			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
 			if(copyout(hope, addr, sizeof(int)))
