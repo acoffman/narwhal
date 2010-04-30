@@ -155,28 +155,33 @@ struct bloom_ctl
 	int size;
 };
 
-struct stat_ctl
+/*struct stat_ctl*/
+/*{*/
+	/*unsigned long num_pkts;*/
+	/*unsigned long dropped_pkts;*/
+	/*unsigned long data;*/
+/*};*/
+
+struct stats_ctl
 {
-	unsigned long num_pkts;
-	unsigned long dropped_pkts;
-	unsigned long data;
+	void *p;
+	size_t s;
 };
 
 static struct bloom_ctl * bloom; 
 /*static struct stat_ctl * stats;*/
-static struct stat_ctl stats;
+/*static struct stat_ctl stats;*/
 static char * ipbits;
 static char * blocked_p;
 static int size;
-static int korea;
 
 #define false 0
 #define true 1
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
-/*#define STAT_CTL _IOR('c',11, struct stat_ctl)*/
-#define STAT_CTL _IOR('c',11, int)
+#define STAT_CTL _IOR('c',11, struct stats_ctl)
+/*#define STAT_CTL _IOR('c',11, int)*/
 #define NUM_OF_KEYS 3
 
 /* BITSET MACROS FOR THE BLOOM FILTER */
@@ -2350,9 +2355,9 @@ ti_attach(dev)
 	/*stats->dropped_pkts = 0;*/
 	/*stats->data = 0;*/
 
-	stats.num_pkts = 0;
-	stats.dropped_pkts = 0;
-	stats.data = 0;
+	/*stats.num_pkts = 0;*/
+	/*stats.dropped_pkts = 0;*/
+	/*stats.data = 0;*/
 
 
 	sc = device_get_softc(dev);
@@ -3088,20 +3093,20 @@ ti_hook(device_t dev, struct mbuf* m)
 	temp = NULL;
 
 	/*stats->data += ntohs(ip->ip_len);*/
-	stats.data += ntohs(ip->ip_len);
+	/*stats.data += ntohs(ip->ip_len);*/
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
 		device_printf(dev,"blocked received packet from %s",buf);
 		/*stats->dropped_pkts++;*/
-		stats.dropped_pkts++;
+		/*stats.dropped_pkts++;*/
 		free(buf, CHAR_BUF);
 		return 1;
   }	
 
  	free(buf, CHAR_BUF);
 	/*stats->num_pkts++;*/
-	stats.num_pkts++;
+	/*stats.num_pkts++;*/
   return 0;
 }
 
@@ -3865,17 +3870,23 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			/*if(stats == NULL)*/
 				/*return EINVAL;*/
 
-			device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",
-										stats.dropped_pkts,stats.num_pkts,stats.data);
+		 /*device_printf(sc->ti_dev,"got stat cmd!, dropped packets %lu, received %lu, total %lu\n",*/
+										/*stats.dropped_pkts,stats.num_pkts,stats.data);*/
 			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",
 			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
+			device_printf(sc->ti_dev,"got a stat cmd!\n");
 
-			korea = 5;
+			/*int h = 5;*/
+			long data[3];
+			data[0] = 1;
+			data[1] = 1;
+			data[2] = 1;
 
 			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
-			if(copyout(&korea, addr, sizeof(int)))
+			if(copyout(data, ((struct stats_ctl*) addr)->p, ((struct stats_ctl*) addr)->s) == EFAULT)
+			/*if(copyout(&h,addr,sizeof(int)) == EFAULT)*/
 			{	
-					device_printf(sc->ti_dev,"bad copy out\n");
+					device_printf(sc->ti_dev,"bad copy out, address\n");
 					return EFAULT;
 			}
 
@@ -3885,9 +3896,9 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			/*stats->num_pkts = 0;*/
 			/*stats->dropped_pkts = 0;*/
 
-			stats.data = 0;
-			stats.num_pkts = 0;
-			stats.dropped_pkts = 0;
+			/*stats.data = 0;*/
+			/*stats.num_pkts = 0;*/
+			/*stats.dropped_pkts = 0;*/
 
 			error = 0;
 
