@@ -3890,7 +3890,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 					return EFAULT;
 			}
 
-			device_printf(sc->ti_dev,"finished copying out!\n");
+			device_printf(sc->ti_dev,"finished copying out!??\n");
 
  /*     stats->data = 0;*/
 			/*stats->num_pkts = 0;*/
