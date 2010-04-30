@@ -24,7 +24,7 @@ void StatsNotificationHandler::getKernelStats(){
   ioctl(file_desc,STAT_IOCTL,&stats);
   close(file_desc);
 	long ** temp = (long **)stats.p;
-	cout << stats.p << endl;
+	cout << stats << endl;
 	cout << "finished copy" << endl;
 };
 
