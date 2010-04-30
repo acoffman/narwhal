@@ -23,7 +23,7 @@ void StatsNotificationHandler::getKernelStats(){
 	cout << "Sending STAT_IOCTL command" << endl; 
   ioctl(file_desc,STAT_IOCTL,&stats);
   close(file_desc);
-	long temp = (long)stats->p[0];
+	long temp = (long)stats.p[0];
 	cout << temp << endl;
 	cout << "finished copy" << endl;
 };
