@@ -13,6 +13,8 @@ class DashboardController < ApplicationController
 
     respond_to do |format|
       format.html { render :overview }
+       # format.html { redirect_to :controller => "users", :action => "new" }
+
     end
   end
  
@@ -147,11 +149,6 @@ class DashboardController < ApplicationController
     flash[:notice] = "Update Sent!"
     redirect_to :action => "index"
   end
-
-  def logout
-
-  end 
- 
  
   def auto_complete_for_blocked_protocols
     re = Regexp.new("#{params[:blocked][:protocols]}", "i")

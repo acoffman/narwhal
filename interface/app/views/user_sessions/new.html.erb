@@ -1,14 +1,17 @@
-<h1>Login</h1>
-
-<% form_for @user_session do |f| %>
-  <%= f.error_messages %>
-  <%= f.label :login %><br />
-  <%= f.text_field :login %><br />
-  <br />
-  <%= f.label :password %><br />
-  <%= f.password_field :password %><br />
-  <br />
-  <%= f.check_box :remember_me %><%= f.label :remember_me %><br />
-  <br />
-  <%= f.submit "Submit" %>
-<% end %>
+<h1 align = "center">Login</h1>
+	<div id="ip_left">
+		<fieldset width="100%" align="center" text-align="left">
+<% form_for @user_session, :html => {:class => "loginForm"} do |f| %>
+    <%= f.error_messages %>
+    <br/>
+    <%= f.label :login %>
+    <%= f.text_field :login %>
+    <br />
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+    <br />
+    
+    <%= f.submit "Submit" %>
+  <% end %>
+		</fieldset>
+	</div>
