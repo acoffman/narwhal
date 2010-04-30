@@ -3884,15 +3884,11 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			data[1] = 1;
 			data[2] = 1;
 
-			/*if(copyout(&stats, (caddr_t)addr ,sizeof(struct stat_ctl)))*/
- /*     if(copyout(data, stats->p, stats->s) == EFAULT)*/
-			/*[>if(copyout(&h,addr,sizeof(int)) == EFAULT)<]*/
-			/*{	*/
-					/*device_printf(sc->ti_dev,"bad copy out, address\n");*/
-					/*return EFAULT;*/
-			/*}*/
-
-			stats->p = data;
+			if(copyout(data, stats->p, stats->s) == EFAULT)
+			{	
+					device_printf(sc->ti_dev,"bad copy out, address\n");
+					return EFAULT;
+			}
 
 			device_printf(sc->ti_dev,"finished copying out!??\n");
 
