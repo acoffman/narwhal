@@ -13,6 +13,8 @@ class DashboardController < ApplicationController
 
     respond_to do |format|
       format.html { render :overview }
+       # format.html { redirect_to :controller => "users", :action => "new" }
+
     end
   end
  
@@ -33,7 +35,7 @@ class DashboardController < ApplicationController
   def ip
     @page_title = "IP Configuration"
     @blockeds = Blocked.find(:all, 
-                             :select => 'ip, name, port',
+                             :select => 'ip, name, port, blockeds.id',
                              :conditions => ['user_id = ?', current_user.id],
                              :joins => :protocols) do #.map do |cur|
    # blockeds = Blocked.all.map do |cur|
@@ -46,6 +48,7 @@ class DashboardController < ApplicationController
       ip =~ "%#{params[:ip]}%" if params[:ip].present?
       protocol =~ "%#{params[:protocol]}%" if params[:protocol].present?
       port =~ "%#{params[:port]}%" if params[:port].present?
+      port =~ "%#{params[:id]}%" if params[:id].present?
     end
     paginate :page => params[:page], :per_page => params[:rows]
     order_by "#{params[:sidx]} #{params[:sord]}"
@@ -53,7 +56,7 @@ class DashboardController < ApplicationController
     respond_to do |format|
       @nav_ip = "current"
       format.html
-      format.json { render :json => @blockeds.to_jqgrid_json([:ip, :name, :port],
+      format.json { render :json => @blockeds.to_jqgrid_json([:ip, :name, :port, :id],
                                      params[:page],params[:rows], @blockeds.total_entries) }
 
       format.js
@@ -63,12 +66,8 @@ class DashboardController < ApplicationController
  
   # DELETE /dashboard/ip/1
   def destroy
-    if params[:ip_list]
-      Blocked.find(params[:ip_list]).destroy   
-    elsif params[:proto_list]
-      Protocol.find(params[:proto_list]).destroy
-    elsif params[:port_list]
-      Blocked.find(params[:port_list]).destroy
+    if params[:id]
+      Blocked.find(params[:id]).destroy   
     end
  
     respond_to do |format|
@@ -150,11 +149,6 @@ class DashboardController < ApplicationController
     flash[:notice] = "Update Sent!"
     redirect_to :action => "index"
   end
-
-  def logout
-
-  end 
- 
  
   def auto_complete_for_blocked_protocols
     re = Regexp.new("#{params[:blocked][:protocols]}", "i")

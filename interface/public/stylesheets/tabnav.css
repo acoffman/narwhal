@@ -59,3 +59,5 @@ tr { background-color: #F0F0F0 }
 div#content div.auto_complete { width: 50px; background: #fff; }
 
 td.header { background: #E9FFE1; font-size: small }
+
+form.loginForm { height: 100px; width = 100%; margin: 0px 0px 0px 10px; text-align: left }
