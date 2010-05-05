@@ -3072,6 +3072,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	char * temp = inet_ntoa(ip->ip_src);
 	int proto = ip->ip_p;
+	unsigned int pkt_size = ntohl(ip->ip_len);
 
 	buf = malloc(ti_strlen(temp),CHAR_BUF, M_NOWAIT); 
 	if(buf == NULL)
@@ -3080,7 +3081,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
-	stats->data += ntohs(ip->ip_len);
+	stats->data += pkt_size; 
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
