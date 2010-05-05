@@ -3072,7 +3072,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	char * temp = inet_ntoa(ip->ip_src);
 	int proto = ip->ip_p;
-	unsigned long pkt_size = ntohl(ip->ip_len);
+	unsigned long pkt_size = ntohs(ip->ip_len);
 
 	buf = malloc(ti_strlen(temp),CHAR_BUF, M_NOWAIT); 
 	if(buf == NULL)
@@ -3082,7 +3082,6 @@ ti_hook(device_t dev, struct mbuf* m)
 	temp = NULL;
 
 	stats->data += pkt_size; 
-	device_printf(dev,"packet size: %lu\n",pkt_size);
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
@@ -3858,7 +3857,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			if(stats == NULL)
 				return EINVAL;
 
-			device_printf(sc->ti_dev,"got a stat cmd!\n");
 			struct stat_ctl * go = (struct stat_ctl *)addr;
 			
 			go->data = stats->data;
@@ -3869,8 +3867,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			stats->data = 0;
 			stats->dropped_pkts = 0;
 		
-			device_printf(sc->ti_dev,"finished copying out!??, %d\n",sizeof(stats));
-
 			error = 0;
 
 			break;
