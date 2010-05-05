@@ -155,22 +155,16 @@ struct bloom_ctl
 	int size;
 };
 
-/*struct stat_ctl*/
-/*{*/
-	/*unsigned long num_pkts;*/
-	/*unsigned long dropped_pkts;*/
-	/*unsigned long data;*/
-/*};*/
-
-struct stats_ctl
+struct stat_ctl
 {
-	void *p;
-	size_t s;
+	unsigned long num_pkts;
+	unsigned long dropped_pkts;
+	unsigned long data;
 };
 
 static struct bloom_ctl * bloom; 
 /*static struct stat_ctl * stats;*/
-/*static struct stat_ctl stats;*/
+static struct stat_ctl stats;
 static char * ipbits;
 static char * blocked_p;
 static int size;
@@ -3878,15 +3872,16 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			device_printf(sc->ti_dev,"addr: %p\n",addr);
 
-			struct stats_ctl *stats = (struct stats_ctl *)addr;
+			struct stats_ctl *stats_o = (struct stats_ctl *)addr;
 			/*int h = 5/;*/
+		  
+			stats->data = 0;
+			stats->num_pkts = 0;
+			stats->dropped_pkts = 0;
 
-			long data[3] = {1,1,1};
+			device_printf(sc->ti_dev,"stats: %p\n",addr);
 
-			device_printf(sc->ti_dev,"stats->p: %p   stats->s: %lu  stats: %p\n",
-																stats->p,(long unsigned)stats->s,stats);
-
-			if(copyout(&data, stats->p, sizeof(data)) == EFAULT)
+			if(copyout(stats, stats_o, sizeof(stats)) == EFAULT)
 			{	
 					device_printf(sc->ti_dev,"bad copy out, address\n");
 					return EFAULT;
@@ -3894,11 +3889,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			device_printf(sc->ti_dev,"finished copying out!??, %d\n",stats->s);
 
- /*     stats->data = 0;*/
-			/*stats->num_pkts = 0;*/
-			/*stats->dropped_pkts = 0;*/
-
-			/*stats.data = 0;*/
+ 			/*stats.data = 0;*/
 			/*stats.num_pkts = 0;*/
 			/*stats.dropped_pkts = 0;*/
 
