@@ -267,9 +267,13 @@ class DashboardController < ApplicationController
     chart.set_title(title)
 
     x = XAxis.new
-    x_labels = XAxisLabels.new    
-    x_labels.labels = []
+    x_labels = XAxisLabels.new 
+    tmp = []
+    data1.times do |num|
+      tmp << XAxisLabel.new("", '#0000ff', 20, 'diagonal')
+    end
     
+    x_labels.labels = tmp
     x.set_labels(x_labels)
 
     chart.set_x_legend(x_legend)
