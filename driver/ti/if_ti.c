@@ -3876,14 +3876,14 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
 			device_printf(sc->ti_dev,"got a stat cmd!\n");
 
-			device_printf(sc->ti_dev,"addr: %d\n",(int)addr);
+			device_printf(sc->ti_dev,"addr: %p\n",(int)addr);
 
 			struct stats_ctl *stats = (struct stats_ctl *)addr;
 			/*int h = 5/;*/
 
 			long data[3] = {1,1,1};
 
-			device_printf(sc->ti_dev,"stats->p: %d   stats->s: %lu  stats: %d\n",
+			device_printf(sc->ti_dev,"stats->p: %d   stats->s: %lu  stats: %p\n",
 																(int)stats->p,(long unsigned)stats->s,(int)stats);
 
 			if(copyout(&data, stats->p, sizeof(data)) == EFAULT)
