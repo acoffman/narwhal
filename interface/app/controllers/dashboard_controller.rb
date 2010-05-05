@@ -1,5 +1,7 @@
 class DashboardController < ApplicationController
  
+  require 'rubygems'
+  require 'ruby-debug'
   # GET /dashboard
   def index
     @protocols = Protocol.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"])
@@ -20,6 +22,8 @@ class DashboardController < ApplicationController
               divsor =  session[:num].to_i * 60
               Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.minutes])
             end
+
+    debugger
 
     begin
       @traffic_rate_avg =  (data.inject(0){|sum, curr| sum += curr.totalData } /(1024*1024)) /divisor
