@@ -3082,6 +3082,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	temp = NULL;
 
 	stats->data += pkt_size; 
+	device_printf(dev,"packet size: %lu",pkt_size);
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
