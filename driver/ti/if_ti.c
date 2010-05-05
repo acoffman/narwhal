@@ -3094,7 +3094,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	if(ti_protocheck(dev,proto) || ti_ipcheck(buf) 
 		 || (stats->data >= peak_rate * 1024 * 1024))
 	{
-		device_printf(dev,"blocked received packet from %s",buf);
+		device_printf(dev,"blocked received packet from %s\n",buf);
 		stats->dropped_pkts++;
 		stats->num_pkts++;
 		free(buf, CHAR_BUF);
