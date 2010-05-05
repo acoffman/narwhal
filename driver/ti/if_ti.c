@@ -3857,7 +3857,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			if(stats == NULL)
 				return EINVAL;
 
-			device_printf(sc->ti_dev,"got a stat cmd!\n");
 			struct stat_ctl * go = (struct stat_ctl *)addr;
 			
 			go->data = stats->data;
@@ -3868,8 +3867,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			stats->data = 0;
 			stats->dropped_pkts = 0;
 		
-			device_printf(sc->ti_dev,"finished copying out!??, %d\n",sizeof(stats));
-
 			error = 0;
 
 			break;
