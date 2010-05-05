@@ -29,8 +29,8 @@ class DashboardController < ApplicationController
       @traffic_peak = data.map{|cur| cur.totalData}.max/(1024*1024)/10
       @packets_blocked = data.inject(0){|sum, cur| sum += cur.numDroppedPackets}
       @packets_allowed = data.inject(0){|sum, cur| sum += cur.numPackets} - @packets_blocked
-      @percent_good = (@packets_allowed/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
-      @percent_bad = (@packets_blocked/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
+      @percent_good = (@packets_allowed.to_f/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
+      @percent_bad = (@packets_blocked.to_f/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
     rescue Exception => e
     end
 
