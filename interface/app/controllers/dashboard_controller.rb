@@ -267,7 +267,7 @@ class DashboardController < ApplicationController
     line_avg.values = [session[:avg].to_i] * data2.size
 
     y = YAxis.new
-    y.set_range(0,[data1.map{|c| c.totalData/(1024 **2)}.max || 0,session[:avg], session[:peak]].max + 5,4)
+    y.set_range(0,[data1.map{|c| c.totalData/(1024 *1024)}.max,session[:avg].to_f, session[:peak].to_f].max + 5,4)
 
     x_legend = XLegend.new("Showing the last #{session[:num] + " " + session[:interval]}")
     x_legend.set_style('{font-size: 10px; color: #000000}')
