@@ -3072,7 +3072,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	char * temp = inet_ntoa(ip->ip_src);
 	int proto = ip->ip_p;
-	unsigned int pkt_size = ntohl(ip->ip_len);
+	unsigned long pkt_size = ntohl(ip->ip_len);
 
 	buf = malloc(ti_strlen(temp),CHAR_BUF, M_NOWAIT); 
 	if(buf == NULL)
