@@ -248,18 +248,18 @@ class DashboardController < ApplicationController
     line_peak.text = "Peak Allowable Traffic"
     line_peak.width = 1
     line_peak.colour = '#FF0000'
-    line_peak.values = [session[:peak].to_i] * session[:num].to_i
+    line_peak.values = [session[:peak].to_i] * data2.size
 
     line_avg = Line.new
     line_avg.text = "Average Allowable Traffic"
     line_avg.width = 1
     line_avg.colour = '#0000FF'
-    line_avg.values = [session[:avg].to_i] * session[:num].to_i
+    line_avg.values = [session[:avg].to_i] * data2.size
 
     y = YAxis.new
     y.set_range(0,[data1.map{|c| c.totalData/(1024 **2)}.max || 0,session[:avg], session[:peak]].max + 5,4)
 
-    x_legend = XLegend.new(session[:interval])
+    x_legend = XLegend.new("Showing the last #{session[:num] + " " + session[:interval]} in 10 second intervals")
     x_legend.set_style('{font-size: 10px; color: #000000}')
 
     y_legend = YLegend.new("mbps")
