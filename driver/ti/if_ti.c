@@ -3881,7 +3881,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			stats->num_pkts = 1337;
 			stats->dropped_pkts = 1337;
 			
-			addr = (caddr_t)stats
+			addr = (caddr_t)stats;
 
 			device_printf(sc->ti_dev,"finished copying out!??, %d\n",sizeof(stats));
 
