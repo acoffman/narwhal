@@ -180,7 +180,7 @@ static int size;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
-#define STAT_CTL _IOR('c',11, struct stats_ctl)
+#define STAT_IOCTL _IOR('c',11, struct stats_ctl)
 /*#define STAT_CTL _IOR('c',11, int)*/
 #define NUM_OF_KEYS 3
 
@@ -3865,7 +3865,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				break;
 			}
 
-		case STAT_CTL:
+		case STAT_IOCTL:
 		{
 			/*if(stats == NULL)*/
 				/*return EINVAL;*/
@@ -3883,6 +3883,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			data[0] = 1;
 			data[1] = 1;
 			data[2] = 1;
+			stats->p = data;
 
 			if(copyout(data, stats->p, stats->s) == EFAULT)
 			{	
