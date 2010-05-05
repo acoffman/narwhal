@@ -269,7 +269,7 @@ class DashboardController < ApplicationController
     x = XAxis.new
     x_labels = XAxisLabels.new 
     tmp = []
-    data1.times do |num|
+    data1.size.times do |num|
       tmp << XAxisLabel.new("", '#0000ff', 20, 'diagonal')
     end
     
