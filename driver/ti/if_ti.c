@@ -3879,10 +3879,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			struct stats_ctl * stats = (struct stats_ctl *)addr;
 			/*int h = 5/;*/
 
-			long data[3];
-			data[0] = 1;
-			data[1] = 1;
-			data[2] = 1;
+			long data[3] = {0,1,2};
 			stats->p = data;
 
 			/*if(copyout(data, stats->p, stats->s) == EFAULT)*/
