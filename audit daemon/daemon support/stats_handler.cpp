@@ -16,7 +16,7 @@ StatsNotificationHandler::~StatsNotificationHandler(){
 
 void StatsNotificationHandler::getKernelStats(){
   int file_desc = open("/dev/ti0", O_RDWR);
-  long data = {0,1,2};
+  long data[] = {0,1,2};
   struct stat_ctl stats;
   stats.p = data;
   stats.s = sizeof data;
