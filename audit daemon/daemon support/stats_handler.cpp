@@ -4,7 +4,6 @@ StatsNotificationHandler::StatsNotificationHandler(){
 	stmnt = con->createStatement();
 	stmnt->execute("use "  DB);
 	getKernelStats();
-	saveData();
 };
 
 StatsNotificationHandler::~StatsNotificationHandler(){
@@ -27,10 +26,7 @@ void StatsNotificationHandler::getKernelStats(){
 		return;	
 	}
 	close(file_desc);
-	cout << stats_ptr->numPackets << endl;
-	cout << stats_ptr->numDroppedPackets << endl;
-	cout << stats_ptr->totalData << endl;
-	cout << "finished copy" << endl;
+	saveData();
 	delete stats_ptr;
 };
 
