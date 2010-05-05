@@ -3092,6 +3092,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	ti_strcpy(buf,temp); 
 	temp = NULL;
 
+	stats->data += pkt_size; 
 
 	device_printf(dev,"received packet from %s\n",buf);
 
@@ -3101,14 +3102,12 @@ ti_hook(device_t dev, struct mbuf* m)
 	{
 		device_printf(dev,"blocked received packet from %s\n",buf);
 		stats->dropped_pkts++;
-		stats->data += pkt_size; 
 		stats->num_pkts++;
 		free(buf, CHAR_BUF);
 		return 1;
   }	
 
  	free(buf, CHAR_BUF);
-	stats->data += pkt_size; 
 	stats->num_pkts++;
   return 0;
 }
