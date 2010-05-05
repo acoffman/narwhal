@@ -15,23 +15,21 @@ StatsNotificationHandler::~StatsNotificationHandler(){
 void StatsNotificationHandler::getKernelStats(){
 	int file_desc = open("/dev/ti0", O_RDWR);
 
-	struct stat_ctl * stats_ptr = new stat_ctl;
-	stats_ptr->numPackets = 50;
-	stats_ptr->numDroppedPackets = 50;
-	stats_ptr->totalData = 50;
+	stat_ctl stats_ptr;
+	stats_ptr.numPackets = 50;
+	stats_ptr.numDroppedPackets = 50;
+	stats_ptr.totalData = 50;
 
 	cout << "Sending STAT_IOCTL command" << endl; 
-	cout << stats_ptr << endl;
-	if(ioctl(file_desc,STAT_IOCTL,stats_ptr) == -1){
+	cout << &stats_ptr << endl;
+	if(ioctl(file_desc,STAT_IOCTL ,&stats_ptr) == -1){
 		cout << strerror( errno ) << endl;
 		close(file_desc);
-		delete stats_ptr;
 		return;	
 	}
 	close(file_desc);
-	cout << stats_ptr->numPackets << endl;
+	cout << stats_ptr.numPackets << endl;
 	cout << "finished copy" << endl;
-	delete stats_ptr;
 };
 
 void StatsNotificationHandler::saveData(){
