@@ -174,7 +174,7 @@ static int size;
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
-#define STAT_IOCTL _IOR('c',11, struct stat_ctl)
+#define STAT_IOCTL _IOR('c',11, struct * stat_ctl)
 /*#define STAT_CTL _IOR('c',11, int)*/
 #define NUM_OF_KEYS 3
 
@@ -3871,7 +3871,7 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			device_printf(sc->ti_dev,"got a stat cmd!\n");
 
 			/*int h = 5/;*/
-		  
+
 		 /*if(copyout(&stats, stats_o, sizeof(struct stat_ctl)) == EFAULT)*/
 			/*{	*/
 					/*device_printf(sc->ti_dev,"bad copy out, address\n");*/
