@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100331012036) do
+ActiveRecord::Schema.define(:version => 20100505081003) do
 
   create_table "blockeds", :force => true do |t|
     t.integer "user_id"
@@ -20,6 +20,11 @@ ActiveRecord::Schema.define(:version => 20100331012036) do
   create_table "protocols", :force => true do |t|
     t.integer "blocked_id"
     t.string  "name"
+  end
+
+  create_table "rates", :force => true do |t|
+    t.float "avg_rate"
+    t.float "peak_rate"
   end
 
   create_table "solo_protocols", :force => true do |t|
