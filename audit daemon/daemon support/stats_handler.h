@@ -29,8 +29,6 @@ using namespace std;
 #define DB "narwhal_development"
 
 struct stat_ctl{
-  //void * p;
-  //size_t s;
   unsigned long numPackets;
   unsigned long numDroppedPackets;
   unsigned long totalData;
