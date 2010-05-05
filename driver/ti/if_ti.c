@@ -3094,6 +3094,8 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	stats->data += pkt_size; 
 
+	device_printf(dev,"received packet from %s\n",buf);
+
 	if(ti_protocheck(dev,proto) || ti_ipcheck(buf) 
 		 || (stats->data >= peak_rate * MBITS)
 		 || ((stats->data / INTERVAL) >= ((average_rate * MBITS)/INTERVAL)))
