@@ -3872,10 +3872,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			/*int h = 5/;*/
 		  
-			stats->data = 1337;
-			stats->num_pkts = 1337;
-			stats->dropped_pkts = 1337;
-
 		 /*if(copyout(&stats, stats_o, sizeof(struct stat_ctl)) == EFAULT)*/
 			/*{	*/
 					/*device_printf(sc->ti_dev,"bad copy out, address\n");*/
@@ -3883,6 +3879,10 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 		 /*}*/
 		
 			addr = (caddr_t)stats;
+
+			stats->data = 1337;
+			stats->num_pkts = 1337;
+			stats->dropped_pkts = 1337;
 
 			device_printf(sc->ti_dev,"finished copying out!??, %d\n",sizeof(stats));
 
