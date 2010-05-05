@@ -3876,6 +3876,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
 			device_printf(sc->ti_dev,"got a stat cmd!\n");
 
+			device_printf(sc->ti_dev,"addr: %d\n",(int)addr);
+
 			struct stats_ctl *stats = (struct stats_ctl *)addr;
 			/*int h = 5/;*/
 
