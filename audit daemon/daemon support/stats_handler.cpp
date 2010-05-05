@@ -23,6 +23,7 @@ void StatsNotificationHandler::getKernelStats(){
 	cout << "Sending STAT_IOCTL command" << endl; 
 
 	if(ioctl(file_desc,STAT_IOCTL,stats) == -1){
+		cout << strerror( errno ) << endl;
 		cout << "error in ioctl" << endl;
 		close(file_desc);
 		return;	

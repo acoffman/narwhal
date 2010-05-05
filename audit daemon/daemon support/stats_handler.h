@@ -19,6 +19,8 @@
 
 #include <iostream>
 
+#include <errno.h>
+
 using namespace std;
 
 #define HOST "localhost"
