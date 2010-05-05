@@ -3861,8 +3861,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 		case STAT_IOCTL:
 		{
-			/*if(stats == NULL)*/
-				/*return EINVAL;*/
+			if(stats == NULL)
+				return EINVAL;
 
 		 /*device_printf(sc->ti_dev,"got stat cmd!, dropped packets %lu, received %lu, total %lu\n",*/
 										/*stats.dropped_pkts,stats.num_pkts,stats.data);*/
