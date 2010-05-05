@@ -29,6 +29,8 @@ void StatsNotificationHandler::getKernelStats(){
 	}
 	close(file_desc);
 	cout << stats_ptr->numPackets << endl;
+	cout << stats_ptr->numDroppedPackets << endl;
+	cout << stats_ptr->totalData << endl;
 	cout << "finished copy" << endl;
 };
 
