@@ -3086,6 +3086,7 @@ ti_hook(device_t dev, struct mbuf* m)
 	{
 		device_printf(dev,"blocked received packet from %s",buf);
 		stats->dropped_pkts++;
+		stats->num_pkts++;
 		free(buf, CHAR_BUF);
 		return 1;
   }	
