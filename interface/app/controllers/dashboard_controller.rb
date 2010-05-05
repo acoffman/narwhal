@@ -268,6 +268,8 @@ class DashboardController < ApplicationController
 
     x = XAxis.new
     x_labels = XAxisLabels.new    
+    x_labels.labels = []
+    
     x.set_labels(x_labels)
 
     chart.set_x_legend(x_legend)
