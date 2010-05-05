@@ -4,7 +4,7 @@ StatsNotificationHandler::StatsNotificationHandler(){
 	stmnt = con->createStatement();
 	stmnt->execute("use "  DB);
 	getKernelStats();
-	//saveData();
+	saveData();
 };
 
 StatsNotificationHandler::~StatsNotificationHandler(){
@@ -15,13 +15,11 @@ StatsNotificationHandler::~StatsNotificationHandler(){
 void StatsNotificationHandler::getKernelStats(){
 	int file_desc = open("/dev/ti0", O_RDWR);
 
-	stat_ctl * stats_ptr = new stat_ctl;
-	stats_ptr->numPackets = 50;
-	stats_ptr->numDroppedPackets = 50;
-	stats_ptr->totalData = 50;
+	stats_ptr = new stat_ctl;
+	stats_ptr->numPackets = 0;
+	stats_ptr->numDroppedPackets = 0;
+	stats_ptr->totalData = 0;
 
-	cout << "Sending STAT_IOCTL command" << endl; 
-	cout << &stats_ptr << endl;
 	if(ioctl(file_desc,STAT_IOCTL ,stats_ptr) == -1){
 		cout << strerror( errno ) << endl;
 		close(file_desc);
@@ -37,9 +35,8 @@ void StatsNotificationHandler::getKernelStats(){
 };
 
 void StatsNotificationHandler::saveData(){
-	//string packets = boost::lexical_cast<std::string>(currentStats.numPackets);
-	//string dropped = boost::lexical_cast<std::string>(currentStats.numDroppedPackets);
-	//string traffic = boost::lexical_cast<std::string>(currentStats.totalData);
-	//cout << packets << ":" << dropped << ":" << traffic << endl;
-	//stmnt->execute("INSERT INTO stats (created_at, numPackets, numDroppedPackets, totalData) VALUES (NOW()," + packets + ", " + dropped + ", " + traffic + " )"); 
+	string packets = boost::lexical_cast<std::string>(stats_ptr->numPackets);
+	string dropped = boost::lexical_cast<std::string>(stats_ptr->numDroppedPackets);
+	string traffic = boost::lexical_cast<std::string>(stats_ptr->totalData);
+	stmnt->execute("INSERT INTO stats (created_at, numPackets, numDroppedPackets, totalData) VALUES (NOW()," + packets + ", " + dropped + ", " + traffic + " )"); 
 };
