@@ -14,11 +14,11 @@ class DashboardController < ApplicationController
     
     data = case session[:interval] 
             when "Seconds"
-              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
               divsor =  session[:num].to_i
+              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
             when "Minutes"
-              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.minutes])
               divsor =  session[:num].to_i * 60
+              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.minutes])
             end
 
     begin
@@ -126,6 +126,7 @@ class DashboardController < ApplicationController
     ips_with_ports = (@ips*@ports.size).zip( (@ports*@ips.size).sort )
 
     blocked = ips_with_ports.map do |ip, port|
+              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
       b = Blocked.create(:ip => ip, :port => port, :user_id => current_user.id)
       b.protocols << Protocol.new( :name => $protocol_names[params[:blocked][:protocols].upcase])
       b
@@ -198,8 +199,21 @@ class DashboardController < ApplicationController
 
   def gen_report
 
+        
+    data = case session[:interval] 
+            when "Seconds"
+              divsor =  session[:num].to_i
+              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
+            when "Minutes"
+              divsor =  session[:num].to_i * 60
+              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.minutes])
+            end
+
+    results ="Timestamp,NumberOfPackets,NumDroppedPackets,TotalData\n"
+    results += data.map{|cur| [cur.created_at.to_s, cur.numPackets, cur.numDroppedPackets, cur.totalData].join(",")}.join("\n")
+
     respond_to do |format|
-      format.csv { send_data "1,2,3", :filename => Time.now.to_s + "_report.csv" }
+      format.csv { send_data results, :filename => Time.now.to_s + "_report.csv" }
     end
   end
   
