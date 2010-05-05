@@ -265,10 +265,10 @@ class DashboardController < ApplicationController
 
     chart =OpenFlashChart.new
     chart.set_title(title)
+    chart.set_x_axis_steps(10)
     chart.set_x_legend(x_legend)
     chart.set_y_legend(y_legend)
     chart.y_axis = y
-    debugger
 
     chart.add_element(line_traffic)
     chart.add_element(line_peak)
