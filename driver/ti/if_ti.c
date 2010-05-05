@@ -153,6 +153,8 @@ struct bloom_ctl
 	char * ipbits;
 	char * blocked_protos;
 	int size;
+	float avg_rate;
+	float peak_rate;
 };
 
 struct stat_ctl
@@ -167,9 +169,14 @@ static struct stat_ctl * stats;
 static char * ipbits;
 static char * blocked_p;
 static int size;
+static int average_rate;
+static int peak_rate;
 
 #define false 0
 #define true 1
+
+#define MBITS 1024 * 1024
+#define INTERVAL 10
 
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
@@ -2348,6 +2355,10 @@ ti_attach(dev)
 	stats->dropped_pkts = 0;
 	stats->data = 0;
 
+	size = 0;
+	peak_rate = 100;
+	average_rate = 60;
+
 	sc = device_get_softc(dev);
 	sc->ti_unit = device_get_unit(dev);
 	sc->ti_dev = dev;
@@ -3083,9 +3094,11 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	stats->data += pkt_size; 
 
-	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
+	if(ti_protocheck(dev,proto) || ti_ipcheck(buf) 
+		 || (stats->data >= peak_rate * MBITS)
+		 || ((stats->data / INTERVAL) >= ((average_rate * MBITS)/INTERVAL)))
 	{
-		device_printf(dev,"blocked received packet from %s",buf);
+		device_printf(dev,"blocked received packet from %s\n",buf);
 		stats->dropped_pkts++;
 		stats->num_pkts++;
 		free(buf, CHAR_BUF);
@@ -3831,6 +3844,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				blocked_p = malloc(PROTO_SIZE , CHAR_BUF, M_NOWAIT); 
 
 				size = (int)(bloom->size);
+				peak_rate = (float)(bloom->peak_rate);
+				average_rate = (float)(bloom->avg_rate);
 
 				if(ipbits == NULL || blocked_p == NULL){
 					return EINVAL;
