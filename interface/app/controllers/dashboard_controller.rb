@@ -251,7 +251,7 @@ class DashboardController < ApplicationController
     line_avg.values = [session[:avg].to_i] * session[:num].to_i
 
     y = YAxis.new
-    y.set_range(0,[data1.max || 0,session[:avg], session[:peak]].max + 5,4)
+    y.set_range(0,[data1.map{|c| c.totalData/(1024 **2)}.max || 0,session[:avg], session[:peak]].max + 5,4)
 
     x_legend = XLegend.new(session[:interval])
     x_legend.set_style('{font-size: 10px; color: #000000}')
