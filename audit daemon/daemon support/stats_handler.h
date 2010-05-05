@@ -29,11 +29,11 @@ using namespace std;
 #define DB "narwhal_development"
 
 struct stat_ctl{
-  void * p;
-  size_t s;
-  //unsigned long numPackets;
-  //unsigned long numDroppedPackets;
-  //unsigned long totalData;
+  //void * p;
+  //size_t s;
+  unsigned long numPackets;
+  unsigned long numDroppedPackets;
+  unsigned long totalData;
 };
 
 #define STAT_IOCTL  _IOR('c', 11, struct stat_ctl)
