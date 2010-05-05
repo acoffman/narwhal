@@ -4125,6 +4125,11 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				    error = ENOTTY;
 				    break;
 	}
+
+	go->data = 0;
+	go->num_pkts = 0; 
+	go->dropped_pkts = 0;
+
 	return (error);
 }
 
