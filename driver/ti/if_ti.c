@@ -3881,7 +3881,10 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			long data[3] = {1,1,1};
 
-			if(copyout(&data, &stats->p, sizeof(data)) == EFAULT)
+			device_printf(sc->ti_dev,"stats->p: %d   stats->s: %d   stats:\n",
+																stats->p,stats->s,stats);
+
+			if(copyout(&data, stats->p, sizeof(data)) == EFAULT)
 			{	
 					device_printf(sc->ti_dev,"bad copy out, address\n");
 					return EFAULT;
