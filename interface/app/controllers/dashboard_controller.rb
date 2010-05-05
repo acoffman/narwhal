@@ -126,7 +126,6 @@ class DashboardController < ApplicationController
           end
        end
     end
-  debugger
     @ports = Array.new
     if params[:blocked][:port2] = "" 
       @ports.push(params[:blocked][:port].to_s)
@@ -139,9 +138,7 @@ class DashboardController < ApplicationController
     end
      
     ips_with_ports = (@ips*@ports.size).zip( (@ports*@ips.size).sort )
-  debugger
     blocked = ips_with_ports.map do |ip, port|
-      debugger
       b = Blocked.create(:ip => ip, :port => port, :user_id => current_user.id)
       b.protocols << Protocol.new( :name => $protocol_names[params[:blocked][:protocols].upcase])
       b
@@ -213,8 +210,6 @@ class DashboardController < ApplicationController
   end
 
   def gen_report
-
-        
     data = case session[:interval] 
             when "Seconds"
               divsor =  session[:num].to_i
