@@ -129,7 +129,6 @@ class DashboardController < ApplicationController
     ips_with_ports = (@ips*@ports.size).zip( (@ports*@ips.size).sort )
 
     blocked = ips_with_ports.map do |ip, port|
-              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
       b = Blocked.create(:ip => ip, :port => port, :user_id => current_user.id)
       b.protocols << Protocol.new( :name => $protocol_names[params[:blocked][:protocols].upcase])
       b
@@ -201,8 +200,6 @@ class DashboardController < ApplicationController
   end
 
   def gen_report
-
-        
     data = case session[:interval] 
             when "Seconds"
               divsor =  session[:num].to_i
