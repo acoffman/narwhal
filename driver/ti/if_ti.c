@@ -3881,8 +3881,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 			long data[3] = {1,1,1};
 
-			device_printf(sc->ti_dev,"stats->p: %d   stats->s: %d   stats: %d\n",
-																(int)stats->p,stats->s,(int)stats);
+			device_printf(sc->ti_dev,"stats->p: %d   stats->s: %lu  stats: %d\n",
+																(int)stats->p,(long unsigned)stats->s,(int)stats);
 
 			if(copyout(&data, stats->p, sizeof(data)) == EFAULT)
 			{	
