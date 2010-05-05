@@ -2353,7 +2353,7 @@ ti_attach(dev)
 	stats->data = 0;
 
 	size = 0;
-	peak_rate = 0;
+	peak_rate = 100;
 	average_rate = 0;
 
 	sc = device_get_softc(dev);
