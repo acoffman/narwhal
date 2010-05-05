@@ -24,8 +24,6 @@ class DashboardController < ApplicationController
               Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.minutes])
             end
 
-    debugger
-
     begin
       @traffic_rate_avg =  (data.inject(0){|sum, curr| sum += curr.totalData } /(1024*1024)) /divisor
       @traffic_peak = data.map{|cur| cur.totalData}.max/(1024*1024)/10
@@ -259,7 +257,7 @@ class DashboardController < ApplicationController
     y = YAxis.new
     y.set_range(0,[data1.map{|c| c.totalData/(1024 **2)}.max || 0,session[:avg], session[:peak]].max + 5,4)
 
-    x_legend = XLegend.new("Showing the last #{session[:num] + " " + session[:interval]} in 10 second intervals")
+    x_legend = XLegend.new("Showing the last #{session[:num] + " " + session[:interval]}")
     x_legend.set_style('{font-size: 10px; color: #000000}')
 
     y_legend = YLegend.new("mbps")
@@ -270,6 +268,7 @@ class DashboardController < ApplicationController
     chart.set_x_legend(x_legend)
     chart.set_y_legend(y_legend)
     chart.y_axis = y
+    debugger
 
     chart.add_element(line_traffic)
     chart.add_element(line_peak)
