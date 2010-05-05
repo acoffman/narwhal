@@ -3862,6 +3862,10 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			go->num_pkts = stats->num_pkts;
 			go->dropped_pkts = stats->dropped_pkts;
 
+		  stats->num_pkts = 0;
+			stats->data = 0;
+			stats->dropped_pkts = 0;
+		
 			device_printf(sc->ti_dev,"finished copying out!??, %d\n",sizeof(stats));
 
 			error = 0;
@@ -4126,9 +4130,6 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 				    break;
 	}
 
-	stats->num_pkts = 0;
-	stats->data = 0;
-	stats->dropped_pkts = 0;
 	return (error);
 }
 
