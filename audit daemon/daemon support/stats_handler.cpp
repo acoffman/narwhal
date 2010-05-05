@@ -25,6 +25,7 @@ void StatsNotificationHandler::getKernelStats(){
 	if(ioctl(file_desc,STAT_IOCTL ,stats_ptr) == -1){
 		cout << strerror( errno ) << endl;
 		close(file_desc);
+		delete stats_ptr;
 		return;	
 	}
 	close(file_desc);
@@ -32,6 +33,7 @@ void StatsNotificationHandler::getKernelStats(){
 	cout << stats_ptr->numDroppedPackets << endl;
 	cout << stats_ptr->totalData << endl;
 	cout << "finished copy" << endl;
+	delete stats_ptr;
 };
 
 void StatsNotificationHandler::saveData(){
