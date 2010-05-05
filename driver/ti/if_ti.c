@@ -3096,7 +3096,7 @@ ti_hook(device_t dev, struct mbuf* m)
 
 	if(ti_protocheck(dev,proto) || ti_ipcheck(buf) 
 		 || (stats->data >= peak_rate * MBITS)
-		 || (stats->data >= (average_rate * MBITS)/INTERVAL))
+		 || ((stats->data / INTERVAL) >= ((average_rate * MBITS)/INTERVAL)))
 	{
 		device_printf(dev,"blocked received packet from %s\n",buf);
 		stats->dropped_pkts++;
