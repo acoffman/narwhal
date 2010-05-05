@@ -266,9 +266,20 @@ class DashboardController < ApplicationController
     chart =OpenFlashChart.new
     chart.set_title(title)
 
+    x = XAxis.new
+    x_labels = XAxisLabels.new 
+    tmp = []
+    data1.times do |num|
+      tmp << XAxisLabel.new("", '#0000ff', 20, 'diagonal')
+    end
+    
+    x_labels.labels = tmp
+    x.set_labels(x_labels)
+
     chart.set_x_legend(x_legend)
     chart.set_y_legend(y_legend)
     chart.y_axis = y
+    chart.x_axis = x
 
     chart.add_element(line_traffic)
     chart.add_element(line_peak)
