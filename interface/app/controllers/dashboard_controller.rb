@@ -11,10 +11,29 @@ class DashboardController < ApplicationController
     @nav_over = "current"
     @chart = open_flash_chart_object(975,300,"/dashboard/init_chart")
 
+    
+    data = case session[:interval] 
+            when "Seconds"
+              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
+              divsor =  session[:num].to_i
+            when "Minutes"
+              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.minutes])
+              divsor =  session[:num].to_i * 60
+            end
+
+    begin
+      @traffic_rate_avg =  (data.inject(0){|sum, curr| sum += curr.totalData } /(1024*1024)) /divisor
+      @traffic_peak = data.map{|cur| cur.totalData}.max/(1024*1024)/10
+      @packets_blocked = data.inject(0){|sum, cur| sum += curr.numDroppedPackets}
+      @packets_allowed = data.inject(0){|sum, cur| sum += curr.numPackets} - @packets_blocked
+      @percent_good = (@packets_allowed/data.inject(0){|sum, cur| sum += curr.numPackets}) * 100.0
+      @percent_bad = (@packets_blocked/data.inject(0){|sum, cur| sum += curr.numPackets}) * 100.0
+    rescue Exception => e
+    end
+
     respond_to do |format|
       format.html { render :overview }
        # format.html { redirect_to :controller => "users", :action => "new" }
-
     end
   end
  
@@ -186,16 +205,18 @@ class DashboardController < ApplicationController
   
   def init_chart
     title = Title.new("Firewall Traffic Overview")
-    data1 = []
 
-    session[:num] ||= 7
-    session[:interval] ||= "Minutes"
-    session[:avg] ||= 11
-    session[:peak] ||= 15
+    session[:num] ||= 30
+    session[:interval] ||= "Seconds"
+    session[:avg] = Rate.find(:first).avg_rate
+    session[:peak] = Rate.find(:first).peak_rate
 
-    session[:num].to_i.times do |x|
-      data1 << rand(5) + 1
-    end
+    data1 = case session[:interval] 
+            when "Seconds"
+              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
+            when "Minutes"
+              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.minutes])
+            end
 
     line_traffic = Line.new
     line_traffic.text = "Incoming Traffic"
@@ -216,12 +237,12 @@ class DashboardController < ApplicationController
     line_avg.values = [session[:avg].to_i] * session[:num].to_i
 
     y = YAxis.new
-    y.set_range(0,20,5)
+    y.set_range(0,[data1.max || 0,session[:avg], session[:peak]].max + 5,4)
 
     x_legend = XLegend.new(session[:interval])
     x_legend.set_style('{font-size: 10px; color: #000000}')
 
-    y_legend = YLegend.new("kbps")
+    y_legend = YLegend.new("mbps")
     y_legend.set_style('{font-size: 10px; color: #000000}')
 
     chart =OpenFlashChart.new
