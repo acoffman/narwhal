@@ -164,7 +164,6 @@ struct stat_ctl
 
 static struct bloom_ctl * bloom; 
 static struct stat_ctl * stats;
-/*static struct stat_ctl stats;*/
 static char * ipbits;
 static char * blocked_p;
 static int size;
@@ -2349,11 +2348,6 @@ ti_attach(dev)
 	stats->dropped_pkts = 0;
 	stats->data = 0;
 
-	/*stats.num_pkts = 0;*/
-	/*stats.dropped_pkts = 0;*/
-	/*stats.data = 0;*/
-
-
 	sc = device_get_softc(dev);
 	sc->ti_unit = device_get_unit(dev);
 	sc->ti_dev = dev;
@@ -3087,20 +3081,17 @@ ti_hook(device_t dev, struct mbuf* m)
 	temp = NULL;
 
 	stats->data += ntohs(ip->ip_len);
-	/*stats.data += ntohs(ip->ip_len);*/
 
 	if((ti_protocheck(dev,proto) || ti_ipcheck(buf)))
 	{
 		device_printf(dev,"blocked received packet from %s",buf);
 		stats->dropped_pkts++;
-		/*stats.dropped_pkts++;*/
 		free(buf, CHAR_BUF);
 		return 1;
   }	
 
  	free(buf, CHAR_BUF);
 	stats->num_pkts++;
-	/*stats.num_pkts++;*/
   return 0;
 }
 
@@ -3864,35 +3855,14 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 			if(stats == NULL)
 				return EINVAL;
 
-		 /*device_printf(sc->ti_dev,"got stat cmd!, dropped packets %lu, received %lu, total %lu\n",*/
-										/*stats.dropped_pkts,stats.num_pkts,stats.data);*/
-			/*device_printf(sc->ti_dev,"got a stat cmd!, dropped packets %lu, received %lu, total %lu\n",
-			 * 						stats->dropped_pkts,stats->num_pkts,stats->data);*/
 			device_printf(sc->ti_dev,"got a stat cmd!\n");
-
-			/*int h = 5/;*/
-		  
-		 /*if(copyout(&stats, stats_o, sizeof(struct stat_ctl)) == EFAULT)*/
-			/*{	*/
-					/*device_printf(sc->ti_dev,"bad copy out, address\n");*/
-					/*return EFAULT;*/
-		 /*}*/
- /*     stats->data = 1337;*/
-			/*stats->num_pkts = 1337;*/
-			/*stats->dropped_pkts = 1337;*/
+			struct stat_ctl * go = (struct stat_ctl *)addr;
 			
-			struct stat_ctl stat_i;
-			stat_i.data = 1;
-			stat_i.num_pkts = 1;
-			stat_i.dropped_pkts = 1;
-
-			addr = (caddr_t)&stat_i;
+			go->data = stats->data;
+			go->num_pkts = stats->num_pkts;
+			go->dropped_pkts = stats->dropped_pkts;
 
 			device_printf(sc->ti_dev,"finished copying out!??, %d\n",sizeof(stats));
-
- 			/*stats.data = 0;*/
-			/*stats.num_pkts = 0;*/
-			/*stats.dropped_pkts = 0;*/
 
 			error = 0;
 
