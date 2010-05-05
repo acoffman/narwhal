@@ -3,9 +3,7 @@ StatsNotificationHandler::StatsNotificationHandler(){
 	con = driver->connect(HOST, USER, PASS);
 	stmnt = con->createStatement();
 	stmnt->execute("use "  DB);
-	cout << "Called" << endl;
 	getKernelStats();
-	cout << "Call Win1" << endl;
 	//saveData();
 };
 
@@ -24,7 +22,6 @@ void StatsNotificationHandler::getKernelStats(){
 
 	if(ioctl(file_desc,STAT_IOCTL,stats) == -1){
 		cout << strerror( errno ) << endl;
-		cout << "error in ioctl" << endl;
 		close(file_desc);
 		return;	
 	}
