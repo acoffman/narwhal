@@ -49,8 +49,9 @@ include AuditDaemon
 
 def getStats
   sleep 10
-  $client ||= DaemonClient.new
+  $client = DaemonClient.new
   $client.ping
+  $client.close
 end
 
 Thread.new do 
