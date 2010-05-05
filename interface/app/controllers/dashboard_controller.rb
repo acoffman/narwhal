@@ -111,25 +111,37 @@ class DashboardController < ApplicationController
   # POST /dashboard
   def create
     @ips = Array.new
-    (params[:blocked][:ip_1]..params[:blocked][:ip2_1]).each do |a|
-       (params[:blocked][:ip_2]..params[:blocked][:ip2_2]).each do |b|
-          (params[:blocked][:ip_3]..params[:blocked][:ip2_3]).each do |c|
-             (params[:blocked][:ip_4]..params[:blocked][:ip2_4]).each do |d|
-               @ips.push(a.to_s + "." + b.to_s + "." + c.to_s + "." + d.to_s)
+
+    if params[:blocked][:ip2_1] = "" 
+      @ips.push((params[:blocked][:ip_1]).to_s + "." + (params[:blocked][:ip_2]).to_s + 
+               "." + params[:blocked][:ip_3].to_s + "." + (params[:blocked][:ip_4]).to_s)
+    else
+      (params[:blocked][:ip_1]..params[:blocked][:ip2_1]).each do |a|
+        (params[:blocked][:ip_2]..params[:blocked][:ip2_2]).each do |b|
+            (params[:blocked][:ip_3]..params[:blocked][:ip2_3]).each do |c|
+               (params[:blocked][:ip_4]..params[:blocked][:ip2_4]).each do |d|
+                 @ips.push(a.to_s + "." + b.to_s + "." + c.to_s + "." + d.to_s)
+               end
              end
           end
        end
     end
-
+  debugger
     @ports = Array.new
-    (params[:blocked][:port]..params[:blocked][:port2]).each do |p|
-      @ports.push(p.to_s)
+    if params[:blocked][:port2] = "" 
+      @ports.push(params[:blocked][:port].to_s)
+    elsif params[:blocked][:port] = "" 
+      @ports.push("")
+    else
+      (params[:blocked][:port]..params[:blocked][:port2]).each do |p|
+        @ports.push(p.to_s)
+      end
     end
      
     ips_with_ports = (@ips*@ports.size).zip( (@ports*@ips.size).sort )
-
+  debugger
     blocked = ips_with_ports.map do |ip, port|
-              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
+      debugger
       b = Blocked.create(:ip => ip, :port => port, :user_id => current_user.id)
       b.protocols << Protocol.new( :name => $protocol_names[params[:blocked][:protocols].upcase])
       b
