@@ -6,7 +6,7 @@
 
 <div id="time_chooser">
   <% form_tag '/dashboard/chart_scale' do -%>
-    Last: <%= select_tag(:num, options_for_select((1..10).to_a, session[:num].to_i || 7)) %> <%= select_tag(:interval, options_for_select(%w{Minutes Hours Days}, session[:interval] || "Minutes")) %> <%= submit_tag 'Show' %>
+    Last: <%= select_tag(:num, options_for_select((10..60).to_a, session[:num].to_i || 30)) %> <%= select_tag(:interval, options_for_select(%w{Seconds Minutes}, session[:interval] || "Seconds")) %> <%= submit_tag 'Show' %>
   <% end -%>
 </div>
 
@@ -28,7 +28,7 @@
         Recent Peak Traffic Rate: 
       </td>
       <td>
-        <%= @traffic_rate_avg %>
+        <%= @traffic_peak %>
       </td>
     </tr>
     <tr class="even">

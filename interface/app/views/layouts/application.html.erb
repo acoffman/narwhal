@@ -14,7 +14,7 @@
 	  <li id="nav_dash" class = <%= @nav_over %> ><a href="/dashboard">dashboard</a></li>
 	  <li id="nav_ip" class = <%= @nav_ip %> > <a href="/dashboard/ip">ip blocking</a></li>
 	  <li id="nav_proto" class = <%= @nav_proto %> ><a href="/dashboard/protocols">protocols</a></li>
-	  <li id="nav_report" class = <%= @nav_report %> ><a href="/dashboard/reports">custom reports</a></li>
+	  <li id="nav_report" class = <%= @nav_report %> ><a href="dashboard/gen_report.csv">export to excel</a></li>
     <li><%= button_to "Force Update", :controller => "dashboard", :action => "force_update" %></li>
     <% if current_user %>
       <li><%= button_to "Logout", logout_path %></li>
