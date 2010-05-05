@@ -71,11 +71,11 @@ class DashboardController < ApplicationController
                              :conditions => ['user_id = ?', current_user.id],
                              :joins => :protocols) do #.map do |cur|
    # blockeds = Blocked.all.map do |cur|
-     # @blockedsnew = @blockeds.map do |cur|
+    #  debugger
+     # blockedsnew = @blockeds.map do |cur|
      # cur.name = $protocol_ids[cur.name.to_i] if cur.name
-    #  cur
-    #  end
-
+     # cur
+     # end
     if params[:_search] == "true"
       ip =~ "%#{params[:ip]}%" if params[:ip].present?
       protocol =~ "%#{params[:protocol]}%" if params[:protocol].present?
@@ -84,6 +84,11 @@ class DashboardController < ApplicationController
     end
     paginate :page => params[:page], :per_page => params[:rows]
     order_by "#{params[:sidx]} #{params[:sord]}"
+    end
+
+    @blockeds.map do |cur|
+      cur.name = $protocol_ids[cur.name.to_i] if cur.name
+      cur
     end
     respond_to do |format|
       @nav_ip = "current"

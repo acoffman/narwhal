@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 include AuditDaemon
-$protocol_names = {"ICMP" => 1, "UDP" => 17, "TCP" => 6 }
+$protocol_names = {"ICMP" => 1, "UDP" => 17, "TCP" => 6, "RDP" => 27, "IPv6" => 41, "TTP" => 84, "SMP" => 121 }
 $protocol_ids = $protocol_names.invert
 
 class ApplicationController < ActionController::Base
