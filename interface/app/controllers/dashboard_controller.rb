@@ -17,10 +17,10 @@ class DashboardController < ApplicationController
     divisor = 1
     data = case session[:interval] 
             when "Seconds"
-              divsor =  session[:num].to_i
+              divisor =  session[:num].to_i
               Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
             when "Minutes"
-              divsor =  session[:num].to_i * 60
+              divisor =  session[:num].to_i * 60
               Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.minutes])
             end
 
@@ -29,10 +29,10 @@ class DashboardController < ApplicationController
     begin
       @traffic_rate_avg =  (data.inject(0){|sum, curr| sum += curr.totalData } /(1024*1024)) /divisor
       @traffic_peak = data.map{|cur| cur.totalData}.max/(1024*1024)/10
-      @packets_blocked = data.inject(0){|sum, cur| sum += curr.numDroppedPackets}
-      @packets_allowed = data.inject(0){|sum, cur| sum += curr.numPackets} - @packets_blocked
-      @percent_good = (@packets_allowed/data.inject(0){|sum, cur| sum += curr.numPackets}) * 100.0
-      @percent_bad = (@packets_blocked/data.inject(0){|sum, cur| sum += curr.numPackets}) * 100.0
+      @packets_blocked = data.inject(0){|sum, cur| sum += cur.numDroppedPackets}
+      @packets_allowed = data.inject(0){|sum, cur| sum += cur.numPackets} - @packets_blocked
+      @percent_good = (@packets_allowed/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
+      @percent_bad = (@packets_blocked/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
     rescue Exception => e
     end
 
