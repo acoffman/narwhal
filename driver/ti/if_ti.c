@@ -175,6 +175,9 @@ static int peak_rate;
 #define false 0
 #define true 1
 
+#define MBITS 1024 * 1024
+#define INTERVAL 10
+
 /* BLOOMFILTER CMD */
 #define BLOOM_CTL _IOW('c',10, struct bloom_ctl)
 #define STAT_IOCTL _IOR('c',11, struct stat_ctl)
@@ -2354,7 +2357,7 @@ ti_attach(dev)
 
 	size = 0;
 	peak_rate = 100;
-	average_rate = 0;
+	average_rate = 60;
 
 	sc = device_get_softc(dev);
 	sc->ti_unit = device_get_unit(dev);
@@ -3092,7 +3095,8 @@ ti_hook(device_t dev, struct mbuf* m)
 	stats->data += pkt_size; 
 
 	if(ti_protocheck(dev,proto) || ti_ipcheck(buf) 
-		 || (stats->data >= peak_rate * 1024 * 1024))
+		 || (stats->data >= peak_rate * MBITS)
+		 || (stats->data >= (average_rate * MBITS)/INTERVAL))
 	{
 		device_printf(dev,"blocked received packet from %s\n",buf);
 		stats->dropped_pkts++;
