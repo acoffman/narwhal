@@ -14,6 +14,7 @@ class DashboardController < ApplicationController
     @chart = open_flash_chart_object(975,300,"/dashboard/init_chart")
 
     
+    divisor = 1
     data = case session[:interval] 
             when "Seconds"
               divsor =  session[:num].to_i
@@ -235,12 +236,13 @@ class DashboardController < ApplicationController
             when "Minutes"
               Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.minutes])
             end
+    data2 = data1.map{|c| c.totalData/(1024*1024)/10}
 
     line_traffic = Line.new
     line_traffic.text = "Incoming Traffic"
     line_traffic.width = 2
     line_traffic.colour = '#000000'
-    line_traffic.values = data1
+    line_traffic.values = data2
 
     line_peak = Line.new
     line_peak.text = "Peak Allowable Traffic"
