@@ -3861,8 +3861,8 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 
 		case STAT_IOCTL:
 		{
-			if(stats == NULL)
-				return EINVAL;
+			/*if(stats == NULL)*/
+				/*return EINVAL;*/
 
 		 /*device_printf(sc->ti_dev,"got stat cmd!, dropped packets %lu, received %lu, total %lu\n",*/
 										/*stats.dropped_pkts,stats.num_pkts,stats.data);*/
@@ -3877,16 +3877,11 @@ ti_ioctl2(struct cdev *dev, u_long cmd, caddr_t addr, int flag,
 					/*device_printf(sc->ti_dev,"bad copy out, address\n");*/
 					/*return EFAULT;*/
 		 /*}*/
- /*     stats->data = 1337;*/
-			/*stats->num_pkts = 1337;*/
-			/*stats->dropped_pkts = 1337;*/
+		 	stats->data = 1337;
+			stats->num_pkts = 1337;
+			stats->dropped_pkts = 1337;
 			
-			struct stat_ctl stat_i;
-			stat_i.data = 1;
-			stat_i.num_pkts = 1;
-			stat_i.dropped_pkts = 1;
-
-			addr = (caddr_t)&stat_i;
+			addr = (caddr_t)stats
 
 			device_printf(sc->ti_dev,"finished copying out!??, %d\n",sizeof(stats));
 
