@@ -29,8 +29,8 @@ class DashboardController < ApplicationController
       @traffic_peak = data.map{|cur| cur.totalData}.max/(1024*1024)/10
       @packets_blocked = data.inject(0){|sum, cur| sum += cur.numDroppedPackets}
       @packets_allowed = data.inject(0){|sum, cur| sum += cur.numPackets} - @packets_blocked
-      @percent_good = (@packets_allowed/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
-      @percent_bad = (@packets_blocked/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
+      @percent_good = (@packets_allowed.to_f/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
+      @percent_bad = (@packets_blocked.to_f/data.inject(0){|sum, cur| sum += cur.numPackets}) * 100.0
     rescue Exception => e
     end
 
@@ -71,11 +71,11 @@ class DashboardController < ApplicationController
                              :conditions => ['user_id = ?', current_user.id],
                              :joins => :protocols) do #.map do |cur|
    # blockeds = Blocked.all.map do |cur|
-     # @blockedsnew = @blockeds.map do |cur|
+    #  debugger
+     # blockedsnew = @blockeds.map do |cur|
      # cur.name = $protocol_ids[cur.name.to_i] if cur.name
-    #  cur
-    #  end
-
+     # cur
+     # end
     if params[:_search] == "true"
       ip =~ "%#{params[:ip]}%" if params[:ip].present?
       protocol =~ "%#{params[:protocol]}%" if params[:protocol].present?
@@ -84,6 +84,11 @@ class DashboardController < ApplicationController
     end
     paginate :page => params[:page], :per_page => params[:rows]
     order_by "#{params[:sidx]} #{params[:sord]}"
+    end
+
+    @blockeds.map do |cur|
+      cur.name = $protocol_ids[cur.name.to_i] if cur.name
+      cur
     end
     respond_to do |format|
       @nav_ip = "current"
@@ -111,25 +116,34 @@ class DashboardController < ApplicationController
   # POST /dashboard
   def create
     @ips = Array.new
-    (params[:blocked][:ip_1]..params[:blocked][:ip2_1]).each do |a|
-       (params[:blocked][:ip_2]..params[:blocked][:ip2_2]).each do |b|
-          (params[:blocked][:ip_3]..params[:blocked][:ip2_3]).each do |c|
-             (params[:blocked][:ip_4]..params[:blocked][:ip2_4]).each do |d|
-               @ips.push(a.to_s + "." + b.to_s + "." + c.to_s + "." + d.to_s)
+
+    if params[:blocked][:ip2_1] = "" 
+      @ips.push((params[:blocked][:ip_1]).to_s + "." + (params[:blocked][:ip_2]).to_s + 
+               "." + params[:blocked][:ip_3].to_s + "." + (params[:blocked][:ip_4]).to_s)
+    else
+      (params[:blocked][:ip_1]..params[:blocked][:ip2_1]).each do |a|
+        (params[:blocked][:ip_2]..params[:blocked][:ip2_2]).each do |b|
+            (params[:blocked][:ip_3]..params[:blocked][:ip2_3]).each do |c|
+               (params[:blocked][:ip_4]..params[:blocked][:ip2_4]).each do |d|
+                 @ips.push(a.to_s + "." + b.to_s + "." + c.to_s + "." + d.to_s)
+               end
              end
           end
        end
     end
-
     @ports = Array.new
-    (params[:blocked][:port]..params[:blocked][:port2]).each do |p|
-      @ports.push(p.to_s)
+    if params[:blocked][:port2] = "" 
+      @ports.push(params[:blocked][:port].to_s)
+    elsif params[:blocked][:port] = "" 
+      @ports.push("")
+    else
+      (params[:blocked][:port]..params[:blocked][:port2]).each do |p|
+        @ports.push(p.to_s)
+      end
     end
      
     ips_with_ports = (@ips*@ports.size).zip( (@ports*@ips.size).sort )
-
     blocked = ips_with_ports.map do |ip, port|
-              Stat.find(:all, :conditions => ["created_at >= ?", Time.now - session[:num].to_i.seconds])
       b = Blocked.create(:ip => ip, :port => port, :user_id => current_user.id)
       b.protocols << Protocol.new( :name => $protocol_names[params[:blocked][:protocols].upcase])
       b
@@ -201,8 +215,6 @@ class DashboardController < ApplicationController
   end
 
   def gen_report
-
-        
     data = case session[:interval] 
             when "Seconds"
               divsor =  session[:num].to_i
@@ -255,7 +267,7 @@ class DashboardController < ApplicationController
     line_avg.values = [session[:avg].to_i] * data2.size
 
     y = YAxis.new
-    y.set_range(0,[data1.map{|c| c.totalData/(1024 **2)}.max || 0,session[:avg], session[:peak]].max + 5,4)
+    y.set_range(0,[session[:avg].to_f, session[:peak].to_f].max + 5,4)
 
     x_legend = XLegend.new("Showing the last #{session[:num] + " " + session[:interval]}")
     x_legend.set_style('{font-size: 10px; color: #000000}')

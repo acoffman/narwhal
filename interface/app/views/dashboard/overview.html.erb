@@ -17,7 +17,7 @@
   <col width = 20% />
 
   <tbody>
-    <tr class="even">
+    <tr >
       <td>
         Current Average Traffic Rate: 
       </td>
@@ -52,13 +52,13 @@
         Packets Allowed: 
       </td>
       <td>
-        <%= @packets_allowed %>
+        <%= @packets_allowed || 0 %>
       </td>
       <td>
         Packets Blocked: 
       </td>
       <td>
-        <%= @packets_blocked %>
+        <%= @packets_blocked || 0 %>
       </td>
     </tr>
     <tr class="even">
@@ -66,13 +66,13 @@
         Percent Good Traffic: 
       </td>
       <td>
-        <%= @percent_good %>
+        <%= "%.2f" % (@percent_good || 0) %>
       </td>
       <td>
         Percent Bad Traffic: 
       </td>
       <td>
-        <%= @percent_bad %>
+        <%= "%.2f" % (@percent_bad || 0) %>
       </td>
     </tr>
   </tbody>
