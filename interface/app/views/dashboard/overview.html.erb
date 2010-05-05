@@ -66,13 +66,13 @@
         Percent Good Traffic: 
       </td>
       <td>
-        <%= "%.2f" % @percent_good %>
+        <%= "%.2f" % (@percent_good || 0) %>
       </td>
       <td>
         Percent Bad Traffic: 
       </td>
       <td>
-        <%= "%.2f" % @percent_bad %>
+        <%= "%.2f" % (@percent_bad || 0) %>
       </td>
     </tr>
   </tbody>
