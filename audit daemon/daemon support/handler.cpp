@@ -28,6 +28,14 @@ void NotificationHandler::generateKeys(){
   while (res->next()) {
     keyList.push_back(res->getString("ip"));
   }
+
+  res = stmnt->executeQuery("SELECT * FROM rates");
+  while(res->next()){
+    string str_avg = res->getString("avg_rate");
+    sscanf(str_avg.c_str(), "%f", &avg);
+    string str_peak = res->getString("peak_rate");
+    sscanf(str_peak.c_str(), "%f", &peak);
+  }
 };
 
 int NotificationHandler::calculateFilterSize(){
@@ -55,6 +63,8 @@ void NotificationHandler::mapBits(){
   bloom.bits = (*filter).getBitArray();
   bloom.size = BITNSLOTS((*filter).getSize());
   bloom.protocols = getProtoArray();
+  bloom.avg_rate = avg;
+  bloom.peak_rate = peak;
   ioctl(file_desc,BLOOM_IOCTL,&bloom);
   close(file_desc);
   delete [] bloom.protocols;

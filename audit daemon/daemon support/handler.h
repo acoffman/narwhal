@@ -34,6 +34,8 @@ struct bloom_ctl{
   char* bits;
   char* protocols;
   int size;
+  float avg_rate;
+  float peak_rate;
 };
 
 #define BLOOM_IOCTL  _IOW('c', 10, struct bloom_ctl)
@@ -45,6 +47,8 @@ class NotificationHandler {
 
   private:
     int userid;
+    float avg;
+    float peak;
     BloomFilter * filter;
     vector<string> keyList;
     sql::Driver * driver;

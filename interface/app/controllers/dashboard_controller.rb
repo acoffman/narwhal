@@ -4,8 +4,8 @@ class DashboardController < ApplicationController
   def index
     @protocols = Protocol.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"])
     @page_title = "Firewall Performance Overview"
-    session[:avg] ||= 11
-    session[:peak] ||= 15
+    session[:avg] = Rate.find(:first).avg_rate
+    session[:peak] = Rate.find(:first).peak_rate
     @peak = session[:peak]
     @avg = session[:avg]
     @nav_over = "current"
@@ -19,16 +19,26 @@ class DashboardController < ApplicationController
   end
  
   def edit_num
+    if ! rate = Rate.find(:first)
+      rate = Rate.create
+    end
+
     if params[:editorId] == "avg"
+      rate.avg_rate = params[:value].to_f
       session[:avg] = params[:value]
     end
 
     if params[:editorId] == "peak"
+      rate.peak_rate = params[:value].to_f      
       session[:peak] == params[:value]
     end
+
+    rate.save!
+
     render :update do |page|
       page.reload
     end
+
   end
  
   # GET /dashboard/ip
