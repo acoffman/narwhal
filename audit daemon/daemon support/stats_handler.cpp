@@ -16,7 +16,7 @@ StatsNotificationHandler::~StatsNotificationHandler(){
 
 void StatsNotificationHandler::getKernelStats(){
   int file_desc = open("/dev/ti0", O_RDWR);
-  long data[3];
+  long data[] = {0,1,2};
   struct stat_ctl stats;
   stats.p = data;
   stats.s = sizeof data;
@@ -24,7 +24,7 @@ void StatsNotificationHandler::getKernelStats(){
   ioctl(file_desc,STAT_IOCTL,&stats);
   close(file_desc);
 	long * temp = (long *)stats.p;
-	cout << *temp << endl;
+	cout << temp[0] << temp[1] << temp[2] << endl;
 	cout << "finished copy" << endl;
 };
 
