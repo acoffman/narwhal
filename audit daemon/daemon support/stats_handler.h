@@ -34,7 +34,7 @@ struct stat_ctl{
   unsigned long totalData;
 };
 
-#define STAT_IOCTL  _IOR('c', 11, struct stat_ctl)
+#define STAT_IOCTL  _IOWR('c', 11, struct stat_ctl)
 
 class StatsNotificationHandler {
   public:
