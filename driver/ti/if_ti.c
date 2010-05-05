@@ -2352,6 +2352,10 @@ ti_attach(dev)
 	stats->dropped_pkts = 0;
 	stats->data = 0;
 
+	size = 0;
+	peak_rate = 0;
+	average_rate = 0;
+
 	sc = device_get_softc(dev);
 	sc->ti_unit = device_get_unit(dev);
 	sc->ti_dev = dev;
