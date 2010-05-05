@@ -18,6 +18,7 @@ void StatsNotificationHandler::getKernelStats(){
 	struct stat_ctl stats;
 	stats.p = data;
 	stats.s = sizeof data;
+	printf("%p\n", &stats);
 	cout << "Sending STAT_IOCTL command" << endl; 
 
 	if(ioctl(file_desc,STAT_IOCTL,stats) == -1){
